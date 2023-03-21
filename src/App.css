@@ -1,0 +1,20 @@
+.PostList {
+  display: grid;
+}
+
+.backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  background-color: rgba(0, 0, 0, 0.589);
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-items: center;
+}
+
+.rb {
+  border: solid red 1px;
+}
