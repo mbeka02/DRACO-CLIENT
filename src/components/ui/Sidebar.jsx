@@ -3,9 +3,9 @@ import axios from "axios";
 axios.defaults.withCredentials = true;
 import { useQuery } from "react-query";
 
-import { Link, useNavigate, NavLink } from "react-router-dom";
+import { Link, useNavigate, NavLink, redirect } from "react-router-dom";
 import defaultIcon from "../../assets/default.png";
-
+import { useEffect } from "react";
 const Sidebar = ({ sidebarToggle }) => {
   const navigate = useNavigate();
   const { isLoading, data, error } = useQuery("Avatar", fetchAvatar);

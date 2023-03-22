@@ -22,6 +22,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Placeholder />} />
         <Route path="/confirmation" element={<Confiramtion />} />
+
         <Route path="/main" element={<PageLayout />}>
           <Route index element={<Home />} />
           <Route path="/main/profile" element={<Profile />} />
