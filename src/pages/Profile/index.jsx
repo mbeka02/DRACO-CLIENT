@@ -6,6 +6,7 @@ import defaultIcon from "../../assets/default.png";
 import UpdatePasswordForm from "./UpdatePasswordForm";
 import TutorForm from "./TutorForm";
 import UserDetailsForm from "./UserDetailsForm";
+import UploadForm from "./UploadForm";
 
 const Profile = () => {
   const { data, isLoading, error } = useQuery("Profile", fetchProfile);
@@ -35,12 +36,15 @@ const Profile = () => {
           City={data.profile?.City}
         />
         {data.profile.role === "Tutor" && (
-          <TutorForm
-            Headline={data.profile?.Headline}
-            Description={data.profile?.Description}
-            Rate={data.profile?.Rate}
-            Experience={data.profile?.Experience}
-          />
+          <>
+            <TutorForm
+              Headline={data.profile?.Headline}
+              Description={data.profile?.Description}
+              Rate={data.profile?.Rate}
+              Experience={data.profile?.Experience}
+            />
+            <UploadForm />
+          </>
         )}
         <h3 className=" text-xl font-semibold">Change password</h3>
         <UpdatePasswordForm />
