@@ -12,16 +12,20 @@ const MyDropzone = () => {
     setFiles(acceptedFiles);
   }, []);
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    accept: { "application/pdf": [".pdf"] },
+    onDrop,
+  });
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const formData = new FormData();
       console.log(files);
+
       for (let i = 0; i < files.length; ++i) {
         formData.append("files", files[i]);
       }
-      const res = await axios.post(
+      await axios.post(
         "http://localhost:3000/api/v1/tutors/uploadDocuments",
         formData,
         {
@@ -30,6 +34,7 @@ const MyDropzone = () => {
           },
         }
       );
+      setFiles([]);
     } catch (error) {
       console.log(error);
     }
@@ -40,7 +45,7 @@ const MyDropzone = () => {
       <form
         {...getRootProps()}
         encType="multipart/form-data"
-        className=" grid h-56 items-center justify-center border-2 border-solid border-grey-custom"
+        className=" grid h-fit items-center justify-center border-2 border-solid border-grey-custom py-4"
       >
         <input
           {...getInputProps()}
@@ -50,10 +55,31 @@ const MyDropzone = () => {
           multiple
         />
         {isDragActive ? (
-          <p>Drop the files here ...</p>
+          <p className="font-semibold">Drop the files here ...</p>
         ) : (
-          <p>Drag 'n' drop some files here, or click to select files</p>
+          <p className={files.length > 0 ? "hidden" : " font-semibold"}>
+            Drag 'n' drop some pdf files here, or click here to select files
+          </p>
         )}
+
+        <div className=" grid h-full w-64 gap-4 ">
+          {
+            //preview sildes for the files about to be submitted
+            files.map((file) => {
+              return (
+                <div
+                  className="grid h-20 w-full  place-items-center overflow-hidden rounded-md border-[1px] border-solid border-gray-400"
+                  key={file.name + file.size.toString()}
+                >
+                  <p className=" text-sm font-semibold italic">{file.name}</p>
+                  <span className="text-xs uppercase text-blue-custom">
+                    {file.size / 100} KB
+                  </span>
+                </div>
+              );
+            })
+          }
+        </div>
       </form>
       <button
         type="submit"
