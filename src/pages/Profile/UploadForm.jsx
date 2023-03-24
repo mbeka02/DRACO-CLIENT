@@ -20,7 +20,7 @@ const MyDropzone = () => {
     e.preventDefault();
     try {
       const formData = new FormData();
-      console.log(files);
+      //console.log(files);
 
       for (let i = 0; i < files.length; ++i) {
         formData.append("files", files[i]);
@@ -65,11 +65,11 @@ const MyDropzone = () => {
         <div className=" grid h-full w-64 gap-4 ">
           {
             //preview sildes for the files about to be submitted
-            files.map((file) => {
+            files.map((file, index) => {
               return (
                 <div
                   className="grid h-20 w-full  place-items-center overflow-hidden rounded-md border-[1px] border-solid border-gray-400"
-                  key={file.name + file.size.toString()}
+                  key={index}
                 >
                   <p className=" text-sm font-semibold italic">{file.name}</p>
                   <span className="text-xs uppercase text-blue-custom">
