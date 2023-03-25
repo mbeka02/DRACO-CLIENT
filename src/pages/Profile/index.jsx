@@ -8,6 +8,12 @@ import TutorForm from "./TutorForm";
 import UserDetailsForm from "./UserDetailsForm";
 import UploadForm from "./UploadForm";
 
+//import axios from "axios";
+//axios.defaults.withCredentials = true;
+
+//import { useMutation, useQueryClient } from "react-query";
+import AvatarSelector from "./AvatarSelector";
+
 const Profile = () => {
   const { data, isLoading, error } = useQuery("Profile", fetchProfile);
 
@@ -16,15 +22,47 @@ const Profile = () => {
 
   const avatar = "http://localhost:3000" + data.profile?.avatarUrl;
   const profileImage = data.profile?.avatarUrl ? avatar : defaultIcon;
+  //const queryClient = useQueryClient();
+
+  /*const updateAvatar = useMutation(
+    (formData) => {
+      return axios.post(
+        "http://localhost:3000/api/v1/user/updateProfilePicture",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+    }
+    // { onSuccess: () => queryClient.invalidateQueries(["Profile"]) }
+  );*/
+
+  /* const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const formData = new FormData();
+      const upload = e.currentTarget.files[0];
+      formData.append("upload", upload);
+      // updateAvatar.mutate(formData);
+    } catch (error) {
+      console.log(error);
+    }
+  };*/
 
   return (
     <div className=" rb my-10 grid w-full md:mx-20">
-      <img
-        alt="avatar"
-        src={profileImage}
-        className="h-16 w-16 rounded-full"
-        //onError
-      />
+      <div className="relative w-fit">
+        <img
+          alt="avatar"
+          src={profileImage}
+          className="h-36 w-36 rounded-full"
+          //onError
+        />
+        <AvatarSelector />
+      </div>
+
       <div>{data.profile.name}</div>
       <div>{data.profile.email}</div>
       <div>{data.profile.role}</div>

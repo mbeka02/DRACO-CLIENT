@@ -14,3 +14,10 @@ body {
   width: 100%;
   min-height: 100vh;
 }
+
+.profile-selector {
+  background-image: url("./assets/camera-retro-solid.svg");
+  background-position: center;
+  background-size: 50%;
+  background-repeat: no-repeat;
+}

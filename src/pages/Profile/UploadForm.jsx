@@ -13,6 +13,7 @@ const MyDropzone = () => {
   }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    //only accept pdf files
     accept: { "application/pdf": [".pdf"] },
     onDrop,
   });
