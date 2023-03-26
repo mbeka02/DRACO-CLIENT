@@ -46,7 +46,7 @@ const MyDropzone = () => {
       <form
         {...getRootProps()}
         encType="multipart/form-data"
-        className=" grid h-fit items-center justify-center border-2 border-solid border-grey-custom py-4"
+        className=" grid h-fit items-center justify-center border-2 border-solid border-grey-custom py-4 px-2"
       >
         <input
           {...getInputProps()}

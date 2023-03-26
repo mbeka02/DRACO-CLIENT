@@ -76,7 +76,7 @@ const Profile = () => {
       <div>{data.profile.email}</div>
       <div>{data.profile.role}</div>
 
-      <div className="grid w-3/4 gap-4 justify-self-start">
+      <div className="grid gap-4 px-6 md:w-3/4 md:justify-self-start">
         <UserDetailsForm
           name={data.profile.name}
           email={data.profile.email}

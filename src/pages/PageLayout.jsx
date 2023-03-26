@@ -7,7 +7,7 @@ const PageLayout = () => {
   return (
     <div className="relative flex h-full">
       <button
-        className="fixed left-4 top-4 z-50 h-4 w-4 "
+        className="absolute left-4 top-4 z-50 h-4 w-4 md:fixed "
         onClick={() => setSidebarToggle((prev) => !prev)}
       >
         {sidebarToggle ? (
