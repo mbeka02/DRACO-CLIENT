@@ -72,11 +72,25 @@ const ViewProfile = () => {
           <div className="grid  md:grid-cols-custom">
             <span className="font-semibold">Education:</span>
             <div className=" grid p-2">
-              <p className="text-sm text-gray-500">{data.tutor?.Education}</p>
+              <div className="text-sm text-gray-500">
+                {data.tutor?.EducationInfo.map((info) => {
+                  return (
+                    <div key={info._id}>
+                      <p className=" flex w-fit items-center gap-2 font-semibold text-black">
+                        {info.school}
+                        <span className=" text-xs   font-normal">
+                          {info.from}-{info.to}
+                        </span>
+                      </p>
+                      <p className=" text-sm opacity-90">{info.degree}.</p>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>
-        <div className="flex h-fit w-full flex-col gap-1 rounded-sm bg-white  p-2 py-6 shadow">
+        <div className="flex h-fit w-full flex-col gap-1 rounded-sm bg-white  px-4 py-8 shadow ">
           <h3 className="text-2xl font-semibold">Reviews</h3>
           <hr className=" my-4" />
           {data.tutor.reviews.map((review) => {
@@ -89,7 +103,7 @@ const ViewProfile = () => {
                   </span>
                 </p>
                 <p className="text-sm font-semibold text-blue-custom">
-                  <span className="font-normal  text-gray-500">By:</span>{" "}
+                  <span className="font-normal  text-gray-500">By:</span>
                   {review.createdBy}
                 </p>
                 <hr className=" my-4" />
