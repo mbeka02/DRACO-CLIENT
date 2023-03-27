@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, lazy } from "react";
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 
+//Change to dynamic page imports and use react.lazy and suspense
 import Placeholder from "./pages/Placeholder";
 import Posts from "./pages/Posts";
 import Post from "./pages/Post";
@@ -13,6 +14,8 @@ import CreateQuestion from "./pages/CreateQuestion";
 import PageLayout from "./pages/PageLayout";
 import Profile from "./pages/Profile";
 import Confiramtion from "./pages/Confirmation";
+
+import Messages from "./pages/Messages";
 
 import "./App.css";
 
@@ -27,6 +30,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="/main/profile" element={<Profile />} />
           <Route path="/main/tutors" element={<Tutor />} />
+          <Route path="/main/messages" element={<Messages />} />
           <Route path="/main/posts" element={<Posts />} />
           <Route path="/main/createpost" element={<CreateQuestion />} />
 

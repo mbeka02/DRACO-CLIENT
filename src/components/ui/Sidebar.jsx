@@ -3,9 +3,9 @@ import axios from "axios";
 axios.defaults.withCredentials = true;
 import { useQuery } from "react-query";
 
-import { Link, useNavigate, NavLink, redirect } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import defaultIcon from "../../assets/default.png";
-import { useEffect } from "react";
+
 const Sidebar = ({ sidebarToggle }) => {
   const navigate = useNavigate();
   const { isLoading, data, error } = useQuery("Avatar", fetchAvatar);
@@ -29,7 +29,7 @@ const Sidebar = ({ sidebarToggle }) => {
           : "md:  -left-full  transition-all  duration-200 ease-in-out"
       } fixed z-10 flex h-screen  w-1/2 flex-col justify-start gap-9 bg-white p-3  shadow-xl md:left-0 md:w-fit`}
     >
-      <div className="mt-14 grid gap-10 font-semibold">
+      <div className="mt-14 grid justify-items-start gap-10 font-semibold">
         <NavLink
           className="flex cursor-pointer items-center gap-3 hover:text-blue-custom"
           to="/main/dashboard"
@@ -40,9 +40,9 @@ const Sidebar = ({ sidebarToggle }) => {
           }}
         >
           <svg
-            width="24"
+            width="25"
             height="24"
-            viewBox="0 0 24 24"
+            viewBox="0 0 25 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
@@ -105,6 +105,30 @@ const Sidebar = ({ sidebarToggle }) => {
           <span style={{ display: sidebarToggle ? "" : "none" }}>
             Ask a question
           </span>
+        </NavLink>
+        <NavLink
+          className="flex cursor-pointer items-center gap-3 hover:text-blue-custom"
+          to="/main/messages"
+          style={({ isActive }) => {
+            return {
+              color: isActive ? "#0077FF" : "",
+            };
+          }}
+        >
+          <svg
+            width="23"
+            height="23"
+            viewBox="0 0 23 23"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M20.65 1.75H3.85C2.695 1.75 1.7605 2.695 1.7605 3.85L1.75 22.75L5.95 18.55H20.65C21.805 18.55 22.75 17.605 22.75 16.45V3.85C22.75 2.695 21.805 1.75 20.65 1.75ZM7 9.1H17.5C18.0775 9.1 18.55 9.5725 18.55 10.15C18.55 10.7275 18.0775 11.2 17.5 11.2H7C6.4225 11.2 5.95 10.7275 5.95 10.15C5.95 9.5725 6.4225 9.1 7 9.1ZM13.3 14.35H7C6.4225 14.35 5.95 13.8775 5.95 13.3C5.95 12.7225 6.4225 12.25 7 12.25H13.3C13.8775 12.25 14.35 12.7225 14.35 13.3C14.35 13.8775 13.8775 14.35 13.3 14.35ZM17.5 8.05H7C6.4225 8.05 5.95 7.5775 5.95 7C5.95 6.4225 6.4225 5.95 7 5.95H17.5C18.0775 5.95 18.55 6.4225 18.55 7C18.55 7.5775 18.0775 8.05 17.5 8.05Z"
+              fill="currentColor"
+            />
+          </svg>
+
+          <span style={{ display: sidebarToggle ? "" : "none" }}>Messages</span>
         </NavLink>
         <NavLink
           className="flex cursor-pointer items-center gap-3 hover:text-blue-custom"
