@@ -1,11 +1,9 @@
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
-import { fetchComments } from "../services/requests";
+import { getData } from "../services/requests";
 import CreateComment from "../components/forms/CreateComment";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import axios from "axios";
-axios.defaults.withCredentials = true;
 
 const Post = () => {
   const { postId } = useParams();
@@ -17,7 +15,7 @@ const Post = () => {
 
   //post Id enusres that every queryKey is unique
   const { data, isLoading, error } = useQuery(["postComments", postId], () =>
-    fetchComments(postId)
+    getData(`/api/v1/test/posts/${postId}`)
   );
 
   if (isLoading) return "Loading...";

@@ -1,4 +1,4 @@
-import { fetchAllPosts, fetchUserPosts } from "../services/requests";
+import { getData } from "../services/requests";
 
 import { useQueries } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -12,11 +12,11 @@ const Posts = () => {
   const [allPostsQuery, myPostsQuery] = useQueries([
     {
       queryKey: "AllPosts",
-      queryFn: fetchAllPosts,
+      queryFn: () => getData("/api/v1/test/posts"),
     },
     {
       queryKey: "MyPosts",
-      queryFn: fetchUserPosts,
+      queryFn: () => getData("/api/v1/test/posts/myPosts"),
       enabled: postHandler,
     },
   ]);

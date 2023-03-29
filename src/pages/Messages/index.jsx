@@ -1,43 +1,24 @@
-import { socket } from "./socket";
-import { useState, useEffect } from "react";
-import MyForm from "./MyForm";
+import { useQuery } from "react-query";
+import { getData } from "../../services/requests";
+import { Link } from "react-router-dom";
 
 const Messages = () => {
-  const [isConnected, setisConnected] = useState(socket.connected);
-  const [events, setEvents] = useState([]);
+  const { data, isLoading, error } = useQuery("messages", () =>
+    getData("/api/v1/rooms")
+  );
 
-  const onConnect = () => {
-    setisConnected(true);
-  };
-  const onDisconnect = () => {
-    setisConnected(false);
-  };
+  if (isLoading) return "Loading...";
+  if (error) return "An error has occurred: ";
 
-  const onEvent = (val) => {
-    setEvents((prev) => [...prev, val]);
-  };
-  useEffect(() => {
-    onConnect();
-    onEvent();
-    socket.on("connect", onConnect);
-    socket.on("form", onEvent);
-    socket.on("disconnect", onDisconnect);
-
-    return () => {
-      socket.off("connect", onConnect);
-      socket.off("form", onEvent);
-      socket.off("disconnect", onDisconnect);
-    };
-  }, []);
   return (
-    <div className="rb my-10 mx-6 grid w-full md:mx-20">
-      <div>{isConnected && <p>...connected to socket</p>}</div>
-      <ul>
-        {events.map((event, index) => (
-          <li key={index}>{event}</li>
-        ))}
-      </ul>
-      <MyForm />
+    <div>
+      {data?.rooms.map((room) => {
+        return (
+          <Link key={room._id} to={`/main/messages/${room._id}`}>
+            <div className="grid">{room.users}</div>
+          </Link>
+        );
+      })}
     </div>
   );
 };

@@ -1,10 +1,12 @@
 import { useQuery } from "react-query";
-import { fetchTutors } from "../../services/requests";
+import { getData } from "../../services/requests";
 import defaultIcon from "../../assets/default.png";
 import { Link } from "react-router-dom";
 
 const Tutor = () => {
-  const { data, isLoading, error } = useQuery("Tutors", fetchTutors);
+  const { data, isLoading, error } = useQuery("Tutors", () =>
+    getData("/api/v1/tutors")
+  );
 
   if (isLoading) return "Loading...";
   if (error) return "An error has occurred: " + error.message;

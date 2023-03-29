@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { fetchProfile } from "../../services/requests";
+import { getData } from "../../services/requests";
 import defaultIcon from "../../assets/default.png";
 
 import { AnimatePresence } from "framer-motion";
@@ -20,7 +20,9 @@ import { useState } from "react";
 
 const Profile = () => {
   const [modalOpen, setModalOpen] = useState(false);
-  const { data, isLoading, error } = useQuery("Profile", fetchProfile);
+  const { data, isLoading, error } = useQuery("Profile", () =>
+    getData("/api/v1/user/profile")
+  );
 
   if (isLoading) return "Loading...";
   if (error) return "An error has occurred: " + error.message;

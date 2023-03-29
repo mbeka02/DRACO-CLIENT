@@ -1,4 +1,4 @@
-import { fetchAvatar } from "../../services/requests";
+import { getData } from "../../services/requests";
 import axios from "axios";
 axios.defaults.withCredentials = true;
 import { useQuery } from "react-query";
@@ -8,7 +8,9 @@ import defaultIcon from "../../assets/default.png";
 
 const Sidebar = ({ sidebarToggle }) => {
   const navigate = useNavigate();
-  const { isLoading, data, error } = useQuery("Avatar", fetchAvatar);
+  const { isLoading, data, error } = useQuery("Avatar", () =>
+    getData("/api/v1/user/avatar")
+  );
 
   if (isLoading) return "Loading...";
   if (error) return "An error has occurred: " + error.message;

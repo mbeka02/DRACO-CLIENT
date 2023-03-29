@@ -1,12 +1,12 @@
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
-import { fetchTutor } from "../../services/requests";
+import { getData } from "../../services/requests";
 import defaultIcon from "../../assets/default.png";
 
 const ViewProfile = () => {
   const { tutorId } = useParams();
   const { data, isLoading, error } = useQuery(["tutorProfile", tutorId], () =>
-    fetchTutor(tutorId)
+    getData(`/api/v1/tutors/${tutorId}`)
   );
 
   if (isLoading) return "Loading...";

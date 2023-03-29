@@ -16,6 +16,7 @@ import Profile from "./pages/Profile";
 import Confiramtion from "./pages/Confirmation";
 
 import Messages from "./pages/Messages";
+import ChatRoom from "./pages/Messages/ChatRoom";
 
 import "./App.css";
 
@@ -36,6 +37,7 @@ function App() {
 
           <Route path="/main/posts/:postId" element={<Post />} />
           <Route path="/main/tutors/:tutorId" element={<ViewProfile />} />
+          <Route path="/main/messages/:roomId" element={<ChatRoom />} />
         </Route>
       </Routes>
     </div>
