@@ -21,7 +21,6 @@ const MyDropzone = () => {
     e.preventDefault();
     try {
       const formData = new FormData();
-      //console.log(files);
 
       for (let i = 0; i < files.length; ++i) {
         formData.append("files", files[i]);
@@ -65,11 +64,11 @@ const MyDropzone = () => {
 
         <div className=" grid h-full w-64 gap-4 ">
           {
-            //preview sildes for the files about to be submitted
+            //preview slides for the files about to be submitted
             files.map((file, index) => {
               return (
                 <div
-                  className="grid h-20 w-full  place-items-center overflow-hidden rounded-md border-[1px] border-solid border-gray-400"
+                  className="grid h-20 w-full  place-items-center overflow-hidden rounded-sm border-2 border-solid border-black"
                   key={index}
                 >
                   <p className=" text-sm font-semibold italic">{file.name}</p>
@@ -94,37 +93,8 @@ const MyDropzone = () => {
 };
 
 const UploadForm = () => {
-  /*const handleFormSubmit = async (e) => {
-    // prevent the page from reloading
-    e.preventDefault();
-
-    try {
-      // construct form data
-      const formData = new FormData(e.currentTarget);
-      const files = e.currentTarget.files;
-      for (let i = 0; i < files.length; i++) {
-        formData.append("files", files[i]);
-      }
-
-      // make a POST request with Axios
-      const res = await axios.post(
-        "http://localhost:3000/api/v1/tutors/uploadDocuments",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-
-      console.log(res);
-    } catch (error) {
-      console.log(error);
-    }
-  };*/
-
   return (
-    <div>
+    <div className="bg-white p-2 shadow">
       <MyDropzone />
     </div>
   );

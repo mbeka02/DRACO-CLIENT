@@ -31,7 +31,7 @@ const UpdatePasswordForm = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="grid  w-full gap-8 rounded-sm bg-white p-4  "
+      className="grid  w-full gap-8 rounded-sm bg-white p-4  shadow "
     >
       <div className="grid">
         <label className="font-semibold" htmlFor="OldPassword">

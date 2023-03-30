@@ -36,7 +36,7 @@ const AvatarSelector = () => {
   return (
     <form
       encType="multipart/form-data"
-      className="  profile-selector absolute bottom-0 right-0 flex h-12 w-12  flex-col rounded-full bg-white"
+      className="  profile-selector absolute bottom-0 right-0 flex h-12 w-12   flex-col rounded-full bg-white"
     >
       <input
         className=" h-full w-full opacity-0 "

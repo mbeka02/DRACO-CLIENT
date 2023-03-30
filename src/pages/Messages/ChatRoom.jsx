@@ -22,14 +22,15 @@ const ChatRoom = () => {
 
   const onEvent = (val) => {
     setEvents((prev) => [...prev, val]);
+    //console.log(val);
   };
   useEffect(() => {
     onConnect();
     onEvent();
     socket.on("connect", onConnect);
+    socket.emit("join", roomId);
     socket.on("onMessage", onEvent);
     socket.on("disconnect", onDisconnect);
-    socket.emit("join", roomId);
 
     return () => {
       socket.off("connect", onConnect);
@@ -41,9 +42,6 @@ const ChatRoom = () => {
     <div className="rb my-10 mx-6 grid w-full md:mx-20">
       <div>{isConnected && <p>...connected to socket</p>}</div>
       <ul>
-        {data?.messages.map((message) => {
-          return <li key={message._id}>{message.text}</li>;
-        })}
         {events.map((event, index) => (
           <li key={index}>{event}</li>
         ))}
@@ -54,3 +52,7 @@ const ChatRoom = () => {
 };
 
 export default ChatRoom;
+
+/*{data?.messages.map((message) => {
+  return <li key={message._id}>{message.text}</li>;
+})}*/

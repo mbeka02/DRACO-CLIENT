@@ -33,52 +33,28 @@ const Profile = () => {
   const handleClose = () => {
     setModalOpen(false);
   };
-  //const queryClient = useQueryClient();
-
-  /*const updateAvatar = useMutation(
-    (formData) => {
-      return axios.post(
-        "http://localhost:3000/api/v1/user/updateProfilePicture",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-    }
-    // { onSuccess: () => queryClient.invalidateQueries(["Profile"]) }
-  );*/
-
-  /* const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const formData = new FormData();
-      const upload = e.currentTarget.files[0];
-      formData.append("upload", upload);
-      // updateAvatar.mutate(formData);
-    } catch (error) {
-      console.log(error);
-    }
-  };*/
 
   return (
-    <div className=" rb my-10 grid w-full md:mx-20">
-      <div className="relative w-fit">
-        <img
-          alt="avatar"
-          src={profileImage}
-          className="h-36 w-36 rounded-full"
-          //onError
-        />
-        <AvatarSelector />
+    <div className=" my-10 grid w-full gap-4 rounded-sm  px-6 md:mx-20 md:px-4">
+      <div className=" grid bg-white shadow-sm  md:w-4/5 md:justify-self-center">
+        <div className="grid h-fit bg-blue-900">
+          <div className="relative top-1/2 z-10   block w-fit place-self-center">
+            <img
+              alt="avatar"
+              src={profileImage}
+              className=" h-40 w-40 rounded-full border-8 border-solid border-white "
+              //onError
+            />
+            <AvatarSelector />
+          </div>
+          <div className="relative  grid h-48 w-full  bg-white">
+            <div className=" my-12 self-end justify-self-center text-3xl font-semibold ">
+              {data.profile.name}
+            </div>
+          </div>
+        </div>
       </div>
-
-      <div>{data.profile.name}</div>
-      <div>{data.profile.email}</div>
-      <div>{data.profile.role}</div>
-
-      <div className="grid gap-4 px-6 md:w-3/4 md:justify-self-start">
+      <div className=" grid gap-4 justify-self-center  md:w-4/5">
         <UserDetailsForm
           name={data.profile.name}
           email={data.profile.email}
@@ -93,7 +69,7 @@ const Profile = () => {
               Rate={data.profile?.Rate}
               Experience={data.profile?.Experience}
             />
-            <div className="grid gap-4 bg-white p-3">
+            <div className="grid gap-4 bg-white p-3 shadow">
               <div className="flex items-center justify-between">
                 <div className="grid h-fit ">
                   <h3 className="text-2xl font-semibold">Education</h3>

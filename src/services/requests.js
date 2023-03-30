@@ -6,8 +6,8 @@ const instance = axios.create({
 });
 
 //generic get request fn , pass endpoint to it
-const getData = async (endpoint) => {
-  const response = await instance.get(endpoint);
+const getData = async (request) => {
+  const response = await instance.get(request);
   return response.data;
 };
 

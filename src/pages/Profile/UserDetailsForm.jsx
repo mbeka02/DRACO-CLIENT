@@ -29,7 +29,7 @@ const UserDetailsForm = ({ name, email, phoneNumber, City }) => {
   };
   return (
     <form
-      className="grid  w-full gap-8 rounded-sm bg-white p-4  "
+      className="grid  w-full gap-8  rounded-sm bg-white p-4 shadow  "
       onSubmit={handleSubmit}
     >
       <div className="grid">

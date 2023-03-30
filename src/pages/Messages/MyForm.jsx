@@ -4,21 +4,18 @@ import axios from "axios";
 axios.defaults.withCredentials = true;
 
 const MyForm = ({ roomId }) => {
-  const [value, setValue] = useState("");
+  const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    setIsLoading(true);
 
-    socket.timeout(50).emit("emitMessage", value, () => {
-      setIsLoading(false);
-    });
+    socket.emit("emitMessage", { message, roomId }, () => {});
     try {
       await axios.post(
         `http://localhost:3000/api/v1/messages/create/${roomId}`,
         {
-          text: value,
+          text: message,
         }
       );
     } catch (error) {
@@ -28,7 +25,7 @@ const MyForm = ({ roomId }) => {
 
   return (
     <form onSubmit={onSubmit}>
-      <input onChange={(e) => setValue(e.target.value)} />
+      <input onChange={(e) => setMessage(e.target.value)} />
 
       <button type="submit" disabled={isLoading}>
         Submit
