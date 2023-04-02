@@ -3,7 +3,6 @@ import Sidebar from "../components/ui/Sidebar";
 import { useState } from "react";
 
 const PageLayout = () => {
-  console.log("rendered");
   const [sidebarToggle, setSidebarToggle] = useState(false);
   return (
     <div className="relative flex h-full">
