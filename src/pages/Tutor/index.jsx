@@ -3,18 +3,32 @@ import { getData } from "../../services/requests";
 import defaultIcon from "../../assets/default.png";
 import { Link } from "react-router-dom";
 
+import { useState } from "react";
+
 const Tutor = () => {
-  const { data, isLoading, error } = useQuery("Tutors", () =>
-    getData("/api/v1/tutors")
+  const [value, setValue] = useState("");
+  const [text, setText] = useState("");
+  const { data, isLoading, error } = useQuery(["Tutors", value], () =>
+    getData(`/api/v1/tutors?search=${value}`)
   );
 
-  if (isLoading) return "Loading...";
+  //if (isLoading) return "Loading...";
   if (error) return "An error has occurred: " + error.message;
 
   const origin = "http://localhost:3000";
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setValue(encodeURIComponent(text));
+  };
   return (
     <div className="  my-10 mx-6 grid w-full md:mx-20">
+      <form onSubmit={handleSubmit}>
+        <input
+          className="h-4 w-1/2"
+          onChange={(e) => setText(e.target.value)}
+        />
+      </form>
       {data?.tutors?.map((tutor) => {
         return (
           <div

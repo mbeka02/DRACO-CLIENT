@@ -37,7 +37,7 @@ const Profile = () => {
   return (
     <div className=" my-10 grid w-full gap-4 rounded-sm  px-6 md:mx-20 md:px-4">
       <div className=" grid bg-white shadow-sm  md:w-4/5 md:justify-self-center">
-        <div className="grid h-fit bg-blue-900">
+        <div className="grid h-fit bg-blue-700">
           <div className="relative top-1/2 z-10   block w-fit place-self-center">
             <img
               alt="avatar"
@@ -48,7 +48,7 @@ const Profile = () => {
             <AvatarSelector />
           </div>
           <div className="relative  grid h-48 w-full  bg-white">
-            <div className=" my-12 self-end justify-self-center text-3xl font-semibold ">
+            <div className=" my-5 self-end justify-self-center text-3xl font-semibold ">
               {data.profile.name}
             </div>
           </div>

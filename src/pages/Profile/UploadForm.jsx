@@ -6,9 +6,6 @@ import { useDropzone } from "react-dropzone";
 const MyDropzone = () => {
   const [files, setFiles] = useState([]);
   const onDrop = useCallback((acceptedFiles) => {
-    // Do something with the files
-
-    //formData.append("files", acceptedFiles[i]);
     setFiles(acceptedFiles);
   }, []);
 

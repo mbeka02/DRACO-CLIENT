@@ -8,20 +8,20 @@ import defaultIcon from "../../assets/default.png";
 
 const Sidebar = ({ sidebarToggle }) => {
   const navigate = useNavigate();
-  const { isLoading, data, error } = useQuery("Avatar", () =>
+  const { data, error } = useQuery("Avatar", () =>
     getData("/api/v1/user/avatar")
   );
 
-  if (isLoading) return "Loading...";
-  if (error) return "An error has occurred: " + error.message;
+  //if (isLoading) return "Loading...";
+  if (error) return "An error has occurred: " + error?.message;
 
   const logout = async () => {
     await axios.delete(`http://localhost:3000/api/v1/auth/logout`);
     navigate("/");
   };
 
-  const avatar = "http://localhost:3000" + data.avatar?.avatarUrl;
-  const profileImage = data.avatar?.avatarUrl ? avatar : defaultIcon;
+  const avatar = "http://localhost:3000" + data?.avatar?.avatarUrl;
+  const profileImage = data?.avatar?.avatarUrl ? avatar : defaultIcon;
 
   return (
     <div

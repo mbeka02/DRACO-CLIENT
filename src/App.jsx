@@ -1,22 +1,35 @@
-import { useState, lazy } from "react";
+import { lazy, Suspense } from "react";
+import Loader from "./components/ui/Loader";
 import { Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
 
 //Change to dynamic page imports and use react.lazy and suspense
-import Placeholder from "./pages/Placeholder";
-import Posts from "./pages/Posts";
-import Post from "./pages/Post";
+//import Home from "./pages/Home";
+const Home = lazy(() => import("./pages/Home"));
+//import Placeholder from "./pages/Placeholder";
+const Placeholder = lazy(() => import("./pages/Placeholder"));
+//import Posts from "./pages/Posts";
+const Posts = lazy(() => import("./pages/Posts"));
+const Post = lazy(() => import("./pages/Post"));
+//import Post from "./pages/Post";
 
-import Tutor from "./pages/Tutor";
-import ViewProfile from "./pages/Tutor/ViewProfile";
+//import Tutor from "./pages/Tutor";
+const Tutor = lazy(() => import("./pages/Tutor"));
+//import ViewProfile from "./pages/Tutor/ViewProfile";
+const ViewProfile = lazy(() => import("./pages/Tutor/ViewProfile"));
 
-import CreateQuestion from "./pages/CreateQuestion";
+//import CreateQuestion from "./pages/CreateQuestion";
+const CreateQuestion = lazy(() => import("./pages/CreateQuestion"));
 import PageLayout from "./pages/PageLayout";
-import Profile from "./pages/Profile";
-import Confiramtion from "./pages/Confirmation";
+//const PageLayout = lazy(() => import("./pages//PageLayout"));
+//import Profile from "./pages/Profile";
+const Profile = lazy(() => import("./pages/Profile"));
+//import Confiramtion from "./pages/Confirmation";
+const Confiramtion = lazy(() => import("./pages/Confirmation"));
 
-import Messages from "./pages/Messages";
-import ChatRoom from "./pages/Messages/ChatRoom";
+//import Messages from "./pages/Messages";
+const Messages = lazy(() => import("./pages/Messages"));
+//import ChatRoom from "./pages/Messages/ChatRoom";
+const ChatRoom = lazy(() => import("./pages/Messages/ChatRoom"));
 
 import "./App.css";
 
@@ -29,15 +42,71 @@ function App() {
 
         <Route path="/main" element={<PageLayout />}>
           <Route index element={<Home />} />
-          <Route path="/main/profile" element={<Profile />} />
-          <Route path="/main/tutors" element={<Tutor />} />
-          <Route path="/main/messages" element={<Messages />} />
-          <Route path="/main/posts" element={<Posts />} />
-          <Route path="/main/createpost" element={<CreateQuestion />} />
+          <Route
+            path="/main/profile"
+            element={
+              <Suspense fallback={<Loader />}>
+                <Profile />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/main/tutors"
+            element={
+              <Suspense fallback={<Loader />}>
+                <Tutor />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/main/messages"
+            element={
+              <Suspense fallback={<Loader />}>
+                <Messages />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/main/posts"
+            element={
+              <Suspense fallback={<Loader />}>
+                <Posts />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/main/createpost"
+            element={
+              <Suspense fallback={<Loader />}>
+                <CreateQuestion />
+              </Suspense>
+            }
+          />
 
-          <Route path="/main/posts/:postId" element={<Post />} />
-          <Route path="/main/tutors/:tutorId" element={<ViewProfile />} />
-          <Route path="/main/messages/:roomId" element={<ChatRoom />} />
+          <Route
+            path="/main/posts/:postId"
+            element={
+              <Suspense fallback={<Loader />}>
+                <Post />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/main/tutors/:tutorId"
+            element={
+              <Suspense fallback={<Loader />}>
+                <ViewProfile />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/main/messages/:roomId"
+            element={
+              <Suspense fallback={<Loader />}>
+                <ChatRoom />
+              </Suspense>
+            }
+          />
         </Route>
       </Routes>
     </div>
