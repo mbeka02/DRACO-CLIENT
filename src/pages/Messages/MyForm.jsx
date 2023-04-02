@@ -32,10 +32,10 @@ const MyForm = ({ roomId, setIsTyping, isTyping }) => {
     setTimeout(() => {
       let now = new Date().getTime();
       let timediff = now - lastTypingTime;
-      console.log(timediff);
+      // console.log(timediff);
       if (timediff >= timer) {
         socket.emit("stopped", { roomId });
-        console.log("stopping");
+        // console.log("stopping");
       }
     }, timer);
   };
