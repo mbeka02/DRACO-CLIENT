@@ -17,6 +17,7 @@ const MyForm = ({ roomId, setIsTyping, isTyping }) => {
           text: message,
         }
       );
+      setMessage("");
     } catch (error) {
       console.log(error);
     }
@@ -27,11 +28,11 @@ const MyForm = ({ roomId, setIsTyping, isTyping }) => {
     // setIsTyping(true);
     socket.emit("typing", { roomId });
 
-    let lastTypingTime = new Date().getTime();
-    let timer = 2000;
+    const lastTypingTime = new Date().getTime();
+    const timer = 2000;
     setTimeout(() => {
-      let now = new Date().getTime();
-      let timediff = now - lastTypingTime;
+      const now = new Date().getTime();
+      const timediff = now - lastTypingTime;
       // console.log(timediff);
       if (timediff >= timer) {
         socket.emit("stopped", { roomId });

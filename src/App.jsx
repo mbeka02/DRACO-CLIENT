@@ -5,8 +5,8 @@ import { Route, Routes } from "react-router-dom";
 //Change to dynamic page imports and use react.lazy and suspense
 //import Home from "./pages/Home";
 const Home = lazy(() => import("./pages/Home"));
-//import Placeholder from "./pages/Placeholder";
-const Placeholder = lazy(() => import("./pages/Placeholder"));
+import Placeholder from "./pages/Placeholder";
+//const Placeholder = lazy(() => import("./pages/Placeholder"));
 //import Posts from "./pages/Posts";
 const Posts = lazy(() => import("./pages/Posts"));
 const Post = lazy(() => import("./pages/Post"));
