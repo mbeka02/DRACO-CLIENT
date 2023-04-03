@@ -3,7 +3,7 @@ import { socket } from "./socket";
 import axios from "axios";
 axios.defaults.withCredentials = true;
 
-const MyForm = ({ roomId, setIsTyping, isTyping }) => {
+const MyForm = ({ roomId }) => {
   const [message, setMessage] = useState("");
 
   const onSubmit = async (event) => {

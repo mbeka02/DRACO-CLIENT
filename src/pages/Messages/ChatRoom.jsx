@@ -58,7 +58,7 @@ const ChatRoom = () => {
           <li key={index}>{event}</li>
         ))}
       </ul>
-      <MyForm roomId={roomId} setIsTyping={setIsTyping} isTyping={isTyping} />
+      <MyForm roomId={roomId} />
     </div>
   );
 };
