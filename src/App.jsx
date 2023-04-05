@@ -2,7 +2,7 @@ import { lazy, Suspense } from "react";
 import Loader from "./components/ui/Loader";
 import { Route, Routes } from "react-router-dom";
 
-//Change to dynamic page imports and use react.lazy and suspense
+
 //import Home from "./pages/Home";
 const Home = lazy(() => import("./pages/Home"));
 import Placeholder from "./pages/Placeholder";

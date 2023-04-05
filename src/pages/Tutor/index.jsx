@@ -22,20 +22,28 @@ const Tutor = () => {
     setValue(encodeURIComponent(text));
   };
   return (
-    <div className="  my-10 mx-6 grid w-full md:mx-20">
-      <form onSubmit={handleSubmit}>
+    <div className="  my-10 mx-6 grid w-full gap-3 md:mx-20">
+      <form onSubmit={handleSubmit} className=" relative flex h-8 w-56">
         <input
-          className="h-4 w-1/2"
           onChange={(e) => setText(e.target.value)}
+          className=" h-full w-full  rounded-md border-2 border-solid border-grey-custom px-2 focus:outline-blue-custom "
+          placeholder="search by subject"
         />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 512 512"
+          className="absolute right-2 top-1/4 h-4 w-4"
+        >
+          <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
+        </svg>
       </form>
       {data?.tutors?.map((tutor) => {
         return (
           <div
-            className="flex h-fit w-full flex-col gap-6 rounded-lg border-[1px] border-solid  border-gray-300 bg-white p-3 py-6 md:flex-row md:py-4"
+            className=" flex h-fit w-full flex-col gap-6 rounded-lg border-[1px] border-solid  border-gray-300 bg-white p-3 py-6 md:flex-row md:py-4"
             key={tutor._id}
           >
-            <div className="flex items-start justify-between md:flex-col ">
+            <div className="flex h-fit items-start justify-between gap-3 md:flex-col ">
               <img
                 alt="avatar"
                 src={tutor?.avatarUrl ? origin + tutor.avatarUrl : defaultIcon}
@@ -69,7 +77,7 @@ const Tutor = () => {
                 </div>
               </div>
             </div>
-            <div className="flex flex-col  md:flex-row">
+            <div className=" flex w-full  flex-col md:flex-row">
               <div className="  grid border-gray-300 md:mx-2  md:w-10/12 md:border-r-[1px] md:border-solid md:px-2">
                 <div className="text-xl font-semibold">{tutor.name}</div>
                 <div className="text-gray-500 ">{tutor.institute}</div>
@@ -80,6 +88,17 @@ const Tutor = () => {
                   {tutor.Headline}
                 </div>
                 <div className="mt-1 ">{tutor.Description}</div>
+                <div className="flex gap-2">
+                  <span className="text-sm text-gray-500">Subjects:</span>
+                  {tutor.Courses.map((course, index) => (
+                    <span
+                      className="text-sm text-gray-500 underline"
+                      key={index}
+                    >
+                      {course}
+                    </span>
+                  ))}
+                </div>
               </div>
 
               <div className="  flex flex-col  justify-between md:w-2/12">
