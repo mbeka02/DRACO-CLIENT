@@ -2,23 +2,16 @@ import { lazy, Suspense } from "react";
 import Loader from "./components/ui/Loader";
 import { Route, Routes } from "react-router-dom";
 
-
 //import Home from "./pages/Home";
 const Home = lazy(() => import("./pages/Home"));
 import Placeholder from "./pages/Placeholder";
 //const Placeholder = lazy(() => import("./pages/Placeholder"));
-//import Posts from "./pages/Posts";
-const Posts = lazy(() => import("./pages/Posts"));
-const Post = lazy(() => import("./pages/Post"));
-//import Post from "./pages/Post";
 
 //import Tutor from "./pages/Tutor";
 const Tutor = lazy(() => import("./pages/Tutor"));
 //import ViewProfile from "./pages/Tutor/ViewProfile";
 const ViewProfile = lazy(() => import("./pages/Tutor/ViewProfile"));
 
-//import CreateQuestion from "./pages/CreateQuestion";
-const CreateQuestion = lazy(() => import("./pages/CreateQuestion"));
 import PageLayout from "./pages/PageLayout";
 //const PageLayout = lazy(() => import("./pages//PageLayout"));
 //import Profile from "./pages/Profile";
@@ -66,31 +59,7 @@ function App() {
               </Suspense>
             }
           />
-          <Route
-            path="/main/posts"
-            element={
-              <Suspense fallback={<Loader />}>
-                <Posts />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/main/createpost"
-            element={
-              <Suspense fallback={<Loader />}>
-                <CreateQuestion />
-              </Suspense>
-            }
-          />
 
-          <Route
-            path="/main/posts/:postId"
-            element={
-              <Suspense fallback={<Loader />}>
-                <Post />
-              </Suspense>
-            }
-          />
           <Route
             path="/main/tutors/:tutorId"
             element={

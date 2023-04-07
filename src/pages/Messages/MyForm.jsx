@@ -3,13 +3,13 @@ import { socket } from "./socket";
 import axios from "axios";
 axios.defaults.withCredentials = true;
 
-const MyForm = ({ roomId }) => {
+const MyForm = ({ roomId, sender }) => {
   const [message, setMessage] = useState("");
 
   const onSubmit = async (event) => {
     event.preventDefault();
 
-    socket.emit("emitMessage", { message, roomId } /*, () => {}*/);
+    socket.emit("emitMessage", { message, roomId, sender } /*, () => {}*/);
     try {
       await axios.post(
         `http://localhost:3000/api/v1/messages/create/${roomId}`,

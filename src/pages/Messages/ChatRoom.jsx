@@ -1,7 +1,7 @@
 import { socket } from "./socket";
 import { useState, useEffect } from "react";
 import MyForm from "./MyForm";
-import { useQuery } from "react-query";
+import { useQueries } from "react-query";
 import { useParams } from "react-router-dom";
 import { getData } from "../../services/requests";
 const ChatRoom = () => {
@@ -10,9 +10,23 @@ const ChatRoom = () => {
   const [isTyping, setIsTyping] = useState(false);
 
   const { roomId } = useParams();
-  const { data, error, isLoading } = useQuery(["room", roomId], () =>
-    getData(`/api/v1/messages/${roomId}/messages`)
-  );
+  const [userQuery, roomQuery] = useQueries([
+    {
+      queryKey: ["user"],
+      queryFn: () => getData("/api/v1/user/showUser"),
+    },
+    {
+      queryKey: ["room", roomId],
+      queryFn: () => getData(`/api/v1/messages/${roomId}/messages`),
+    },
+  ]);
+
+  //bugged
+  //if (userQuery.isLoading) return "...loading";
+  //if (roomQuery.isLoading) return "...loading";
+
+  if (userQuery.error) return "An error has occurred ";
+  if (roomQuery.error) return "An error has occurred";
 
   const onConnect = () => {
     setisConnected(true);
@@ -23,7 +37,6 @@ const ChatRoom = () => {
 
   const onEvent = (val) => {
     setEvents((prev) => [...prev, val]);
-    //console.log(val);
   };
   const onType = () => {
     setIsTyping(true);
@@ -50,21 +63,40 @@ const ChatRoom = () => {
     };
   }, []);
   return (
-    <div className="rb my-10 mx-6 grid w-full md:mx-20">
+    <div className="rb relative my-10 mx-6 grid w-full md:mx-20">
       <div>{isConnected && <p>...connected to socket</p>}</div>
       {isTyping && <div>...typing</div>}
-      <ul>
+      <ul className="grid w-full">
+        {roomQuery.data?.messages.map((message, index) => {
+          return (
+            <li
+              key={index}
+              className={`${
+                message.sender === userQuery.data?.user?.userId
+                  ? " justify-self-end"
+                  : "justify-self-start"
+              } `}
+            >
+              {message.text}
+            </li>
+          );
+        })}
         {events.map((event, index) => (
-          <li key={index}>{event}</li>
+          <li
+            className={`${
+              event?.sender === userQuery.data?.user?.userId
+                ? " justify-self-end"
+                : "justify-self-start"
+            } `}
+            key={index}
+          >
+            {event?.message}
+          </li>
         ))}
       </ul>
-      <MyForm roomId={roomId} />
+      <MyForm roomId={roomId} sender={userQuery.data?.user?.userId} />
     </div>
   );
 };
 
 export default ChatRoom;
-
-/*{data?.messages.map((message) => {
-  return <li key={message._id}>{message.text}</li>;
-})}*/
