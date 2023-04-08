@@ -11,15 +11,11 @@ import UserDetailsForm from "./UserDetailsForm";
 import UploadForm from "./UploadForm";
 import Modal from "./Modal";
 
-//import axios from "axios";
-//axios.defaults.withCredentials = true;
-
-//import { useMutation, useQueryClient } from "react-query";
 import AvatarSelector from "./AvatarSelector";
 import { useState } from "react";
 
 const Profile = () => {
-  const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState("closed");
   const { data, isLoading, error } = useQuery("Profile", () =>
     getData("/api/v1/user/profile")
   );
@@ -31,7 +27,7 @@ const Profile = () => {
   const profileImage = data.profile?.avatarUrl ? avatar : defaultIcon;
 
   const handleClose = () => {
-    setModalOpen(false);
+    setModalOpen("closed");
   };
 
   return (
@@ -79,11 +75,12 @@ const Profile = () => {
                 </div>
                 <button
                   className=" rounded-full text-4xl font-semibold text-blue-custom"
-                  onClick={() => setModalOpen(true)}
+                  onClick={() => setModalOpen("Education")}
                 >
                   +
                 </button>
               </div>
+
               {data.profile?.EducationInfo.map((info) => {
                 return (
                   <div key={info._id}>
@@ -98,6 +95,22 @@ const Profile = () => {
                 );
               })}
             </div>
+            <div className="grid gap-4 bg-white p-3 shadow">
+              <div className="flex items-center justify-between">
+                <div className="grid h-fit ">
+                  <h3 className="text-2xl font-semibold">Courses</h3>
+                  <span className=" text-sm italic  text-hr-custom">
+                    Add information regarding the courses you teach
+                  </span>
+                </div>
+                <button
+                  className=" rounded-full text-4xl font-semibold text-blue-custom"
+                  onClick={() => setModalOpen("Courses")}
+                >
+                  +
+                </button>
+              </div>
+            </div>
             <UploadForm />
           </div>
         )}
@@ -105,7 +118,12 @@ const Profile = () => {
         <UpdatePasswordForm />
       </div>
       <AnimatePresence initial={false} mode={"wait"}>
-        {modalOpen && <Modal handleClose={handleClose} />}
+        {
+          /*Refactor this*/ (modalOpen === "Education") |
+            (modalOpen === "Courses") && (
+            <Modal handleClose={handleClose} modalOpen={modalOpen} />
+          )
+        }
       </AnimatePresence>
     </div>
   );

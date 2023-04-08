@@ -7,6 +7,9 @@ module.exports = {
         nunito: ["Nunito", "sans-serif"],
         inter: ["Inter", "sans-serif"],
       },
+      fontSize: {
+        xxs: "0.6rem",
+      },
       colors: {
         "light-secondary": "#fdfff5",
         "dark-primary": "#121212",
@@ -23,6 +26,12 @@ module.exports = {
       },
       gridTemplateColumns: {
         custom: " 1fr 4fr",
+      },
+      maxWidth: {
+        custom: "33.3333%",
+      },
+      minWidth: {
+        custom: "8rem",
       },
     },
   },

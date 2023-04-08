@@ -19,8 +19,7 @@ const ChatRoom = () => {
     {
       queryKey: ["room", roomId],
       queryFn: () => getData(`/api/v1/messages/${roomId}/messages`),
-      refetchInterval: 1000 * 60 * 60,
-      refetchOnWindowFocuse: false,
+      enabled: false,
     },
   ]);
 
@@ -47,6 +46,10 @@ const ChatRoom = () => {
   const offType = () => {
     setIsTyping(false);
   };
+  const dateTimeFormat = new Intl.DateTimeFormat(undefined, {
+    dateStyle: "short",
+    timeStyle: "short",
+  });
   useEffect(() => {
     /*reverting back to use effect for the messages , 
     until I come up with a more elegant solution , I only want messages to be fetched once from the DB , 
@@ -55,6 +58,8 @@ const ChatRoom = () => {
     getData(`/api/v1/messages/${roomId}/messages`).then((data) =>
       setData(data.messages)
     );
+    console.log(data);
+    console.log(events);
     onConnect();
     onEvent();
     socket.on("connect", onConnect);
@@ -73,9 +78,9 @@ const ChatRoom = () => {
     };
   }, []);
   return (
-    <div className="rb relative my-10 mx-6 grid w-full md:mx-20">
+    <div className="rb relative my-10 mx-2 grid w-full md:mx-20">
       <div>{isConnected && <p>...connected to socket</p>}</div>
-      {isTyping && <div>...typing</div>}
+      {isTyping && <div>... typing</div>}
       <ul className="grid w-full gap-2 px-4">
         {data?.map((message, index) => {
           return (
@@ -85,9 +90,12 @@ const ChatRoom = () => {
                 message.sender === userQuery.data?.user?.userId
                   ? " justify-self-end bg-blue-custom text-white"
                   : "justify-self-start bg-white text-black"
-              }  rb h-fit w-1/3 rounded-sm px-2`}
+              }   rb relative h-fit w-fit  min-w-custom max-w-custom rounded-md px-2 py-5 text-sm shadow-sm md:text-base`}
             >
               {message.text}
+              <span className="absolute bottom-1 right-2  text-xxs uppercase">
+                {dateTimeFormat.format(Date.parse(message.createdAt))}
+              </span>
             </li>
           );
         })}
@@ -97,7 +105,7 @@ const ChatRoom = () => {
               event?.sender === userQuery.data?.user?.userId
                 ? " justify-self-end  bg-blue-custom text-white"
                 : "justify-self-start  bg-white text-black"
-            } rb h-fit w-1/3 rounded-sm px-2`}
+            }  rb relative h-fit w-1/3 rounded-md px-2 py-3 shadow-sm`}
             key={index}
           >
             {event?.message}

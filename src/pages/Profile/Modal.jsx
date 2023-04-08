@@ -27,7 +27,7 @@ const dropIn = {
   },
 };
 
-const Modal = ({ handleClose }) => {
+const Modal = ({ handleClose, modalOpen }) => {
   const queryClient = useQueryClient();
   const [values, setValues] = useState({
     school: "",
@@ -95,11 +95,11 @@ const Modal = ({ handleClose }) => {
         exit="exit"
         className="  m-auto grid h-fit w-10/12 rounded  bg-white p-4  md:w-1/2 "
       >
-        <div className=" flex items-center justify-between border-b-2 border-solid border-grey-custom p-2">
-          <h3 className=" text-2xl  font-semibold leading-4 opacity-80">
-            Add Education
+        <div className=" flex items-center justify-between border-b-2 border-solid border-grey-custom p-2 pb-2">
+          <h3 className=" text-xl  font-semibold leading-4 opacity-80">
+            {modalOpen === "Education" ? "Add Education" : "Add Courses"}
           </h3>
-          <button onClick={handleClose} className="h-5 w-5 ">
+          <button onClick={handleClose} className="h-4 w-4 ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 320 512"
@@ -109,73 +109,91 @@ const Modal = ({ handleClose }) => {
             </svg>
           </button>
         </div>
-        <form onSubmit={handleSubmit} className="grid  w-full gap-8 p-4">
-          <div className="grid">
-            <label className="font-semibold" htmlFor="School">
-              School
-              <span className="text-red-custom">*</span>
-            </label>
-            <input
-              type="text"
-              name="School"
-              placeholder="Name of the school/institute"
-              value={values.school}
-              onChange={(e) => handleChange({ school: e.target.value })}
-              className="rounded-sm border-2 border-solid border-grey-custom focus:outline-blue-custom "
-            />
-          </div>
-          <div className="grid">
-            <label className="font-semibold" htmlFor="Degree">
-              Degree
-            </label>
-            <input
-              type="text"
-              name="Degree"
-              placeholder="Degree attained"
-              value={values.degree}
-              onChange={(e) => handleChange({ degree: e.target.value })}
-              className="rounded-sm border-2 border-solid border-grey-custom focus:outline-blue-custom "
-            />
-          </div>
+        {(() => {
+          switch (modalOpen) {
+            case "Education":
+              return (
+                <form
+                  onSubmit={handleSubmit}
+                  className="grid  w-full gap-8 p-4"
+                >
+                  <div className="grid">
+                    <label className="font-semibold" htmlFor="School">
+                      School
+                      <span className="text-red-custom">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="School"
+                      placeholder="Name of the school/institute"
+                      value={values.school}
+                      onChange={(e) => handleChange({ school: e.target.value })}
+                      className="rounded-sm border-2 border-solid border-grey-custom focus:outline-blue-custom "
+                    />
+                  </div>
+                  <div className="grid">
+                    <label className="font-semibold" htmlFor="Degree">
+                      Degree
+                    </label>
+                    <input
+                      type="text"
+                      name="Degree"
+                      placeholder="Degree attained"
+                      value={values.degree}
+                      onChange={(e) => handleChange({ degree: e.target.value })}
+                      className="rounded-sm border-2 border-solid border-grey-custom focus:outline-blue-custom "
+                    />
+                  </div>
 
-          <div className="grid">
-            <label className="font-semibold" htmlFor="From">
-              From
-              <span className="text-red-custom">*</span>
-            </label>
-            <select
-              name="From"
-              value={values.from}
-              onChange={(e) => handleChange({ from: e.target.value })}
-              className="rounded-sm border-2 border-solid border-grey-custom focus:outline-blue-custom "
-            >
-              {options}
-            </select>
-          </div>
-          <div className="grid">
-            <label className="font-semibold" htmlFor="To">
-              To
-              <span className="text-red-custom">*</span>
-            </label>
-            <select
-              //type="number"
-              name="To"
-              value={values.to}
-              onChange={(e) => handleChange({ to: e.target.value })}
-              className="rounded-sm border-2 border-solid border-grey-custom focus:outline-blue-custom "
-            >
-              {options}
-            </select>
-          </div>
-          {message && <p className="text-green-600">{message}</p>}
-          {error && <p className="text-red-600">{error}</p>}
-          <button
-            type="submit"
-            className="m-3 h-fit w-1/3 justify-self-center rounded-md bg-blue-custom p-2 text-sm font-semibold text-white  md:mt-4  md:w-1/4 lg:w-1/6 lg:text-base"
-          >
-            Save
-          </button>
-        </form>
+                  <div className="grid">
+                    <label className="font-semibold" htmlFor="From">
+                      From
+                      <span className="text-red-custom">*</span>
+                    </label>
+                    <select
+                      name="From"
+                      value={values.from}
+                      onChange={(e) => handleChange({ from: e.target.value })}
+                      className="rounded-sm border-2 border-solid border-grey-custom focus:outline-blue-custom "
+                    >
+                      {options}
+                    </select>
+                  </div>
+                  <div className="grid">
+                    <label className="font-semibold" htmlFor="To">
+                      To
+                      <span className="text-red-custom">*</span>
+                    </label>
+                    <select
+                      //type="number"
+                      name="To"
+                      value={values.to}
+                      onChange={(e) => handleChange({ to: e.target.value })}
+                      className="rounded-sm border-2 border-solid border-grey-custom focus:outline-blue-custom "
+                    >
+                      {options}
+                    </select>
+                  </div>
+                  {message && <p className="text-green-600">{message}</p>}
+                  {error && <p className="text-red-600">{error}</p>}
+                  <button
+                    type="submit"
+                    className="m-3 h-fit w-1/3 justify-self-center rounded-md bg-blue-custom p-2 text-sm font-semibold text-white  md:mt-4  md:w-1/4 lg:w-1/6 lg:text-base"
+                  >
+                    Save
+                  </button>
+                </form>
+              );
+            case "Courses":
+              return (
+                <form>
+                  <div></div>
+                </form>
+              );
+            default:
+              return null;
+          }
+        })()}
       </motion.div>
     </Backdrop>
   );
