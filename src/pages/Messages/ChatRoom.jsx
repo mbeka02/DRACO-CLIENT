@@ -8,6 +8,7 @@ const ChatRoom = () => {
   const [isConnected, setisConnected] = useState(socket.connected);
   const [events, setEvents] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
+  const [data, setData] = useState([]);
 
   const { roomId } = useParams();
   const [userQuery, roomQuery] = useQueries([
@@ -18,11 +19,13 @@ const ChatRoom = () => {
     {
       queryKey: ["room", roomId],
       queryFn: () => getData(`/api/v1/messages/${roomId}/messages`),
+      refetchInterval: 1000 * 60 * 60,
+      refetchOnWindowFocuse: false,
     },
   ]);
 
   //bugged
-  //if (userQuery.isLoading) return "...loading";
+  // if (userQuery.isLoading) return "...loading";
   //if (roomQuery.isLoading) return "...loading";
 
   if (userQuery.error) return "An error has occurred ";
@@ -45,6 +48,13 @@ const ChatRoom = () => {
     setIsTyping(false);
   };
   useEffect(() => {
+    /*reverting back to use effect for the messages , 
+    until I come up with a more elegant solution , I only want messages to be fetched once from the DB , 
+    tanstack query keeps on refetching my data causing the same message to appear twice
+    (from the DB and also from the events array)*/
+    getData(`/api/v1/messages/${roomId}/messages`).then((data) =>
+      setData(data.messages)
+    );
     onConnect();
     onEvent();
     socket.on("connect", onConnect);
@@ -66,16 +76,16 @@ const ChatRoom = () => {
     <div className="rb relative my-10 mx-6 grid w-full md:mx-20">
       <div>{isConnected && <p>...connected to socket</p>}</div>
       {isTyping && <div>...typing</div>}
-      <ul className="grid w-full">
-        {roomQuery.data?.messages.map((message, index) => {
+      <ul className="grid w-full gap-2 px-4">
+        {data?.map((message, index) => {
           return (
             <li
               key={index}
               className={`${
                 message.sender === userQuery.data?.user?.userId
-                  ? " justify-self-end"
-                  : "justify-self-start"
-              } `}
+                  ? " justify-self-end bg-blue-custom text-white"
+                  : "justify-self-start bg-white text-black"
+              }  rb h-fit w-1/3 rounded-sm px-2`}
             >
               {message.text}
             </li>
@@ -85,9 +95,9 @@ const ChatRoom = () => {
           <li
             className={`${
               event?.sender === userQuery.data?.user?.userId
-                ? " justify-self-end"
-                : "justify-self-start"
-            } `}
+                ? " justify-self-end  bg-blue-custom text-white"
+                : "justify-self-start  bg-white text-black"
+            } rb h-fit w-1/3 rounded-sm px-2`}
             key={index}
           >
             {event?.message}
