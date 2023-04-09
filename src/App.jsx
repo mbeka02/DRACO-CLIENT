@@ -13,6 +13,7 @@ const Tutor = lazy(() => import("./pages/Tutor"));
 const ViewProfile = lazy(() => import("./pages/Tutor/ViewProfile"));
 
 import PageLayout from "./pages/PageLayout";
+import MessageLayout from "./pages/MessageLayout";
 //const PageLayout = lazy(() => import("./pages//PageLayout"));
 //import Profile from "./pages/Profile";
 const Profile = lazy(() => import("./pages/Profile"));
@@ -20,7 +21,7 @@ const Profile = lazy(() => import("./pages/Profile"));
 const Confiramtion = lazy(() => import("./pages/Confirmation"));
 
 //import Messages from "./pages/Messages";
-const Messages = lazy(() => import("./pages/Messages"));
+//const Messages = lazy(() => import("./pages/Messages"));
 //import ChatRoom from "./pages/Messages/ChatRoom";
 const ChatRoom = lazy(() => import("./pages/Messages/ChatRoom"));
 
@@ -51,28 +52,22 @@ function App() {
               </Suspense>
             }
           />
-          <Route
-            path="/main/messages"
-            element={
-              <Suspense fallback={<Loader />}>
-                <Messages />
-              </Suspense>
-            }
-          />
+          <Route path="/main/messages" element={<MessageLayout />}>
+            <Route
+              path="/main/messages/:roomId"
+              element={
+                <Suspense fallback={<Loader />}>
+                  <ChatRoom />
+                </Suspense>
+              }
+            />
+          </Route>
 
           <Route
             path="/main/tutors/:tutorId"
             element={
               <Suspense fallback={<Loader />}>
                 <ViewProfile />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/main/messages/:roomId"
-            element={
-              <Suspense fallback={<Loader />}>
-                <ChatRoom />
               </Suspense>
             }
           />
