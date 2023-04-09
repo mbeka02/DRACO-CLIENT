@@ -56,10 +56,10 @@ const ChatRoom = () => {
     tanstack query keeps on refetching my data causing the same message to appear twice
     (from the DB and also from the events array)*/
     getData(`/api/v1/messages/${roomId}/messages`).then((data) =>
-      setData(data.messages)
+      setData(data.roomMessages)
     );
     console.log(data);
-    console.log(events);
+    // console.log(events);
     onConnect();
     onEvent();
     socket.on("connect", onConnect);
@@ -82,7 +82,7 @@ const ChatRoom = () => {
       <div>{isConnected && <p>...connected to socket</p>}</div>
       {isTyping && <div>... typing</div>}
       <ul className="grid w-full gap-2 px-4">
-        {data?.map((message, index) => {
+        {data.messages?.map((message, index) => {
           return (
             <li
               key={index}
@@ -105,7 +105,7 @@ const ChatRoom = () => {
               event?.sender === userQuery.data?.user?.userId
                 ? " justify-self-end  bg-blue-custom text-white"
                 : "justify-self-start  bg-white text-black"
-            }  rb relative h-fit w-1/3 rounded-md px-2 py-3 shadow-sm`}
+            }  rb relative h-fit w-fit  min-w-custom max-w-custom  rounded-md  px-2 py-3 text-sm shadow-sm md:text-base`}
             key={index}
           >
             {event?.message}

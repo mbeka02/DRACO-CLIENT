@@ -46,6 +46,7 @@ const MyForm = ({ roomId, sender }) => {
         onChange={handleChange}
         className=" max-h-16  w-10/12 resize-none  rounded-sm  border-2 border-solid border-grey-custom focus:outline-blue-custom  "
         placeholder="enter yor message"
+        value={message}
       />
 
       <button type="submit">Submit</button>
