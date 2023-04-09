@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import MyForm from "./MyForm";
 import { useQueries } from "react-query";
 import { useParams } from "react-router-dom";
+//switch to dynamic imports for fns
+import { dateFormatter } from "../../utilities/DateFormatter";
 import { getData } from "../../services/requests";
 const ChatRoom = () => {
   const [isConnected, setisConnected] = useState(socket.connected);
@@ -46,10 +48,6 @@ const ChatRoom = () => {
   const offType = () => {
     setIsTyping(false);
   };
-  const dateTimeFormat = new Intl.DateTimeFormat(undefined, {
-    dateStyle: "short",
-    timeStyle: "short",
-  });
   useEffect(() => {
     /*reverting back to use effect for the messages , 
     until I come up with a more elegant solution , I only want messages to be fetched once from the DB , 
@@ -94,7 +92,7 @@ const ChatRoom = () => {
             >
               {message.text}
               <span className="absolute bottom-1 right-2  text-xxs uppercase">
-                {dateTimeFormat.format(Date.parse(message.createdAt))}
+                {dateFormatter(message.createdAt)}
               </span>
             </li>
           );
