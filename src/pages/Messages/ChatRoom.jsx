@@ -56,8 +56,9 @@ const ChatRoom = () => {
     getData(`/api/v1/messages/${roomId}/messages`).then((data) =>
       setData(data.roomMessages)
     );
-    console.log(data);
+
     // console.log(events);
+
     onConnect();
     onEvent();
     socket.on("connect", onConnect);
@@ -103,10 +104,13 @@ const ChatRoom = () => {
               event?.sender === userQuery.data?.user?.userId
                 ? " justify-self-end  bg-blue-custom text-white"
                 : "justify-self-start  bg-white text-black"
-            }  rb relative h-fit w-fit  min-w-custom max-w-custom  rounded-md  px-2 py-3 text-sm shadow-sm md:text-base`}
+            }  rb relative h-fit w-fit  min-w-custom max-w-custom  rounded-md  px-2 py-5 text-sm shadow-sm md:text-base`}
             key={index}
           >
             {event?.message}
+            <span className="absolute bottom-1 right-2  text-xxs uppercase">
+              {event?.dateTimeFormat}
+            </span>
           </li>
         ))}
       </ul>
