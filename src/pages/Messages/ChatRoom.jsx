@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import MyForm from "./MyForm";
 import { useQueries } from "react-query";
 import { useParams } from "react-router-dom";
+//placeholder
+import avatar from "../../assets/default.png";
 //switch to dynamic imports for fns
 import { dateFormatter } from "../../utilities/DateFormatter";
 import { getData } from "../../services/requests";
@@ -56,6 +58,7 @@ const ChatRoom = () => {
     getData(`/api/v1/messages/${roomId}/messages`).then((data) =>
       setData(data.roomMessages)
     );
+    console.log(data);
 
     // console.log(events);
 
@@ -77,10 +80,22 @@ const ChatRoom = () => {
     };
   }, []);
   return (
-    <div className="rb relative my-10 mx-2 grid w-full md:mx-20">
-      <div>{isConnected && <p>...connected to socket</p>}</div>
-      {isTyping && <div>... typing</div>}
-      <ul className="grid w-full gap-2 px-4">
+    <div className="rb relative my-2 mx-2  flex h-screen w-full flex-col justify-between overflow-hidden md:my-0 md:mx-16">
+      <div className="rb ml-6 grid">
+        <div className="rb flex w-3/4  items-center gap-3 font-semibold lg:w-1/5">
+          <img src={avatar} alt="avatar" className="h-14 w-14 rounded-full" />
+          <div className=" grid ">
+            {data?.userNames}
+            {isTyping && (
+              <div className="m-0 text-sm font-semibold text-blue-custom">
+                ...typing
+              </div>
+            )}
+          </div>
+        </div>
+        <div>{isConnected && <p>...connected to socket</p>}</div>
+      </div>
+      <ul className="grid w-full gap-2 overflow-y-scroll px-4">
         {data.messages?.map((message, index) => {
           return (
             <li

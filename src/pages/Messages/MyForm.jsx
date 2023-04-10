@@ -41,17 +41,17 @@ const MyForm = ({ roomId, sender }) => {
     }, timer);
   };
   return (
-    <form onSubmit={onSubmit} className="fixed bottom-2 flex w-full gap-1">
+    <form onSubmit={onSubmit} className=" flex h-14 w-full gap-1 px-3 ">
       <textarea
         onChange={handleChange}
-        className=" max-h-16  w-10/12 resize-none  rounded-sm  border-2 border-solid border-grey-custom focus:outline-blue-custom  "
+        className="  max-h-14 w-full resize-none  rounded-sm  border-2 border-solid border-grey-custom focus:outline-blue-custom  "
         placeholder="enter yor message"
         value={message}
       />
 
       <button
         type="submit"
-        className="flex w-12 justify-center rounded-sm bg-blue-custom"
+        className="flex h-full w-12 justify-center rounded-sm bg-blue-custom"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

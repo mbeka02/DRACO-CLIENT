@@ -12,7 +12,6 @@ const Messages = () => {
 
   if (isLoading) return "Loading...";
   if (error) return "An error has occurred: ";
-  console.log(data.rooms);
 
   return (
     <div className="my-12 grid h-fit w-full   px-2 md:mx-20 md:grid-cols-custom_2 md:px-4">
