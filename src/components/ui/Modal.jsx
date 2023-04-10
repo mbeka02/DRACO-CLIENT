@@ -36,7 +36,7 @@ const Modal = ({ handleClose }) => {
         initial="hidden"
         animate="visible"
         exit="exit"
-        className="  m-auto grid h-3/4 w-4/5  rounded bg-white  p-4 lg:h-4/5  lg:w-3/4"
+        className="  m-auto grid h-3/4 w-4/5  rounded bg-white  p-4 lg:h-5/6  lg:w-3/4"
       >
         <button
           onClick={handleClose}
@@ -69,7 +69,6 @@ const Modal = ({ handleClose }) => {
               Sign-up
             </button>
           </div>
-          <h2 className="text-2xl">{formType ? "Sign-up" : "Login"}</h2>
 
           {formType ? <RegistrationForm /> : <LoginForm />}
         </div>

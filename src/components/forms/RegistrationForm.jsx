@@ -1,15 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-
+//test thoroughly
+import "react-phone-number-input/style.css";
+import PhoneInput from "react-phone-number-input";
 const RegistrationForm = () => {
+  const [phone, setPhone] = useState("");
   const [values, setValues] = useState({
     name: "",
     email: "",
     password: "",
+    phoneNumber: "",
     role: "",
   });
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+
   const [hidePassword, setHidePassword] = useState(false);
 
   const handleChange = (value) => {
@@ -17,6 +22,13 @@ const RegistrationForm = () => {
       return { ...prev, ...value };
     });
   };
+  //yes I know a pretty hacky solution but it'll do for now
+  useEffect(() => {
+    //console.log("Effect ran");
+    return setValues((prev) => {
+      return { ...prev, phoneNumber: phone };
+    });
+  }, [phone]);
 
   const onSub = async (e) => {
     e.preventDefault();
@@ -35,13 +47,13 @@ const RegistrationForm = () => {
         setMessage("");
       });
     setValues({ name: "", email: "", password: "", role: "" });
+    setPhone("");
   };
-
   return (
     <form onSubmit={onSub} className="grid gap-4 lg:gap-8">
       <div className="grid">
         <div className=" text-sm italic  text-hr-custom">
-          Fill in all the fields
+          Fill in all the required fields
         </div>
         <label className="font-semibold" htmlFor="Name">
           Name
@@ -106,6 +118,19 @@ const RegistrationForm = () => {
         </div>
       </div>
       <div className="grid">
+        <label className="font-semibold" htmlFor="phoneNumber">
+          phone number
+        </label>
+        <PhoneInput
+          placeholder="Enter phone number"
+          value={phone}
+          onChange={setPhone}
+          defaultCountry="KE"
+          className=" rounded border-2 border-solid border-grey-custom focus:outline-blue-custom"
+        />
+      </div>
+
+      <div className="grid">
         <label className="font-semibold" htmlFor="Role">
           role
           <span className="text-red-custom">*</span>
@@ -127,8 +152,8 @@ const RegistrationForm = () => {
       <button className=" absolute bottom-8 right-8 w-1/4 rounded-md  bg-blue-custom p-3 text-sm font-semibold  text-white    lg:bottom-2 lg:w-1/6 lg:p-2 lg:text-base">
         Sign-up
       </button>
-      {message && <p className="text-green-600">{message}</p>}
-      {error && <p className="text-red-600">{error}</p>}
+      {message && <p className="text-green-600">account created!</p>}
+      {error && <p className="text-red-600">error</p>}
     </form>
   );
 };
