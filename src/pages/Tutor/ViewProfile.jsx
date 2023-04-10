@@ -89,6 +89,24 @@ const ViewProfile = () => {
               </div>
             </div>
           </div>
+          <hr className=" my-4" />
+          <div className="grid  md:grid-cols-custom">
+            <span className="font-semibold">Courses:</span>
+            <div className=" grid p-2">
+              <div className="flex gap-2">
+                {data.tutor?.Courses.map((course, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className=" rounded bg-blue-200 px-4 py-2 font-bold text-blue-custom"
+                    >
+                      {course}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
         </div>
         <div className="flex h-fit w-full flex-col gap-1 rounded-sm bg-white  px-4 py-8 shadow ">
           <h3 className="text-2xl font-semibold">Reviews</h3>

@@ -36,6 +36,7 @@ const Modal = ({ handleClose, modalOpen }) => {
     from: 2023,
     to: 2023,
   });
+  const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const handleChange = (value) => {
@@ -44,7 +45,7 @@ const Modal = ({ handleClose, modalOpen }) => {
     });
   };
 
-  const mutateInfo = useMutation(
+  const educationMutation = useMutation(
     async (values) => {
       try {
         if (values.from > values.to) {
@@ -58,6 +59,7 @@ const Modal = ({ handleClose, modalOpen }) => {
           );
           setMessage(response.data.msg);
           setError("");
+          setValues({ school: "", degree: "", from: 2023, to: 2023 });
         }
       } catch (error) {
         console.log(error);
@@ -68,11 +70,40 @@ const Modal = ({ handleClose, modalOpen }) => {
     { onSuccess: () => queryClient.invalidateQueries("Profile") }
   );
 
+  const courseMutation = useMutation(
+    async (name) => {
+      try {
+        const response = await axios.post(
+          "http://localhost:3000/api/v1/tutors/addCourses",
+          {
+            name,
+          }
+        );
+
+        setName("");
+        setMessage(response.data.msg);
+        setError("");
+      } catch (error) {
+        console.log(error);
+
+        setError(error.response.data.msg);
+        setMessage("");
+      }
+    },
+    { onSuccess: () => queryClient.invalidateQueries("Profile") }
+  );
+  //for the values
   const handleSubmit = (e) => {
     e.preventDefault();
-    mutateInfo.mutate(values);
+    educationMutation.mutate(values);
   };
 
+  const handleCourseSubmit = (e) => {
+    e.preventDefault();
+    courseMutation.mutate(name);
+  };
+
+  //Populating years for the dropdown menus
   const offset = 50;
   const startYear = new Date().getFullYear();
   const options = [];
@@ -186,8 +217,35 @@ const Modal = ({ handleClose, modalOpen }) => {
               );
             case "Courses":
               return (
-                <form>
-                  <div></div>
+                <form
+                  className="grid  w-full gap-8 p-4"
+                  onSubmit={handleCourseSubmit}
+                >
+                  <span className=" text-sm italic  text-hr-custom">
+                    Input a maximum of five courses
+                  </span>
+                  <div className="grid">
+                    <label className="font-semibold" htmlFor="Course">
+                      Name
+                      <span className="text-red-custom">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="Course"
+                      placeholder="e.g calculus..."
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      className="rounded-sm border-2 border-solid border-grey-custom focus:outline-blue-custom "
+                    />
+                  </div>
+                  {message && <p className="text-green-600">{message}</p>}
+                  {error && <p className="text-red-600">{error}</p>}
+                  <button
+                    type="submit"
+                    className="m-3 h-fit w-1/3 justify-self-center rounded-md bg-blue-custom p-2 text-sm font-semibold text-white  md:mt-4  md:w-1/4 lg:w-1/6 lg:text-base"
+                  >
+                    Save
+                  </button>
                 </form>
               );
             default:

@@ -110,6 +110,18 @@ const Profile = () => {
                   +
                 </button>
               </div>
+              <div className="flex h-fit gap-2 px-2">
+                {data?.profile.Courses.map((course, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className=" rounded bg-blue-200 px-4 py-2 font-bold text-blue-custom"
+                    >
+                      {course}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
             <UploadForm />
           </div>

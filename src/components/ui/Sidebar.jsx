@@ -58,6 +58,7 @@ const Sidebar = ({ sidebarToggle }) => {
             Dashboard
           </span>
         </NavLink>
+
         <NavLink
           className="flex cursor-pointer items-center gap-3 hover:text-blue-custom"
           to="/main/tutors"

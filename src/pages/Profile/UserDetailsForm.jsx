@@ -44,6 +44,7 @@ const UserDetailsForm = ({ name, email, phoneNumber, City }) => {
           value={values.name}
           onChange={(e) => handleChange({ name: e.target.value })}
           className="rounded-sm border-2 border-solid border-grey-custom focus:outline-blue-custom "
+          disabled
         />
       </div>
 
