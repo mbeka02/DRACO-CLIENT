@@ -41,7 +41,7 @@ const MyForm = ({ roomId, sender }) => {
     }, timer);
   };
   return (
-    <form onSubmit={onSubmit} className="flex w-full">
+    <form onSubmit={onSubmit} className="fixed bottom-2 flex w-full gap-1">
       <textarea
         onChange={handleChange}
         className=" max-h-16  w-10/12 resize-none  rounded-sm  border-2 border-solid border-grey-custom focus:outline-blue-custom  "
@@ -49,7 +49,25 @@ const MyForm = ({ roomId, sender }) => {
         value={message}
       />
 
-      <button type="submit">Submit</button>
+      <button
+        type="submit"
+        className="flex w-12 justify-center rounded-sm bg-blue-custom"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="white"
+          className="h-full w-6"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
+          />
+        </svg>
+      </button>
     </form>
   );
 };
