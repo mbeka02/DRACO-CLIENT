@@ -4,7 +4,8 @@ import MyForm from "./MyForm";
 import { useQueries } from "react-query";
 import { useParams } from "react-router-dom";
 //placeholder
-import avatar from "../../assets/default.png";
+import defaultIcon from "../../assets/default.png";
+const origin = "http://localhost:3000";
 //switch to dynamic imports for fns
 import { dateFormatter } from "../../utilities/DateFormatter";
 import { getData } from "../../services/requests";
@@ -80,12 +81,27 @@ const ChatRoom = () => {
     };
   }, []);
   return (
-    <div className="rb relative my-2 mx-2  flex h-screen w-full flex-col justify-between overflow-hidden md:my-0 md:mx-16">
+    <div className="rb relative mx-2 my-2  flex h-screen w-full flex-col justify-between overflow-hidden md:mx-16 md:my-0">
       <div className="rb ml-6 grid">
         <div className="rb flex w-3/4  items-center gap-3 font-semibold lg:w-1/5">
-          <img src={avatar} alt="avatar" className="h-14 w-14 rounded-full" />
+          {
+            //refactor
+            data?.userIds?.map((user, index) => {
+              return (
+                <div key={index} className="flex items-center gap-2">
+                  <img
+                    src={
+                      user?.avatarUrl ? origin + user.avatarUrl : defaultIcon
+                    }
+                    alt="avatar"
+                    className="h-14 w-14 rounded-full"
+                  />
+                  <div className="grid">{user.name}</div>
+                </div>
+              );
+            })
+          }
           <div className=" grid ">
-            {data?.userNames}
             {isTyping && (
               <div className="m-0 text-sm font-semibold text-blue-custom">
                 ...typing
