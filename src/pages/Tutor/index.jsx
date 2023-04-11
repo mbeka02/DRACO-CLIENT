@@ -12,6 +12,7 @@ const Tutor = () => {
   const [value, setValue] = useState("");
   const [text, setText] = useState("");
   const [sort, setSort] = useState("");
+  const [showMore, setShowMore] = useState(false);
 
   const { data, isLoading, error } = useQuery(["Tutors", value, sort], () =>
     getData(`/api/v1/tutors?search=${value}&order=${sort}`)
@@ -34,10 +35,21 @@ const Tutor = () => {
     setSort(e.target.value);
   };
 
+  /*const genFn = (id) => {
+    console.log("clicked");
+    for (let i = 0; i < data?.tutors.length; ++i) {
+      if (data?.tutors[i]?.Description && data?.tutors[i]?._id === id) {
+        console.log(data?.tutors[i]?.Description?.substring(0, 100));
+      } else return data?.tutors[i]?.Description;
+    }
+  };*/
+
   return (
-    <div className="   mx-6 my-10 grid  h-fit w-full md:mx-20">
-      <div className="my-4 flex flex-col justify-between md:flex-row md:items-center">
-        <SearchBar handleChange={handleChange} handleSubmit={handleSubmit} />
+    <div className="   mx-6 my-10 grid h-fit  w-full md:mx-20 md:my-0">
+      <div className="rb my-4 flex flex-col  justify-between md:flex-row md:items-center">
+        <div className="grid">
+          <SearchBar handleChange={handleChange} handleSubmit={handleSubmit} />
+        </div>
         <div className="flex items-center gap-3">
           <span className="font-semibold ">sort:</span>
           <Sort handleSortChange={handleSortChange} />
@@ -94,7 +106,9 @@ const Tutor = () => {
                   >
                     {tutor.Headline}
                   </div>
-                  <div className="mt-1 ">{tutor.Description}</div>
+                  <div className="mt-1 ">
+                    {tutor.Description?.substring(0, 300)}...
+                  </div>
                   <div className="flex gap-2">
                     <span className="text-sm text-gray-500">Subjects:</span>
                     {tutor.Courses.map((course, index) => (
