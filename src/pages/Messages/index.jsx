@@ -3,7 +3,8 @@ import { getData } from "../../services/requests";
 import { Link } from "react-router-dom";
 import { dateFormatter } from "../../utilities/DateFormatter";
 //placeholder for now
-import avatar from "../../assets/default.png";
+import defaultIcon from "../../assets/default.png";
+const origin = "http://localhost:3000";
 
 const Messages = () => {
   const { data, isLoading, error } = useQuery("messages", () =>
@@ -23,17 +24,22 @@ const Messages = () => {
               to={`/main/messages/${room._id}`}
               className="rb relative flex h-fit items-center gap-2 py-2 "
             >
-              <span className="absolute top-1/4 right-4 text-xxs uppercase">
+              <span className="absolute right-4 top-1/4 text-xxs uppercase">
                 {dateFormatter(room.updatedAt)}
               </span>
               <img
-                src={avatar}
+                src={
+                  //don't want to map since there's only one index
+                  room.userIds[0]?.avatarUrl
+                    ? origin + room.userIds[0].avatarUrl
+                    : defaultIcon
+                }
                 alt="avatar"
                 className="h-10 w-10 rounded-full"
               />
               <div className="grid">
                 <div className=" font-semibold text-blue-custom">
-                  {room.userNames}
+                  {room.userIds[0].name}
                 </div>
                 <div className="flex">
                   {room.messages.map((message, index) => {

@@ -37,6 +37,10 @@ const MyDropzone = () => {
     }
   };
 
+  /* const handleRemove = (file) => {
+    setFiles((arr) => arr.filter((item) => item !== file));
+  };*/
+
   return (
     <div className="grid">
       <form
@@ -72,6 +76,12 @@ const MyDropzone = () => {
                   <span className="text-xs uppercase text-blue-custom">
                     {file.size / 100} KB
                   </span>
+                  {/* <div
+                    onClick={() => handleRemove(file)}
+                    className=" cursor-pointer  font-semibold hover:text-red-custom"
+                  >
+                    X
+              </div>*/}
                 </div>
               );
             })
