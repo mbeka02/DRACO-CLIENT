@@ -3,7 +3,7 @@ import { getData } from "../../services/requests";
 import { Link } from "react-router-dom";
 import { dateFormatter } from "../../utilities/DateFormatter";
 //placeholder for now
-import defaultIcon from "../../assets/default.png";
+
 const origin = "http://localhost:3000";
 
 const Messages = () => {
@@ -30,9 +30,7 @@ const Messages = () => {
               <img
                 src={
                   //don't want to map since there's only one index
-                  room.userIds[0]?.avatarUrl
-                    ? origin + room.userIds[0].avatarUrl
-                    : defaultIcon
+                  origin + room.userIds[0].avatarUrl
                 }
                 alt="avatar"
                 className="h-10 w-10 rounded-full"

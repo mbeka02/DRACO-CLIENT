@@ -1,7 +1,6 @@
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { getData } from "../../services/requests";
-import defaultIcon from "../../assets/default.png";
 
 const ViewProfile = () => {
   const { tutorId } = useParams();
@@ -14,7 +13,6 @@ const ViewProfile = () => {
   if (error) return "An error has occurred: " + error.message;
 
   const avatar = "http://localhost:3000" + data.tutor?.avatarUrl;
-  const profileImage = data.tutor?.avatarUrl ? avatar : defaultIcon;
 
   const dateFormatter = new Intl.DateTimeFormat(undefined, {
     dateStyle: "short",
@@ -22,13 +20,13 @@ const ViewProfile = () => {
   });
 
   return (
-    <div className="   my-10 mx-6 grid h-fit w-full  justify-items-center md:mx-20">
+    <div className="   mx-6 my-10 grid h-fit w-full  justify-items-center md:mx-20">
       <div className=" grid w-full gap-12 md:w-10/12">
         <div className="flex h-fit w-full flex-col gap-1 rounded-sm bg-white  p-2 py-6 shadow">
           <div className="flex  items-center  gap-5">
             <img
               alt="avatar"
-              src={profileImage}
+              src={avatar}
               className="h-20 w-20 rounded-full"
               //onError
             />

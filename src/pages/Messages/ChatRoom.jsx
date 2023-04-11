@@ -4,7 +4,7 @@ import MyForm from "./MyForm";
 import { useQueries } from "react-query";
 import { useParams } from "react-router-dom";
 //placeholder
-import defaultIcon from "../../assets/default.png";
+
 const origin = "http://localhost:3000";
 //switch to dynamic imports for fns
 import { dateFormatter } from "../../utilities/DateFormatter";
@@ -90,9 +90,7 @@ const ChatRoom = () => {
               return (
                 <div key={index} className="flex items-center gap-2">
                   <img
-                    src={
-                      user?.avatarUrl ? origin + user.avatarUrl : defaultIcon
-                    }
+                    src={origin + user.avatarUrl}
                     alt="avatar"
                     className="h-14 w-14 rounded-full"
                   />

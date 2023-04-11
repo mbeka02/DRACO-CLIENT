@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
 import { getData } from "../../services/requests";
-import defaultIcon from "../../assets/default.png";
+
 import { Link } from "react-router-dom";
 
 import { useState } from "react";
@@ -22,7 +22,7 @@ const Tutor = () => {
     setValue(encodeURIComponent(text));
   };
   return (
-    <div className="   my-10 mx-6 grid  h-fit w-full md:mx-20">
+    <div className="   mx-6 my-10 grid  h-fit w-full md:mx-20">
       <form onSubmit={handleSubmit} className=" relative my-4 flex h-8 w-56">
         <input
           onChange={(e) => setText(e.target.value)}
@@ -55,9 +55,7 @@ const Tutor = () => {
               <div className="flex h-fit items-start justify-between gap-3 md:flex-col ">
                 <img
                   alt="avatar"
-                  src={
-                    tutor?.avatarUrl ? origin + tutor.avatarUrl : defaultIcon
-                  }
+                  src={origin + tutor.avatarUrl}
                   className="h-20 w-20 rounded-full"
                   //onError
                 />

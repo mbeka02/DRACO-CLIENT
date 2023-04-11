@@ -1,6 +1,5 @@
 import { useQuery } from "react-query";
 import { getData } from "../../services/requests";
-import defaultIcon from "../../assets/default.png";
 
 import { AnimatePresence } from "framer-motion";
 
@@ -24,7 +23,6 @@ const Profile = () => {
   if (error) return "An error has occurred: " + error.message;
 
   const avatar = "http://localhost:3000" + data.profile?.avatarUrl;
-  const profileImage = data.profile?.avatarUrl ? avatar : defaultIcon;
 
   const handleClose = () => {
     setModalOpen("closed");
@@ -37,7 +35,7 @@ const Profile = () => {
           <div className="relative top-1/2 z-10   block w-fit place-self-center">
             <img
               alt="avatar"
-              src={profileImage}
+              src={avatar}
               className=" h-40 w-40 rounded-full border-8 border-solid border-white "
               //onError
             />

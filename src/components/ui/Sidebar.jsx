@@ -4,7 +4,6 @@ axios.defaults.withCredentials = true;
 import { useQuery } from "react-query";
 
 import { useNavigate, NavLink } from "react-router-dom";
-import defaultIcon from "../../assets/default.png";
 
 const Sidebar = ({ sidebarToggle }) => {
   const navigate = useNavigate();
@@ -21,7 +20,6 @@ const Sidebar = ({ sidebarToggle }) => {
   };
 
   const avatar = "http://localhost:3000" + data?.avatar?.avatarUrl;
-  const profileImage = data?.avatar?.avatarUrl ? avatar : defaultIcon;
 
   return (
     <div
@@ -181,7 +179,7 @@ const Sidebar = ({ sidebarToggle }) => {
       >
         <img
           alt="avatar"
-          src={profileImage}
+          src={avatar}
           className="h-8 w-8 cursor-pointer rounded-full"
           //onError
         />
