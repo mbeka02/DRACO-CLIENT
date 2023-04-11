@@ -27,7 +27,7 @@ const ViewProfile = () => {
             <img
               alt="avatar"
               src={avatar}
-              className="h-20 w-20 rounded-full"
+              className="h-24 w-24 rounded-full"
               //onError
             />
             <div>
@@ -41,7 +41,7 @@ const ViewProfile = () => {
           <p className=" text-sm text-gray-500">{data.tutor?.Headline}</p>
         </div>
 
-        <div className="flex w-full flex-col gap-1 rounded-sm bg-white  p-2 py-6 shadow">
+        <div className="flex w-full flex-col gap-1 rounded-sm bg-white  px-4 py-6 shadow">
           <h3 className="text-2xl font-semibold">Tutor Information</h3>
           <hr className=" my-4" />
           <div className="grid  md:grid-cols-custom">

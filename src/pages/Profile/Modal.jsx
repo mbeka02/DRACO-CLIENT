@@ -76,7 +76,7 @@ const Modal = ({ handleClose, modalOpen }) => {
         const response = await axios.post(
           "http://localhost:3000/api/v1/tutors/addCourses",
           {
-            name,
+            name: name.toLowerCase(),
           }
         );
 
