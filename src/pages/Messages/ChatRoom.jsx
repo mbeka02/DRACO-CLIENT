@@ -22,11 +22,9 @@ const ChatRoom = () => {
 
   //bugged
   // if (userQuery.isLoading) return "...loading";
-  //if (roomQuery.isLoading) return "...loading";
+  //if (isLoading) return "...loading";
 
   if (error) return "An error has occurred ";
-
-  console.log("rendered");
 
   const onConnect = () => {
     setisConnected(true);
@@ -58,8 +56,8 @@ const ChatRoom = () => {
 
     // console.log(events);
 
-    onConnect();
-    onEvent();
+    //  onConnect();
+    // onEvent();
     socket.on("connect", onConnect);
     socket.emit("join", roomId);
     socket.on("onMessage", onEvent);
@@ -76,10 +74,6 @@ const ChatRoom = () => {
     };
   }, []);
 
-  useEffect(() => {
-    console.log(events);
-    console.log("Effect ran");
-  }, [events]);
   return (
     <div className="rb relative mx-2 my-2  flex h-screen w-full flex-col justify-between overflow-hidden md:mx-16 md:my-0">
       <div className="rb ml-6 grid bg-blue-custom md:m-0">
