@@ -35,6 +35,8 @@ const ChatRoom = () => {
   if (userQuery.error) return "An error has occurred ";
   if (roomQuery.error) return "An error has occurred";
 
+  console.log("rendered");
+
   const onConnect = () => {
     setisConnected(true);
   };
@@ -43,7 +45,10 @@ const ChatRoom = () => {
   };
 
   const onEvent = (val) => {
-    setEvents((prev) => [...prev, val]);
+    //prevents undefined from being pushed into events
+    if (val) {
+      setEvents((prev) => [...prev, val]);
+    }
   };
   const onType = () => {
     setIsTyping(true);
@@ -59,7 +64,6 @@ const ChatRoom = () => {
     getData(`/api/v1/messages/${roomId}/messages`).then((data) =>
       setData(data.roomMessages)
     );
-    console.log(data);
 
     // console.log(events);
 
@@ -80,9 +84,14 @@ const ChatRoom = () => {
       socket.off("...stopped", offType);
     };
   }, []);
+
+  useEffect(() => {
+    console.log(events);
+    console.log("Effect ran");
+  }, [events]);
   return (
     <div className="rb relative mx-2 my-2  flex h-screen w-full flex-col justify-between overflow-hidden md:mx-16 md:my-0">
-      <div className="rb ml-6 grid">
+      <div className="rb ml-6 grid md:m-0">
         <div className="rb flex w-3/4  items-center gap-3 font-semibold lg:w-1/5">
           {
             //refactor

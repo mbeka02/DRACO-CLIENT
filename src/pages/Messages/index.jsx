@@ -3,6 +3,7 @@ import { getData } from "../../services/requests";
 import { Link } from "react-router-dom";
 import { dateFormatter } from "../../utilities/DateFormatter";
 //placeholder for now
+//import { Outlet } from "react-router-dom";
 
 const origin = "http://localhost:3000";
 
