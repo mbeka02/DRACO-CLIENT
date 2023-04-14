@@ -1,7 +1,7 @@
 import { socket } from "./socket";
 import { useState, useEffect } from "react";
 import MyForm from "./MyForm";
-import { useQueries } from "react-query";
+import { useQueries, useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 //placeholder
 
@@ -13,27 +13,18 @@ const ChatRoom = () => {
   const [isConnected, setisConnected] = useState(socket.connected);
   const [events, setEvents] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
-  const [data, setData] = useState([]);
+  const [savedMessages, setSavedMessages] = useState([]);
 
   const { roomId } = useParams();
-  const [userQuery, roomQuery] = useQueries([
-    {
-      queryKey: ["user"],
-      queryFn: () => getData("/api/v1/user/showUser"),
-    },
-    {
-      queryKey: ["room", roomId],
-      queryFn: () => getData(`/api/v1/messages/${roomId}/messages`),
-      enabled: false,
-    },
-  ]);
+  const { data, isLoading, error } = useQuery(["user"], () =>
+    getData("/api/v1/user/showUser")
+  );
 
   //bugged
   // if (userQuery.isLoading) return "...loading";
   //if (roomQuery.isLoading) return "...loading";
 
-  if (userQuery.error) return "An error has occurred ";
-  if (roomQuery.error) return "An error has occurred";
+  if (error) return "An error has occurred ";
 
   console.log("rendered");
 
@@ -45,7 +36,7 @@ const ChatRoom = () => {
   };
 
   const onEvent = (val) => {
-    //prevents undefined from being pushed into events
+    //prevents undefined from being pushed into events on initial page renders
     if (val) {
       setEvents((prev) => [...prev, val]);
     }
@@ -62,7 +53,7 @@ const ChatRoom = () => {
     tanstack query keeps on refetching my data causing the same message to appear twice
     (from the DB and also from the events array)*/
     getData(`/api/v1/messages/${roomId}/messages`).then((data) =>
-      setData(data.roomMessages)
+      setSavedMessages(data.roomMessages)
     );
 
     // console.log(events);
@@ -91,19 +82,19 @@ const ChatRoom = () => {
   }, [events]);
   return (
     <div className="rb relative mx-2 my-2  flex h-screen w-full flex-col justify-between overflow-hidden md:mx-16 md:my-0">
-      <div className="rb ml-6 grid md:m-0">
+      <div className="rb ml-6 grid bg-blue-custom md:m-0">
         <div className="rb flex w-3/4  items-center gap-3 font-semibold lg:w-1/5">
           {
             //refactor
-            data?.userIds?.map((user, index) => {
+            savedMessages?.userIds?.map((user, index) => {
               return (
-                <div key={index} className="flex items-center gap-2">
+                <div key={index} className="flex items-center gap-2 text-white">
                   <img
                     src={origin + user.avatarUrl}
                     alt="avatar"
-                    className="h-14 w-14 rounded-full"
+                    className="h-16 w-16 rounded-full"
                   />
-                  <div className="grid">{user.name}</div>
+                  <div className="grid font-medium">{user.name}</div>
                 </div>
               );
             })
@@ -119,12 +110,12 @@ const ChatRoom = () => {
         <div>{isConnected && <p>...connected to socket</p>}</div>
       </div>
       <ul className="grid w-full gap-2 overflow-y-scroll px-4">
-        {data.messages?.map((message, index) => {
+        {savedMessages.messages?.map((message, index) => {
           return (
             <li
               key={index}
               className={`${
-                message.sender === userQuery.data?.user?.userId
+                message.sender === data?.user?.userId
                   ? " justify-self-end bg-blue-custom text-white"
                   : "justify-self-start bg-white text-black"
               }   rb relative h-fit w-fit  min-w-custom max-w-custom rounded-md px-2 py-5 text-sm shadow-sm md:text-base`}
@@ -139,7 +130,7 @@ const ChatRoom = () => {
         {events.map((event, index) => (
           <li
             className={`${
-              event?.sender === userQuery.data?.user?.userId
+              event?.sender === data?.user?.userId
                 ? " justify-self-end  bg-blue-custom text-white"
                 : "justify-self-start  bg-white text-black"
             }  rb relative h-fit w-fit  min-w-custom max-w-custom  rounded-md  px-2 py-5 text-sm shadow-sm md:text-base`}
@@ -152,7 +143,7 @@ const ChatRoom = () => {
           </li>
         ))}
       </ul>
-      <MyForm roomId={roomId} sender={userQuery.data?.user?.userId} />
+      <MyForm roomId={roomId} sender={data?.user?.userId} />
     </div>
   );
 };
