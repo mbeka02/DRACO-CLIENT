@@ -31,14 +31,14 @@ const Messages = () => {
               <img
                 src={
                   //don't want to map since there's only one index
-                  origin + room.userIds[0].avatarUrl
+                  origin + room?.userIds[0]?.avatarUrl
                 }
                 alt="avatar"
                 className="h-10 w-10 rounded-full"
               />
               <div className="grid">
                 <div className=" font-semibold text-blue-custom">
-                  {room.userIds[0].name}
+                  {room?.userIds[0]?.name}
                 </div>
                 <div className="flex">
                   {room.messages.map((message, index) => {
