@@ -1,9 +1,12 @@
 import { useQuery } from "react-query";
-import { useParams } from "react-router-dom";
+import { useParams, redirect, useNavigate } from "react-router-dom";
 import { getData } from "../../services/requests";
+import axios from "axios";
+axios.defaults.withCredentials = true;
 
 const ViewProfile = () => {
   const { tutorId } = useParams();
+  const navigate = useNavigate();
   const { data, isLoading, error } = useQuery(["tutorProfile", tutorId], () =>
     getData(`/api/v1/tutors/${tutorId}`)
   );
@@ -18,6 +21,18 @@ const ViewProfile = () => {
     dateStyle: "short",
     timeStyle: "short",
   });
+
+  const handleChatCreation = async () => {
+    try {
+      const response = await axios.post(
+        `http://localhost:3000/api/v1/rooms/${tutorId}`
+      );
+      // console.log(response.data.room);
+      navigate(`/main/messages/${response.data.room._id}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="   mx-6 my-10 grid h-fit w-full  justify-items-center md:mx-20">
@@ -39,6 +54,12 @@ const ViewProfile = () => {
             </div>
           </div>
           <p className=" text-sm text-gray-500">{data.tutor?.Headline}</p>
+          <button
+            className=" m-3 h-fit self-end rounded-md  bg-blue-custom p-2 text-center text-sm font-semibold text-white md:m-0 lg:text-base"
+            onClick={handleChatCreation}
+          >
+            Send a message
+          </button>
         </div>
 
         <div className="flex w-full flex-col gap-1 rounded-sm bg-white  px-4 py-6 shadow">

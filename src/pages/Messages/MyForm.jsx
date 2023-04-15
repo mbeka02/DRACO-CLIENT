@@ -8,7 +8,7 @@ const MyForm = ({ roomId, sender }) => {
 
   const onSubmit = async (event) => {
     event.preventDefault();
-
+    //account for null value
     socket.emit("emitMessage", { message, roomId, sender } /*, () => {}*/);
     try {
       await axios.post(
@@ -41,17 +41,20 @@ const MyForm = ({ roomId, sender }) => {
     }, timer);
   };
   return (
-    <form onSubmit={onSubmit} className=" flex h-14 w-full gap-1 px-3 ">
+    <form
+      onSubmit={onSubmit}
+      className=" flex h-12 w-full items-center gap-1 px-3 "
+    >
       <textarea
         onChange={handleChange}
-        className="  max-h-14 w-full resize-none  rounded-sm  border-2 border-solid border-grey-custom focus:outline-blue-custom  "
+        className="  max-h-12 w-full resize-none  rounded-sm  border-2 border-solid border-grey-custom focus:outline-blue-custom  "
         placeholder="enter yor message"
         value={message}
       />
 
       <button
         type="submit"
-        className="flex h-full w-12 justify-center rounded-sm bg-blue-custom"
+        className=" flex h-full w-12 justify-center rounded-sm bg-blue-custom"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

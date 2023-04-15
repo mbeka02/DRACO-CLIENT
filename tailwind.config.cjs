@@ -8,7 +8,7 @@ module.exports = {
         inter: ["Inter", "sans-serif"],
       },
       fontSize: {
-        xxs: "0.6rem",
+        xxs: "0.55rem",
       },
       colors: {
         "light-secondary": "#fdfff5",
@@ -33,6 +33,9 @@ module.exports = {
       },
       minWidth: {
         custom: "8rem",
+      },
+      height: {
+        msgbox: "13%",
       },
     },
   },

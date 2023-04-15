@@ -1,7 +1,7 @@
 import { socket } from "./socket";
 import { useState, useEffect } from "react";
 import MyForm from "./MyForm";
-import { useQueries, useQuery } from "react-query";
+import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 //placeholder
 
@@ -75,14 +75,14 @@ const ChatRoom = () => {
   }, []);
 
   return (
-    <div className="rb relative mx-2 my-2  flex h-screen w-full flex-col justify-between overflow-hidden md:mx-16 md:my-0">
-      <div className="rb ml-6 grid bg-blue-custom md:m-0">
-        <div className="rb flex w-3/4  items-center gap-3 font-semibold lg:w-1/5">
+    <div className=" relative mx-2 my-2 flex  h-screen w-full flex-col justify-between overflow-hidden  md:mx-0 md:my-0 md:ml-14 ">
+      <div className="  grid bg-white p-2 shadow ">
+        <div className="  flex  w-3/4 items-center gap-3 justify-self-end font-semibold md:justify-self-start lg:w-1/5">
           {
             //refactor
             savedMessages?.userIds?.map((user, index) => {
               return (
-                <div key={index} className="flex items-center gap-2 text-white">
+                <div key={index} className="flex items-center gap-2 ">
                   <img
                     src={origin + user.avatarUrl}
                     alt="avatar"
@@ -101,9 +101,8 @@ const ChatRoom = () => {
             )}
           </div>
         </div>
-        <div>{isConnected && <p>...connected to socket</p>}</div>
       </div>
-      <ul className="grid w-full gap-2 overflow-y-scroll px-4">
+      <ul className="grid w-full gap-2 overflow-y-auto px-4">
         {savedMessages.messages?.map((message, index) => {
           return (
             <li
@@ -112,10 +111,10 @@ const ChatRoom = () => {
                 message.sender === data?.user?.userId
                   ? " justify-self-end bg-blue-custom text-white"
                   : "justify-self-start bg-white text-black"
-              }   rb relative h-fit w-fit  min-w-custom max-w-custom rounded-md px-2 py-5 text-sm shadow-sm md:text-base`}
+              }  grid h-fit w-fit  min-w-custom max-w-custom rounded-md px-2 py-1 text-sm shadow md:text-base`}
             >
               {message.text}
-              <span className="absolute bottom-1 right-2  text-xxs uppercase">
+              <span className="justify-self-end  text-xxs uppercase">
                 {dateFormatter(message.createdAt)}
               </span>
             </li>
@@ -127,17 +126,19 @@ const ChatRoom = () => {
               event?.sender === data?.user?.userId
                 ? " justify-self-end  bg-blue-custom text-white"
                 : "justify-self-start  bg-white text-black"
-            }  rb relative h-fit w-fit  min-w-custom max-w-custom  rounded-md  px-2 py-5 text-sm shadow-sm md:text-base`}
+            }  grid h-fit w-fit  min-w-custom max-w-custom  rounded-md  px-2 py-1 text-sm shadow md:text-base`}
             key={index}
           >
             {event?.message}
-            <span className="absolute bottom-1 right-2  text-xxs uppercase">
+            <span className=" justify-self-end text-xxs uppercase">
               {event?.dateTimeFormat}
             </span>
           </li>
         ))}
       </ul>
-      <MyForm roomId={roomId} sender={data?.user?.userId} />
+      <div className=" flex h-msgbox items-center bg-white">
+        <MyForm roomId={roomId} sender={data?.user?.userId} />
+      </div>
     </div>
   );
 };
