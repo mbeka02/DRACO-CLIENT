@@ -22,7 +22,7 @@ const ChatRoom = () => {
 
   //bugged
   // if (userQuery.isLoading) return "...loading";
-  //if (isLoading) return "...loading";
+  //if (isLoading) console.log("...loading");
 
   if (error) return "An error has occurred ";
 
