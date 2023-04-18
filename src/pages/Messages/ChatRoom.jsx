@@ -1,4 +1,4 @@
-import { socket } from "./socket";
+import { socket } from "../../utilities/socket";
 import { useState, useEffect } from "react";
 import MyForm from "./MyForm";
 import { useQuery } from "react-query";

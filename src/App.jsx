@@ -2,27 +2,24 @@ import { lazy, Suspense } from "react";
 import Loader from "./components/ui/Loader";
 import { Route, Routes } from "react-router-dom";
 
-//import Home from "./pages/Home";
 const Home = lazy(() => import("./pages/Home"));
 import Placeholder from "./pages/Placeholder";
-//const Placeholder = lazy(() => import("./pages/Placeholder"));
 
-//import Tutor from "./pages/Tutor";
 const Tutor = lazy(() => import("./pages/Tutor"));
-//import ViewProfile from "./pages/Tutor/ViewProfile";
+
 const ViewProfile = lazy(() => import("./pages/Tutor/ViewProfile"));
 
 import PageLayout from "./pages/PageLayout";
-//const PageLayout = lazy(() => import("./pages//PageLayout"));
-//import Profile from "./pages/Profile";
+
 const Profile = lazy(() => import("./pages/Profile"));
-//import Confiramtion from "./pages/Confirmation";
+
 const Confiramtion = lazy(() => import("./pages/Confirmation"));
 
-//import Messages from "./pages/Messages";
 const Messages = lazy(() => import("./pages/Messages"));
-//import ChatRoom from "./pages/Messages/ChatRoom";
+
 const ChatRoom = lazy(() => import("./pages/Messages/ChatRoom"));
+
+const Sessions = lazy(() => import("./pages/Sessions"));
 
 import "./App.css";
 
@@ -56,6 +53,14 @@ function App() {
             element={
               <Suspense fallback={<Loader />}>
                 <Messages />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/main/sessions"
+            element={
+              <Suspense>
+                <Sessions />
               </Suspense>
             }
           />
