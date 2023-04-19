@@ -21,6 +21,8 @@ const ChatRoom = lazy(() => import("./pages/Messages/ChatRoom"));
 
 const Sessions = lazy(() => import("./pages/Sessions"));
 
+const VideoRoom = lazy(() => import("./pages/Sessions/VideoRoom"));
+
 import "./App.css";
 
 function App() {
@@ -78,6 +80,14 @@ function App() {
             element={
               <Suspense fallback={<Loader />}>
                 <ChatRoom />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/main/sessions/:sessions/:sessionId"
+            element={
+              <Suspense>
+                <VideoRoom />
               </Suspense>
             }
           />
