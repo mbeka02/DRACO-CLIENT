@@ -84,7 +84,7 @@ function App() {
             }
           />
           <Route
-            path="/main/sessions/:sessions/:sessionId"
+            path="/main/sessions/:sessionId"
             element={
               <Suspense>
                 <VideoRoom />

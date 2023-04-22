@@ -2,6 +2,7 @@ import Backdrop from "../../components/ui/Backdrop";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import axios from "axios";
+import { useMutation, useQueryClient } from "react-query";
 axios.defaults.withCredentials = true;
 const dropIn = {
   hidden: {
@@ -25,6 +26,7 @@ const dropIn = {
 };
 
 const Modal = ({ handleClose }) => {
+  const queryClient = useQueryClient();
   const [values, setValues] = useState({
     duration: "",
     subject: "",
@@ -38,8 +40,22 @@ const Modal = ({ handleClose }) => {
     });
   };
 
+  const sessionsMutation = useMutation(
+    async (values) => {
+      try {
+        await axios.post("http://localhost:3000/api/v1/sessions", {
+          ...values,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    { onSuccess: () => queryClient.invalidateQueries("sessions") }
+  );
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    sessionsMutation.mutate(values);
   };
 
   return (
@@ -109,6 +125,12 @@ const Modal = ({ handleClose }) => {
               className="rounded-sm border-2 border-solid border-grey-custom focus:outline-blue-custom "
             />
           </div>
+          <button
+            type="submit"
+            className="m-3 h-fit w-1/3 justify-self-center rounded-md bg-blue-custom p-2 text-sm font-semibold text-white  md:mt-4  md:w-1/4 lg:w-1/6 lg:text-base"
+          >
+            Create
+          </button>
         </form>
       </motion.div>
     </Backdrop>
