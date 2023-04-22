@@ -133,6 +133,30 @@ const Sidebar = ({ sidebarToggle }) => {
         </NavLink>
         <NavLink
           className="flex cursor-pointer items-center gap-3 hover:text-blue-custom"
+          to="/main/sessions"
+          style={({ isActive }) => {
+            return {
+              color: isActive ? "#0077FF" : "",
+            };
+          }}
+        >
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M7.84615 5.53845C2.30769 5.53845 0 6.28891 0 6.89445V17.0769C0 17.6686 2.30769 18.4615 7.84615 18.4615C13.3846 18.4615 15.6923 17.7111 15.6923 17.1055V6.92307C15.6923 6.33138 13.3846 5.53845 7.84615 5.53845ZM23.4231 5.56707C23.2679 5.57325 23.1178 5.62352 22.9902 5.71199L16.9902 9.57691C16.7594 9.75045 16.6154 10.0366 16.6154 10.3274V13.6726C16.6154 13.9634 16.7594 14.2486 16.9902 14.4231L22.9902 18.2889C23.1526 18.4117 23.9428 18.7966 23.9428 17.5385V6.46153C23.9428 5.73507 23.6926 5.55599 23.4231 5.56707Z"
+              fill="currentColor"
+            />
+          </svg>
+
+          <span style={{ display: sidebarToggle ? "" : "none" }}>Sessions</span>
+        </NavLink>
+        <NavLink
+          className="flex cursor-pointer items-center gap-3 hover:text-blue-custom"
           to="/main/settings"
           style={({ isActive }) => {
             return {

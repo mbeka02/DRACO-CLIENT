@@ -1,27 +1,18 @@
 import { lazy, Suspense } from "react";
 import Loader from "./components/ui/Loader";
 import { Route, Routes } from "react-router-dom";
-
 const Home = lazy(() => import("./pages/Home"));
 import Placeholder from "./pages/Placeholder";
-
 const Tutor = lazy(() => import("./pages/Tutor"));
-
 const ViewProfile = lazy(() => import("./pages/Tutor/ViewProfile"));
-
 import PageLayout from "./pages/PageLayout";
-
 const Profile = lazy(() => import("./pages/Profile"));
-
 const Confiramtion = lazy(() => import("./pages/Confirmation"));
-
 const Messages = lazy(() => import("./pages/Messages"));
-
 const ChatRoom = lazy(() => import("./pages/Messages/ChatRoom"));
-
 const Sessions = lazy(() => import("./pages/Sessions"));
-
 const VideoRoom = lazy(() => import("./pages/Sessions/VideoRoom"));
+const Payments = lazy(() => import("./pages/Payments"));
 
 import "./App.css";
 
@@ -63,6 +54,15 @@ function App() {
             element={
               <Suspense>
                 <Sessions />
+              </Suspense>
+            }
+          />
+
+          <Route
+            path="/main/payments"
+            element={
+              <Suspense>
+                <Payments />
               </Suspense>
             }
           />
