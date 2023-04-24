@@ -1,11 +1,11 @@
-const SearchBar = ({ handleChange, handleSubmit }) => {
+const SearchBar = ({ handleChange, handleSubmit, placeholder }) => {
   //console.log(encodeURIComponent("C++"));
   return (
     <form onSubmit={handleSubmit} className=" my-4 flex h-9 w-80 gap-2 ">
       <input
         onChange={handleChange}
         className=" h-full w-full  rounded-md border-2 border-solid border-grey-custom px-2 focus:outline-blue-custom "
-        placeholder="search by subject"
+        placeholder={placeholder}
       />
 
       <button

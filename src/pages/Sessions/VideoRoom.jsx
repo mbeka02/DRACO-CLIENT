@@ -31,7 +31,6 @@ const VideoRoom = () => {
       .getTracks()
       .find((track) => track.kind === "video");
     tracks.enabled ? (tracks.enabled = false) : (tracks.enabled = true);
-    //console.log(tracks);
   };
 
   const toggleMic = () => {
@@ -39,7 +38,6 @@ const VideoRoom = () => {
       .getTracks()
       .find((track) => track.kind === "audio");
     tracks.enabled ? (tracks.enabled = false) : (tracks.enabled = true);
-    // console.log(tracks);
   };
 
   const peerCall = () => {
@@ -160,8 +158,11 @@ const VideoRoom = () => {
                 />
                 <div className="grid font-medium">{user.name}</div>
               </div>
-              <div className="flex ">
-                <button onClick={peerCall} className=" bg-blue-custom">
+              <div className="grid ">
+                <button
+                  onClick={peerCall}
+                  className=" bg-blue-custom p-2 text-white"
+                >
                   call
                 </button>
                 {receivingCall && (
@@ -186,12 +187,29 @@ const VideoRoom = () => {
           </div>
         )}
 
-        <video
-          autoPlay
-          playsInline
-          ref={callerVideo}
-          className="callerVideo rb   w-full"
-        />
+        {callAccepted ? (
+          <video
+            autoPlay
+            playsInline
+            ref={callerVideo}
+            className="callerVideo rb   w-full object-fill"
+          />
+        ) : (
+          <div className="grid w-full items-center justify-center">
+            {data?.session?.userIds?.map((user, index) => {
+              return (
+                <div className="grid" key={index}>
+                  <img
+                    src={origin + user.avatarUrl}
+                    alt="avatar"
+                    className="h-16 w-16 rounded-full"
+                  />
+                  <h3> waiting for {user.name} to join the call</h3>
+                </div>
+              );
+            })}
+          </div>
+        )}
         <div className="  absolute  inset-x-0  bottom-4   flex   justify-center  bg-transparent">
           <div className="flex items-center  gap-2  ">
             <button

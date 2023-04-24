@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 import { useState } from "react";
 
-import SearchBar from "./SearchBar";
+import SearchBar from "../../components/ui/SearchBar";
 import Sort from "./Sort";
 
 const Tutor = () => {
@@ -48,7 +48,11 @@ const Tutor = () => {
     <div className="   mx-6 my-10 grid h-fit  w-full md:mx-20 md:my-0">
       <div className="rb my-4 flex flex-col  justify-between md:flex-row md:items-center">
         <div className="grid">
-          <SearchBar handleChange={handleChange} handleSubmit={handleSubmit} />
+          <SearchBar
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+            placeholder={"search by subject"}
+          />
         </div>
         <div className="flex items-center gap-3">
           <span className="font-semibold ">sort:</span>
