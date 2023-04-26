@@ -2,20 +2,21 @@ import global from "global";
 import { useState, useEffect, useRef } from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
-import * as process from "process";
-global.process = process;
+
 import { socket } from "../../utilities/socket";
-import Peer from "simple-peer";
+
 import { getData } from "../../services/requests";
 
 const VideoRoom = () => {
   const { sessionId } = useParams();
-  const [mediaStream, setMediaStream] = useState("");
+  const mediaStream = useRef();
   const [callAccepted, setCallAccepted] = useState(false);
   const [receivingCall, setReceivingCall] = useState(false);
   const [callerSignal, setCallerSignal] = useState("");
   const myVideo = useRef();
-  const callerVideo = useRef();
+  const peerRef = useRef();
+  const otherVideo = useRef();
+  const senders = useRef([]);
   const connectionRef = useRef();
   const origin = "http://localhost:3000";
 
@@ -27,102 +28,17 @@ const VideoRoom = () => {
   //if (error) return "error";
 
   const toggleVideo = () => {
-    const tracks = mediaStream
+    const tracks = mediaStream.current
       .getTracks()
       .find((track) => track.kind === "video");
     tracks.enabled ? (tracks.enabled = false) : (tracks.enabled = true);
   };
 
   const toggleMic = () => {
-    const tracks = mediaStream
+    const tracks = mediaStream.current
       .getTracks()
       .find((track) => track.kind === "audio");
     tracks.enabled ? (tracks.enabled = false) : (tracks.enabled = true);
-  };
-
-  const peerCall = () => {
-    const peer = new Peer({
-      //? not sure on this
-      trickle: false,
-      stream: mediaStream,
-      //initiator of the call
-      initiator: true,
-      //fix turn servers config
-      config: {
-        iceServers: [
-          {
-            // url: "stun:global.stun.twilio.com:3478",
-            urls: "stun:global.stun.twilio.com:3478",
-          },
-          {
-            //url: "turn:global.turn.twilio.com:3478?transport=udp",
-            username:
-              "d311cbe1d1e082c7fc0df8c8be4f51520abb3dd66032b69a079ed58c70a241d5",
-            urls: "turn:global.turn.twilio.com:3478?transport=udp",
-            credential: "0t2kZmkrPpNef7a7PV8Qa/Y99neuxCPtEGdNGDHYVGE=",
-          },
-        ],
-      },
-    });
-    //signal
-    //need to establish a handshake between the peers (peer x has to know the capabilities of peer y)
-    peer.on("signal", (data) => {
-      socket.emit("incomingCall", {
-        signalData: data,
-        //need to pass the room that the event will be emitted in
-        room: sessionId,
-      });
-    });
-    //incoming data of other person
-    peer.on("stream", (stream) => {
-      if (callerVideo.current);
-
-      callerVideo.current.srcObject = stream;
-    });
-    socket.on("callAccepted", (signal) => {
-      setCallAccepted(true);
-      peer.signal(signal);
-    });
-
-    connectionRef.current = peer;
-  };
-  // recipient peer of the call
-  const acceptCall = () => {
-    setCallAccepted(true);
-    const peer = new Peer({
-      initiator: false,
-      trickle: false,
-      stream: mediaStream,
-      config: {
-        iceServers: [
-          {
-            urls: "stun:global.stun.twilio.com:3478",
-          },
-          {
-            username:
-              "733e52ddbbba9d49238f5a50eea39788a8dab940ffe0f0eb43ddfd710bd0aeb3",
-            urls: "turn:global.turn.twilio.com:3478?transport=udp",
-            credential: "IKOydg+bE83Zdt0QBR+RZSBExWLB/Q9mREiao3B0PE4=",
-          },
-        ],
-      },
-    });
-
-    peer.on("signal", (data) => {
-      socket.emit("acceptCall", { signal: data, room: sessionId });
-    });
-
-    peer.on("stream", (stream) => {
-      callerVideo.current.srcObject = stream;
-    });
-    peer.signal(callerSignal);
-    connectionRef.current = peer;
-  };
-
-  //testing all connnected devices in call
-  const getConnectedDevices = async () => {
-    const devices = await navigator.mediaDevices.enumerateDevices();
-    console.log(devices);
   };
 
   useEffect(() => {
@@ -130,19 +46,122 @@ const VideoRoom = () => {
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: true })
       .then((stream) => {
-        setMediaStream(stream);
+        mediaStream.current = stream;
         if (myVideo.current) {
           //object needs to be passed to the video element
           myVideo.current.srcObject = stream;
         }
       });
     socket.emit("join", sessionId);
-    socket.on("call", (data) => {
-      setReceivingCall(true);
-      setCallerSignal(data.signal);
+    socket.on("otherUserJoined", (roomId) => {
+      callPeer(roomId);
     });
-    getConnectedDevices();
+    socket.on("offer", handleCall);
+    socket.on("answer", handleAnswer);
+    socket.on("ice-candidate", handleIceCandidates);
   }, []);
+
+  const createPeer = () => {
+    const peer = new RTCPeerConnection({
+      iceServers: [
+        {
+          // url: "stun:global.stun.twilio.com:3478",
+          urls: "stun:global.stun.twilio.com:3478",
+        },
+        {
+          //url: "turn:global.turn.twilio.com:3478?transport=udp",
+          username:
+            "d311cbe1d1e082c7fc0df8c8be4f51520abb3dd66032b69a079ed58c70a241d5",
+          urls: "turn:global.turn.twilio.com:3478?transport=udp",
+          credential: "0t2kZmkrPpNef7a7PV8Qa/Y99neuxCPtEGdNGDHYVGE=",
+        },
+      ],
+    });
+    //console.log(peer);
+    peer.onicecandidate = (e) => {
+      if (e.candidate) {
+        const payload = {
+          candidate: e.candidate,
+          roomId: sessionId,
+        };
+        socket.emit("ice-candidate", payload);
+      }
+    };
+    peer.ontrack = (e) => {
+      if (otherVideo.current) {
+        otherVideo.current.srcObject = e.streams[0];
+      }
+    };
+
+    peer.onnegotiationneeded = () => handleOffer(sessionId);
+
+    return peer;
+  };
+
+  const callPeer = (roomId) => {
+    // console.log(roomId);
+    peerRef.current = createPeer();
+    mediaStream.current
+      .getTracks()
+      .forEach((track) => peerRef.current.addTrack(track, mediaStream.current));
+  };
+
+  const handleCall = (payload) => {
+    peerRef.current = createPeer();
+
+    const description = new RTCSessionDescription(payload.sdp);
+    peerRef.current
+      .setRemoteDescription(description)
+      .then(() => {
+        return peerRef.current.createAnswer();
+      })
+      .then((answer) => {
+        return peerRef.current.setLocalDescription(answer);
+      })
+      .then(() => {
+        const payload = {
+          roomId: sessionId,
+          sdp: peerRef.current.localDescription,
+        };
+        socket.emit("answer", payload);
+      });
+  };
+
+  const handleOffer = () => {
+    peerRef.current
+      .createOffer()
+      .then((offer) => {
+        return peerRef.current.setLocalDescription(offer);
+      })
+      .then(() => {
+        const payload = {
+          roomId: sessionId,
+          sdp: peerRef.current.localDescription,
+        };
+        socket.emit("offer", payload);
+      })
+      .catch((error) => console.log(error));
+  };
+
+  const handleAnswer = (args) => {
+    const description = new RTCSessionDescription(args);
+    peerRef.current
+      .setRemoteDescription(description)
+      .catch((error) => console.log(error));
+  };
+
+  const handleIceCandidates = (incoming) => {
+    const ICEcandidate = new RTCIceCandidate(incoming);
+    peerRef.current
+      .addIceCandidate(ICEcandidate)
+      .catch((error) => console.log(error));
+  };
+
+  //testing all connnected devices in call
+  const getConnectedDevices = async () => {
+    const devices = await navigator.mediaDevices.enumerateDevices();
+    console.log(devices);
+  };
 
   return (
     <div className="  mx-2 my-2 flex  h-screen w-full flex-col   md:mx-0 md:my-0 md:ml-14">
@@ -157,19 +176,6 @@ const VideoRoom = () => {
                   className="h-16 w-16 rounded-full"
                 />
                 <div className="grid font-medium">{user.name}</div>
-              </div>
-              <div className="grid ">
-                <button
-                  onClick={peerCall}
-                  className=" bg-blue-custom p-2 text-white"
-                >
-                  call
-                </button>
-                {receivingCall && (
-                  <div onClick={acceptCall} className="bg-blue-custom">
-                    Accept call
-                  </div>
-                )}
               </div>
             </div>
           );
@@ -187,29 +193,13 @@ const VideoRoom = () => {
           </div>
         )}
 
-        {callAccepted ? (
-          <video
-            autoPlay
-            playsInline
-            ref={callerVideo}
-            className="callerVideo rb   w-full object-fill"
-          />
-        ) : (
-          <div className="grid w-full items-center justify-center">
-            {data?.session?.userIds?.map((user, index) => {
-              return (
-                <div className="grid" key={index}>
-                  <img
-                    src={origin + user.avatarUrl}
-                    alt="avatar"
-                    className="h-16 w-16 rounded-full"
-                  />
-                  <h3> waiting for {user.name} to join the call</h3>
-                </div>
-              );
-            })}
-          </div>
-        )}
+        <video
+          autoPlay
+          playsInline
+          ref={otherVideo}
+          className="otherVideo rb   w-full object-fill"
+        />
+
         <div className="  absolute  inset-x-0  bottom-4   flex   justify-center  bg-transparent">
           <div className="flex items-center  gap-2  ">
             <button
