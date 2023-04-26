@@ -1,4 +1,3 @@
-import global from "global";
 import { useState, useEffect, useRef } from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
@@ -10,9 +9,6 @@ import { getData } from "../../services/requests";
 const VideoRoom = () => {
   const { sessionId } = useParams();
   const mediaStream = useRef();
-  const [callAccepted, setCallAccepted] = useState(false);
-  const [receivingCall, setReceivingCall] = useState(false);
-  const [callerSignal, setCallerSignal] = useState("");
   const myVideo = useRef();
   const peerRef = useRef();
   const otherVideo = useRef();
@@ -23,7 +19,7 @@ const VideoRoom = () => {
   const { isLoading, data, error } = useQuery(["session", sessionId], () =>
     getData(`/api/v1/sessions/${sessionId}`)
   );
-
+  //bugged
   // if (isLoading) return "...Loading";
   //if (error) return "error";
 
@@ -52,32 +48,37 @@ const VideoRoom = () => {
           myVideo.current.srcObject = stream;
         }
       });
+    //emit join event
     socket.emit("join", sessionId);
+    //only call peer when 2nd user has joined the session
+    //replace roomId args not needed any more
     socket.on("otherUserJoined", (roomId) => {
       callPeer(roomId);
     });
-    socket.on("offer", handleCall);
+    socket.on("offer", receivingCall);
     socket.on("answer", handleAnswer);
     socket.on("ice-candidate", handleIceCandidates);
   }, []);
 
   const createPeer = () => {
+    //calling peer constructor
     const peer = new RTCPeerConnection({
+      //STUN and TURN server config- using twilio for now
+      //https://developer.mozilla.org/en-US/docs/Glossary/STUN
+      // https://developer.mozilla.org/en-US/docs/Glossary/TURN
       iceServers: [
         {
-          // url: "stun:global.stun.twilio.com:3478",
           urls: "stun:global.stun.twilio.com:3478",
         },
         {
-          //url: "turn:global.turn.twilio.com:3478?transport=udp",
           username:
-            "d311cbe1d1e082c7fc0df8c8be4f51520abb3dd66032b69a079ed58c70a241d5",
+            "a89b0b9a23d78a7bff3b5dde58d7f2699ed9b6843133f9b2713e7c5141c27273",
           urls: "turn:global.turn.twilio.com:3478?transport=udp",
-          credential: "0t2kZmkrPpNef7a7PV8Qa/Y99neuxCPtEGdNGDHYVGE=",
+          credential: "VS5oGwRehz5k3/6ee+A4amA6CGq96MRoeEh/FkapHZ4=",
         },
       ],
     });
-    //console.log(peer);
+    //handle ice candidate events
     peer.onicecandidate = (e) => {
       if (e.candidate) {
         const payload = {
@@ -87,12 +88,13 @@ const VideoRoom = () => {
         socket.emit("ice-candidate", payload);
       }
     };
+    //when we receive a remote peer stream
     peer.ontrack = (e) => {
       if (otherVideo.current) {
         otherVideo.current.srcObject = e.streams[0];
       }
     };
-
+    //handles peer negotiation offer=>answer
     peer.onnegotiationneeded = () => handleOffer(sessionId);
 
     return peer;
@@ -101,17 +103,32 @@ const VideoRoom = () => {
   const callPeer = (roomId) => {
     // console.log(roomId);
     peerRef.current = createPeer();
+    //attaching stream to peer
     mediaStream.current
       .getTracks()
-      .forEach((track) => peerRef.current.addTrack(track, mediaStream.current));
+      .forEach((track) =>
+        senders.current.push(
+          peerRef.current.addTrack(track, mediaStream.current)
+        )
+      );
   };
 
-  const handleCall = (payload) => {
+  const receivingCall = (payload) => {
     peerRef.current = createPeer();
-
+    //creates remote description being received from the remote peer
     const description = new RTCSessionDescription(payload.sdp);
     peerRef.current
       .setRemoteDescription(description)
+      .then(() => {
+        //added if statement while testing locally the webcam can't be used by two different browsers so the mediaStream for the receiver will be undefined
+        if (mediaStream.current) {
+          mediaStream.current
+            .getTracks()
+            .forEach((track) =>
+              peerRef.current.addTrack(track, mediaStream.current)
+            );
+        }
+      })
       .then(() => {
         return peerRef.current.createAnswer();
       })
@@ -136,6 +153,7 @@ const VideoRoom = () => {
       .then(() => {
         const payload = {
           roomId: sessionId,
+          //the actual offer data
           sdp: peerRef.current.localDescription,
         };
         socket.emit("offer", payload);
@@ -161,6 +179,16 @@ const VideoRoom = () => {
   const getConnectedDevices = async () => {
     const devices = await navigator.mediaDevices.enumerateDevices();
     console.log(devices);
+  };
+
+  const screenShare = () => {
+    navigator.mediaDevices.getDisplayMedia({ cursor: true }).then((stream) => {
+      const displayScreen = stream.getTracks()[0];
+      //replace current video track with screen capture
+      senders.current
+        .find((sender) => sender.track.kind === "video")
+        .replaceTrack(displayScreen);
+    });
   };
 
   return (
@@ -236,7 +264,10 @@ const VideoRoom = () => {
                 />
               </svg>
             </button>
-            <button className=" flex h-14  w-14   items-center justify-center  justify-self-center  rounded-full bg-blue-custom">
+            <button
+              className=" flex h-14  w-14   items-center justify-center  justify-self-center  rounded-full bg-blue-custom"
+              onClick={screenShare}
+            >
               <svg
                 width="24"
                 height="24"
