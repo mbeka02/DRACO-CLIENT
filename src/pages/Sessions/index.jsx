@@ -27,6 +27,7 @@ const Sessions = () => {
   if (sessions.isLoading) return "...loading";
   if (sessions.error) return "...error";
   const origin = "http://localhost:3000";
+
   return (
     <div className="rb mx-6 my-10 grid h-fit  w-full  md:mx-20 md:my-0">
       <div className="mb-8 flex items-center justify-between">

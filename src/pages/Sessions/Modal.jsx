@@ -1,8 +1,10 @@
 import Backdrop from "../../components/ui/Backdrop";
 import { motion } from "framer-motion";
 import { useState } from "react";
+
 import axios from "axios";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient, useQuery } from "react-query";
+import { getData } from "../../services/requests";
 axios.defaults.withCredentials = true;
 const dropIn = {
   hidden: {
@@ -33,12 +35,16 @@ const Modal = ({ handleClose }) => {
     email: "",
   });
   const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
+
   const handleChange = (value) => {
     return setValues((prev) => {
       return { ...prev, ...value };
     });
   };
+
+  const { data, isLoading, error } = useQuery("courses", () =>
+    getData("/api/v1/tutors/getCourses")
+  );
 
   const sessionsMutation = useMutation(
     async (values) => {
@@ -58,6 +64,12 @@ const Modal = ({ handleClose }) => {
     sessionsMutation.mutate(values);
   };
 
+  const courseOptions = data?.courses?.Courses.map((course, index) => (
+    <option key={index} value={course}>
+      {course}
+    </option>
+  ));
+  console.log(data);
   return (
     <Backdrop>
       <motion.div
@@ -88,14 +100,16 @@ const Modal = ({ handleClose }) => {
               Subject
               <span className="text-red-custom">*</span>
             </label>
-            <input
+            <select
               type="text"
               name="Subject"
               placeholder="subject"
               value={values.subject}
               onChange={(e) => handleChange({ subject: e.target.value })}
               className="rounded-sm border-2 border-solid border-grey-custom focus:outline-blue-custom "
-            />
+            >
+              {courseOptions}
+            </select>
           </div>
           <div className="grid">
             <label className="font-semibold" htmlFor="Email">
