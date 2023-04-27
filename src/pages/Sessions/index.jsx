@@ -30,43 +30,64 @@ const Sessions = () => {
 
   return (
     <div className="rb mx-6 my-10 grid h-fit  w-full  md:mx-20 md:my-0">
-      <div className="mb-8 flex items-center justify-between">
+      <div className="my-4 flex items-center justify-between">
         <SearchBar placeholder={"search for session"} />
         <div
           className={`${
             user?.data?.user?.role === "Tutor"
-              ? " flex h-9 cursor-pointer items-center justify-center  rounded-md  bg-green-custom px-3 py-2   font-semibold text-white"
+              ? " flex h-9 cursor-pointer items-center justify-center  gap-2  rounded-md bg-green-custom px-3   py-2 font-semibold text-white"
               : "hidden"
           }`}
           onClick={() => setOpenModal(true)}
         >
-          + create a new session
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M9 13C11.2091 13 13 11.2091 13 9C13 6.79086 11.2091 5 9 5C6.79086 5 5 6.79086 5 9C5 11.2091 6.79086 13 9 13Z"
+              fill="#F2F2F2"
+            />
+            <path
+              d="M9 15C6.33 15 1 16.34 1 19V21H17V19C17 16.34 11.67 15 9 15ZM16.76 5.36L15.08 7.05C15.92 8.23 15.92 9.76 15.08 10.94L16.76 12.63C18.78 10.61 18.78 7.56 16.76 5.36ZM20.07 2L18.44 3.63C21.21 6.65 21.21 11.19 18.44 14.37L20.07 16C23.97 12.11 23.98 6.05 20.07 2Z"
+              fill="white"
+            />
+          </svg>
+          create a new session
         </div>
       </div>
-      <div className=" flex  flex-wrap  gap-3 ">
+      <div className="  flex  flex-wrap  justify-between  ">
         {sessions?.data?.sessions.map((session) => {
           return (
             <Link
               to={`/main/sessions/${session._id}`}
               key={session._id}
-              className="w-full md:w-fit"
+              className="grid w-full rounded border-[1px] border-solid border-gray-300  bg-white p-2 px-4 shadow-lg   md:h-36 md:w-80"
             >
-              <div className="grid w-full rounded bg-white p-2 px-2  shadow-lg md:w-72">
-                <div className="text-xl font-semibold">{session.subject}</div>
-                {session.userIds.map((user, index) => {
-                  return (
-                    <div className=" flex items-center gap-2" key={index}>
-                      <img
-                        src={origin + user.avatarUrl}
-                        alt="avatar"
-                        className="h-10 w-10 rounded-full border-2 border-solid border-blue-custom"
-                      />
-                      <span className=" text-sm font-semibold opacity-75">
-                        {user.name}
-                      </span>
-                    </div>
-                  );
-                })}
+              <div className="grid h-fit gap-2">
+                <div className="text-xl font-semibold ">{session.subject}</div>
+                <div className="grid  grid-cols-custom">
+                  <div className="rb relative h-20 ">
+                    {session.userIds.map((user, index) => {
+                      return (
+                        <img
+                          src={origin + user.avatarUrl}
+                          alt="avatar"
+                          key={index}
+                          className="absolute h-10 w-10 rounded-full border-2 border-solid border-blue-custom last:left-5 last:top-5"
+                        />
+                      );
+                    })}
+                  </div>
+                  <div className=" mx-4 grid h-fit justify-start  font-semibold opacity-80">
+                    {session.userIds.map((user, index) => {
+                      return <span key={index}>{user.name}</span>;
+                    })}
+                  </div>
+                </div>
               </div>
             </Link>
           );

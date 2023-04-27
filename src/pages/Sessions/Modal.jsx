@@ -33,8 +33,11 @@ const Modal = ({ handleClose }) => {
     duration: "",
     subject: "",
     email: "",
+    start: "",
+    recurrence: "",
   });
   const [message, setMessage] = useState("");
+  const [recurring, setRecurring] = useState(false);
 
   const handleChange = (value) => {
     return setValues((prev) => {
@@ -60,6 +63,7 @@ const Modal = ({ handleClose }) => {
   );
 
   const handleSubmit = (e) => {
+    // Prevent the default action, which reloads the page.
     e.preventDefault();
     sessionsMutation.mutate(values);
   };
@@ -126,6 +130,20 @@ const Modal = ({ handleClose }) => {
             />
           </div>
           <div className="grid">
+            <label className="font-semibold" htmlFor="When">
+              When
+              <span className="text-red-custom">*</span>
+            </label>
+            <input
+              type="datetime-local"
+              className="rounded-sm border-2 border-solid border-grey-custom focus:outline-blue-custom "
+              name="When"
+              placeholder="start date and time of the session"
+              value={values.start}
+              onChange={(e) => handleChange({ start: e.target.value })}
+            />
+          </div>
+          <div className="grid">
             <label className="font-semibold" htmlFor="Duration">
               Duration
               <span className="text-red-custom">*</span>
@@ -139,11 +157,41 @@ const Modal = ({ handleClose }) => {
               className="rounded-sm border-2 border-solid border-grey-custom focus:outline-blue-custom "
             />
           </div>
+          <div className="flex items-center gap-2 ">
+            <input
+              onClick={() => setRecurring((prev) => !prev)}
+              type="checkbox"
+              className="h-4 w-4"
+              name="Recurring"
+            />
+            <label className="font-semibold" htmlFor="Recurring">
+              Recurring session
+            </label>
+          </div>
+          {recurring && (
+            <>
+              <div className="grid">
+                <label className="font-semibold" htmlFor="Recurrence">
+                  Recurrence
+                </label>
+                <select
+                  className="rounded-sm border-2 border-solid border-grey-custom focus:outline-blue-custom "
+                  value={values.recurrence}
+                  onChange={(e) => handleChange({ recurrence: e.target.value })}
+                >
+                  <option value="">pick an option</option>
+                  <option value="daily">Daily</option>
+                  <option value="weekly">Weekly</option>
+                  <option value="monthly">Monthly</option>
+                </select>
+              </div>
+            </>
+          )}
           <button
             type="submit"
-            className="m-3 h-fit w-1/3 justify-self-center rounded-md bg-blue-custom p-2 text-sm font-semibold text-white  md:mt-4  md:w-1/4 lg:w-1/6 lg:text-base"
+            className="m-3 h-fit w-1/2 justify-self-center rounded-md bg-blue-custom p-2 text-sm font-semibold text-white  md:mt-4  md:w-1/3 lg:w-1/4 lg:text-base"
           >
-            Create
+            Schedule Session
           </button>
         </form>
       </motion.div>

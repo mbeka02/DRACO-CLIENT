@@ -12,11 +12,15 @@ const Tutor = () => {
   const [value, setValue] = useState("");
   const [text, setText] = useState("");
   const [sort, setSort] = useState("");
-  const [showMore, setShowMore] = useState(false);
+  //pagination
+  const [page, setPage] = useState(0);
 
-  const { data, isLoading, error } = useQuery(["Tutors", value, sort], () =>
-    getData(`/api/v1/tutors?search=${value}&order=${sort}`)
-  );
+  const { data, isLoading, error, isFetching, isPreviousData } = useQuery({
+    queryKey: ["Tutors", value, sort, page],
+    queryFn: () =>
+      getData(`/api/v1/tutors?search=${value}&order=${sort}&page=${page}`),
+    keepPreviousData: true,
+  });
 
   //if (isLoading) return "Loading...";
   if (error) return "An error has occurred: " + error.message;
@@ -34,15 +38,6 @@ const Tutor = () => {
   const handleSortChange = (e) => {
     setSort(e.target.value);
   };
-
-  /*const genFn = (id) => {
-    console.log("clicked");
-    for (let i = 0; i < data?.tutors.length; ++i) {
-      if (data?.tutors[i]?.Description && data?.tutors[i]?._id === id) {
-        console.log(data?.tutors[i]?.Description?.substring(0, 100));
-      } else return data?.tutors[i]?.Description;
-    }
-  };*/
 
   return (
     <div className="   mx-6 my-10 grid h-fit  w-full md:mx-20 md:my-0">
@@ -142,6 +137,27 @@ const Tutor = () => {
             </div>
           );
         })}
+      </div>
+      <div className="rb mt-2 flex gap-2 justify-self-center">
+        <button
+          onClick={() => setPage((old) => Math.max(old - 1, 0))}
+          disabled={page === 0}
+        >
+          Previous Page
+        </button>
+        <span>{page + 1}</span>
+        <button
+          onClick={() => {
+            if (!isPreviousData && data?.tutors) {
+              setPage((old) => old + 1);
+            }
+          }}
+          // Disable the Next Page button until we know a next page is available
+          //fix conditions
+          disabled={isPreviousData || data?.tutors.length < 1}
+        >
+          Next Page
+        </button>
       </div>
     </div>
   );

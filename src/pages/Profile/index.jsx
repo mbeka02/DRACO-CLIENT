@@ -14,6 +14,7 @@ import AvatarSelector from "./AvatarSelector";
 import { useState } from "react";
 
 const Profile = () => {
+  //fix UI bug for form population
   const [modalOpen, setModalOpen] = useState("closed");
   const { data, isLoading, error } = useQuery("Profile", () =>
     getData("/api/v1/user/profile")
