@@ -58,7 +58,11 @@ const Sidebar = ({ sidebarToggle }) => {
         </NavLink>
 
         <NavLink
-          className="flex cursor-pointer items-center gap-3 hover:text-blue-custom"
+          className={`${
+            data?.avatar?.role === "Tutor"
+              ? "hidden"
+              : "flex cursor-pointer items-center gap-3 hover:text-blue-custom"
+          }`}
           to="/main/tutors"
           style={({ isActive }) => {
             return {

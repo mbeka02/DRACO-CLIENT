@@ -41,13 +41,18 @@ const Tutor = () => {
 
   return (
     <div className="   mx-6 my-10 grid h-fit  w-full md:mx-20 md:my-0">
-      <div className="rb my-4 flex flex-col  justify-between md:flex-row md:items-center">
+      <div className=" my-4 flex flex-col  justify-between md:flex-row md:items-center">
         <div className="grid">
           <SearchBar
             handleChange={handleChange}
             handleSubmit={handleSubmit}
             placeholder={"search by subject"}
           />
+          {value && (
+            <span className=" text-xs text-indigo-custom ">
+              showing results for {text}
+            </span>
+          )}
         </div>
         <div className="flex items-center gap-3">
           <span className="font-semibold ">sort:</span>
@@ -138,7 +143,7 @@ const Tutor = () => {
           );
         })}
       </div>
-      <div className="rb mt-2 flex gap-2 justify-self-center">
+      <div className=" mt-2 flex gap-2 justify-self-center">
         <button
           onClick={() => setPage((old) => Math.max(old - 1, 0))}
           disabled={page === 0}

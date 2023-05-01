@@ -188,6 +188,12 @@ const VideoRoom = () => {
       senders.current
         .find((sender) => sender.track.kind === "video")
         .replaceTrack(displayScreen);
+      //stop screen sharing
+      displayScreen.onended = () => {
+        senders.current
+          .find((sender) => sender.track.kind === "video")
+          .replaceTrack(mediaStream.current.getTracks()[1]);
+      };
     });
   };
 
