@@ -33,7 +33,7 @@ const Modal = ({ handleClose }) => {
     duration: "",
     subject: "",
     email: "",
-    start: "",
+    startedAt: "",
     recurrence: "",
   });
   const [message, setMessage] = useState("");
@@ -139,8 +139,8 @@ const Modal = ({ handleClose }) => {
               className="rounded-sm border-2 border-solid border-grey-custom focus:outline-blue-custom "
               name="When"
               placeholder="start date and time of the session"
-              value={values.start}
-              onChange={(e) => handleChange({ start: e.target.value })}
+              value={values.startedAt}
+              onChange={(e) => handleChange({ startedAt: e.target.value })}
             />
           </div>
           <div className="grid">
