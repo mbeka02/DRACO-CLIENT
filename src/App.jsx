@@ -13,6 +13,7 @@ const ChatRoom = lazy(() => import("./pages/Messages/ChatRoom"));
 const Sessions = lazy(() => import("./pages/Sessions"));
 const VideoRoom = lazy(() => import("./pages/Sessions/VideoRoom"));
 const Payments = lazy(() => import("./pages/Payments"));
+const SessionPayment = lazy(() => import("./pages/Payments/SessionPayment"));
 
 import "./App.css";
 
@@ -88,6 +89,14 @@ function App() {
             element={
               <Suspense>
                 <VideoRoom />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/main/payments/:paymentId"
+            element={
+              <Suspense>
+                <SessionPayment />
               </Suspense>
             }
           />

@@ -73,7 +73,7 @@ const Modal = ({ handleClose }) => {
       {course}
     </option>
   ));
-  console.log(data);
+
   return (
     <Backdrop>
       <motion.div
