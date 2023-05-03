@@ -59,7 +59,7 @@ const Sessions = () => {
           create a new session
         </div>
       </div>
-      <div className="  flex  flex-wrap  justify-between  ">
+      <div className="  flex  flex-wrap  gap-5  ">
         {sessions?.data?.sessions.map((session) => {
           return (
             <Link

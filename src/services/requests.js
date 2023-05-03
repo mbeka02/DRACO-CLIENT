@@ -11,4 +11,9 @@ const getData = async (request) => {
   return response.data;
 };
 
-export { getData };
+const deleteData = async (request) => {
+  const response = await instance.delete(request);
+  return response.data;
+};
+
+export { getData , deleteData };

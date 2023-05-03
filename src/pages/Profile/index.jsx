@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { getData } from "../../services/requests";
+import { getData, deleteData } from "../../services/requests";
 
 import { AnimatePresence } from "framer-motion";
 
@@ -114,9 +114,17 @@ const Profile = () => {
                   return (
                     <div
                       key={index}
-                      className=" rounded bg-blue-200 px-4 py-2 font-bold text-blue-custom"
+                      className=" flex items-center gap-2 rounded bg-blue-200 px-4 py-2 font-bold text-blue-custom"
                     >
                       {course}
+                      <div
+                        className="cursor-pointer  font-bold"
+                        onClick={() =>
+                          deleteData(`/api/v1/tutors/deleteCourses/${course}`)
+                        }
+                      >
+                        X
+                      </div>
                     </div>
                   );
                 })}
