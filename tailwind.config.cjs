@@ -27,6 +27,7 @@ module.exports = {
       gridTemplateColumns: {
         custom: " 1fr 4fr",
         custom_2: "1fr 2fr",
+        custom_3: "5fr 3fr",
       },
       maxWidth: {
         custom: "33.3333%",

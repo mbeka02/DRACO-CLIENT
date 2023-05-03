@@ -4,6 +4,7 @@ axios.defaults.withCredentials = true;
 import { useQuery } from "react-query";
 
 import { useNavigate, NavLink } from "react-router-dom";
+import { deleteData } from "../../services/requests";
 
 const Sidebar = ({ sidebarToggle }) => {
   const navigate = useNavigate();
@@ -14,8 +15,8 @@ const Sidebar = ({ sidebarToggle }) => {
   //if (isLoading) return "Loading...";
   if (error) return "An error has occurred: " + error?.message;
 
-  const logout = async () => {
-    await axios.delete(`http://localhost:3000/api/v1/auth/logout`);
+  const logout = () => {
+    deleteData("/api/v1/auth/logout");
     navigate("/");
   };
 

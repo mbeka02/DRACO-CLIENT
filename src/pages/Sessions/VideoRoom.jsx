@@ -13,7 +13,6 @@ const VideoRoom = () => {
   const peerRef = useRef();
   const otherVideo = useRef();
   const senders = useRef([]);
-  const connectionRef = useRef();
   const origin = "http://localhost:3000";
 
   const { isLoading, data, error } = useQuery(["session", sessionId], () =>
