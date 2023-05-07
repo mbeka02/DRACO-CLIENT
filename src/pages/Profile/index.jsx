@@ -32,7 +32,7 @@ const Profile = () => {
   return (
     <div className=" my-10 grid w-full gap-4 rounded-sm  px-6 md:mx-20 md:px-4">
       <div className=" grid bg-white shadow-sm  md:w-4/5 md:justify-self-center">
-        <div className="grid h-fit bg-blue-700">
+        <div className="grid h-fit bg-blue-custom">
           <div className="relative top-1/2 z-10   block w-fit place-self-center">
             <img
               alt="avatar"
