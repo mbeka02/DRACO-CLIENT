@@ -13,12 +13,14 @@ const Tutor = () => {
   const [text, setText] = useState("");
   const [sort, setSort] = useState("");
   //pagination
-  const [page, setPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
 
-  const { data, isLoading, error, isFetching, isPreviousData } = useQuery({
-    queryKey: ["Tutors", value, sort, page],
+  const { data, isLoading, error, isPreviousData } = useQuery({
+    queryKey: ["Tutors", value, sort, currentPage],
     queryFn: () =>
-      getData(`/api/v1/tutors?search=${value}&order=${sort}&page=${page}`),
+      getData(
+        `/api/v1/tutors?search=${value}&order=${sort}&page=${currentPage}`
+      ),
     keepPreviousData: true,
   });
 
@@ -38,6 +40,9 @@ const Tutor = () => {
   const handleSortChange = (e) => {
     setSort(e.target.value);
   };
+  // make an array of page numbers
+  const pages = Array.from({ length: data?.totalPages }, (_, i) => i + 1);
+  console.log(pages);
 
   return (
     <div className="   mx-6 my-10 grid h-fit  w-full md:mx-20 md:my-0">
@@ -144,25 +149,19 @@ const Tutor = () => {
         })}
       </div>
       <div className=" mt-2 flex gap-2 justify-self-center">
-        <button
-          onClick={() => setPage((old) => Math.max(old - 1, 0))}
-          disabled={page === 0}
-        >
-          Previous Page
-        </button>
-        <span>{page + 1}</span>
-        <button
-          onClick={() => {
-            if (!isPreviousData && data?.tutors) {
-              setPage((old) => old + 1);
-            }
-          }}
-          // Disable the Next Page button until we know a next page is available
-          //fix conditions
-          disabled={isPreviousData || data?.tutors.length < 1}
-        >
-          Next Page
-        </button>
+        {pages.map((page) => (
+          <button
+            className={`${
+              page - 1 === currentPage
+                ? "bg-blue-custom text-white"
+                : "bg-white text-gray-500"
+            }  rounded-md border border-gray-300 px-2 py-1`}
+            key={page}
+            onClick={() => setCurrentPage(page - 1)}
+          >
+            {page}
+          </button>
+        ))}
       </div>
     </div>
   );
