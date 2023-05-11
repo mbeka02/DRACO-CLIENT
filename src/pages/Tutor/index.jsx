@@ -42,7 +42,6 @@ const Tutor = () => {
   };
   // make an array of page numbers
   const pages = Array.from({ length: data?.totalPages }, (_, i) => i + 1);
-  console.log(pages);
 
   return (
     <div className="   mx-6 my-10 grid h-fit  w-full md:mx-20 md:my-0">
