@@ -2,6 +2,9 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { getData } from "../../services/requests";
 
+//form for mobile payments
+import MobileMoneyForm from "./MobileMoneyForm";
+
 const SessionPayment = () => {
   const { paymentId } = useParams();
   const { isLoading, data, error } = useQuery(["payment", paymentId], () =>
@@ -14,7 +17,9 @@ const SessionPayment = () => {
     <div className="   mx-6 my-10 grid h-fit  w-full md:mx-20 md:my-0">
       <div className=" rb grid w-full md:grid-cols-custom_3 ">
         <div>
-          <div></div>
+          <div>
+            <MobileMoneyForm />
+          </div>
         </div>
         <div>
           <div className=" grid h-56  rounded-md border-[1px] border-solid border-gray-400 px-8 py-6 shadow-sm">
