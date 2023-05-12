@@ -55,6 +55,13 @@ const Modal = ({ handleClose }) => {
         await axios.post("http://localhost:3000/api/v1/sessions", {
           ...values,
         });
+        setValues({
+          duration: "",
+          subject: "",
+          email: "",
+          startedAt: "",
+          recurrence: "",
+        });
       } catch (error) {
         console.log(error);
       }
@@ -116,6 +123,9 @@ const Modal = ({ handleClose }) => {
                 onChange={(e) => handleChange({ subject: e.target.value })}
                 className="rounded-sm border-2 border-solid border-grey-custom focus:outline-blue-custom "
               >
+                <option value="" disabled>
+                  select a course
+                </option>
                 {courseOptions}
               </select>
             </div>
@@ -155,7 +165,7 @@ const Modal = ({ handleClose }) => {
               <input
                 type="text"
                 name="Duration"
-                placeholder="duration of the session"
+                placeholder="duration of the session in hours"
                 value={values.duration}
                 onChange={(e) => handleChange({ duration: e.target.value })}
                 className="rounded-sm border-2 border-solid border-grey-custom focus:outline-blue-custom "

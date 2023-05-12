@@ -11,12 +11,14 @@ const Payments = () => {
   return (
     <div className="   mx-6 my-10 grid h-fit  w-full md:mx-20 md:my-0">
       <div>
-        <h1>Payments</h1>
+        <h1 className="text-2xl font-semibold">Pending Payments</h1>
 
         {data?.payments?.map((payment) => {
           return (
             <div key={payment.id}>
-              <Link to={`/main/payments/${payment._id}`}>payment</Link>
+              <Link to={`/main/payments/${payment._id}`}>
+                <div className="flex gap-4">subject :{payment.subject}</div>
+              </Link>
             </div>
           );
         })}
