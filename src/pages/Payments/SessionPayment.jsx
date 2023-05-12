@@ -15,7 +15,7 @@ const SessionPayment = () => {
 
   return (
     <div className="   mx-6 my-10 grid h-fit  w-full md:mx-20 md:my-0">
-      <div className=" rb grid w-full md:grid-cols-custom_3 ">
+      <div className="my-6 grid w-full md:grid-cols-custom_3">
         <div>
           <div>
             <MobileMoneyForm />

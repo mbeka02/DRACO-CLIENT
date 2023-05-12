@@ -29,7 +29,7 @@ const Messages = () => {
               <Link
                 key={room._id}
                 to={`/main/messages/${room._id}`}
-                className="rb relative flex  h-16 w-full items-center   gap-2 rounded border-[1px] border-solid border-gray-400  bg-white p-2 px-4 shadow-md   hover:border-blue-custom "
+                className=" relative flex  h-16 w-full items-center   gap-2 rounded border-[1px] border-solid border-gray-400  bg-white p-2 px-4 shadow-md   hover:border-blue-custom "
               >
                 <span className="absolute right-4 top-1/3 text-xxs uppercase">
                   {dateFormatter(room.updatedAt)}
@@ -65,7 +65,7 @@ const Messages = () => {
           })}
         </div>
       </div>
-      <div className="rb hidden md:grid"></div>
+      <div className=" hidden md:grid"></div>
     </div>
   );
 };
