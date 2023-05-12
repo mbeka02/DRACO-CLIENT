@@ -85,8 +85,8 @@ const Sessions = () => {
                   <div className=" mx-4 grid h-fit justify-start  font-semibold opacity-90">
                     {session.userIds.map((user, index) => {
                       return (
-                        <div className="flex items-center gap-1">
-                          <span key={index}>{user.name}</span>
+                        <div className="flex items-center gap-1" key={index}>
+                          <span>{user.name}</span>
                           {user.role === "Tutor" ? (
                             <svg
                               width="16"

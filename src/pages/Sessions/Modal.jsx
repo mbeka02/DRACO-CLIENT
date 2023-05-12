@@ -82,9 +82,9 @@ const Modal = ({ handleClose }) => {
         initial="hidden"
         animate="visible"
         exit="exit"
-        className="  m-auto grid h-fit w-10/12 rounded  bg-white p-4  md:w-1/2 "
+        className="   relative m-auto grid h-3/4  w-10/12 items-start  rounded bg-white p-4 md:w-2/3"
       >
-        <div className=" flex items-center justify-between border-b-2 border-solid border-grey-custom p-2 pb-2">
+        <div className=" flex h-fit items-center justify-between border-b-2 border-solid border-grey-custom p-2 pb-2">
           <h3 className=" text-xl  font-semibold leading-4 opacity-80">
             create session
           </h3>
@@ -98,101 +98,110 @@ const Modal = ({ handleClose }) => {
             </svg>
           </button>
         </div>
-        <form onSubmit={handleSubmit} className="grid  w-full gap-8 p-4">
-          <div className="grid">
-            <label className="font-semibold" htmlFor="Subject">
-              Subject
-              <span className="text-red-custom">*</span>
-            </label>
-            <select
-              type="text"
-              name="Subject"
-              placeholder="subject"
-              value={values.subject}
-              onChange={(e) => handleChange({ subject: e.target.value })}
-              className="rounded-sm border-2 border-solid border-grey-custom focus:outline-blue-custom "
+        <form
+          onSubmit={handleSubmit}
+          className="   grid w-full gap-3 p-4 md:grid-cols-custom_4"
+        >
+          <div className="grid gap-8 md:border-r-2 md:border-solid md:border-grey-custom md:px-2">
+            <div className="grid">
+              <label className="font-semibold" htmlFor="Subject">
+                Subject
+                <span className="text-red-custom">*</span>
+              </label>
+              <select
+                type="text"
+                name="Subject"
+                placeholder="subject"
+                value={values.subject}
+                onChange={(e) => handleChange({ subject: e.target.value })}
+                className="rounded-sm border-2 border-solid border-grey-custom focus:outline-blue-custom "
+              >
+                {courseOptions}
+              </select>
+            </div>
+            <div className="grid">
+              <label className="font-semibold" htmlFor="Email">
+                Email
+                <span className="text-red-custom">*</span>
+              </label>
+              <input
+                type="text"
+                name="Email"
+                placeholder="email of the student"
+                value={values.email}
+                onChange={(e) => handleChange({ email: e.target.value })}
+                className="rounded-sm border-2 border-solid border-grey-custom focus:outline-blue-custom "
+              />
+            </div>
+            <div className="grid">
+              <label className="font-semibold" htmlFor="When">
+                When
+                <span className="text-red-custom">*</span>
+              </label>
+              <input
+                type="datetime-local"
+                className="rounded-sm border-2 border-solid border-grey-custom focus:outline-blue-custom "
+                name="When"
+                placeholder="start date and time of the session"
+                value={values.startedAt}
+                onChange={(e) => handleChange({ startedAt: e.target.value })}
+              />
+            </div>
+            <div className="grid">
+              <label className="font-semibold" htmlFor="Duration">
+                Duration
+                <span className="text-red-custom">*</span>
+              </label>
+              <input
+                type="text"
+                name="Duration"
+                placeholder="duration of the session"
+                value={values.duration}
+                onChange={(e) => handleChange({ duration: e.target.value })}
+                className="rounded-sm border-2 border-solid border-grey-custom focus:outline-blue-custom "
+              />
+            </div>
+          </div>
+          <div className="grid gap-8 md:px-2">
+            <div className=" mt-6 flex h-fit items-center gap-2">
+              <input
+                onClick={() => setRecurring((prev) => !prev)}
+                type="checkbox"
+                className="h-4 w-4"
+                name="Recurring"
+              />
+              <label className="font-semibold" htmlFor="Recurring">
+                Recurring session
+              </label>
+            </div>
+            {recurring && (
+              <>
+                <div className=" grid">
+                  <label className="font-semibold" htmlFor="Recurrence">
+                    Recurrence
+                  </label>
+                  <select
+                    className="rounded-sm border-2 border-solid border-grey-custom focus:outline-blue-custom "
+                    value={values.recurrence}
+                    onChange={(e) =>
+                      handleChange({ recurrence: e.target.value })
+                    }
+                  >
+                    <option value="">pick an option</option>
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                    <option value="monthly">Monthly</option>
+                  </select>
+                </div>
+              </>
+            )}
+            <button
+              type="submit"
+              className="absolute bottom-0 left-0  right-0 m-3 mx-auto h-fit w-1/2 rounded-md  bg-blue-custom  p-2 text-sm font-semibold text-white md:mt-4 md:w-1/3 lg:w-1/4 lg:text-base"
             >
-              {courseOptions}
-            </select>
+              Schedule Session
+            </button>
           </div>
-          <div className="grid">
-            <label className="font-semibold" htmlFor="Email">
-              Email
-              <span className="text-red-custom">*</span>
-            </label>
-            <input
-              type="text"
-              name="Email"
-              placeholder="email of the student"
-              value={values.email}
-              onChange={(e) => handleChange({ email: e.target.value })}
-              className="rounded-sm border-2 border-solid border-grey-custom focus:outline-blue-custom "
-            />
-          </div>
-          <div className="grid">
-            <label className="font-semibold" htmlFor="When">
-              When
-              <span className="text-red-custom">*</span>
-            </label>
-            <input
-              type="datetime-local"
-              className="rounded-sm border-2 border-solid border-grey-custom focus:outline-blue-custom "
-              name="When"
-              placeholder="start date and time of the session"
-              value={values.startedAt}
-              onChange={(e) => handleChange({ startedAt: e.target.value })}
-            />
-          </div>
-          <div className="grid">
-            <label className="font-semibold" htmlFor="Duration">
-              Duration
-              <span className="text-red-custom">*</span>
-            </label>
-            <input
-              type="text"
-              name="Duration"
-              placeholder="duration of the session"
-              value={values.duration}
-              onChange={(e) => handleChange({ duration: e.target.value })}
-              className="rounded-sm border-2 border-solid border-grey-custom focus:outline-blue-custom "
-            />
-          </div>
-          <div className="flex items-center gap-2 ">
-            <input
-              onClick={() => setRecurring((prev) => !prev)}
-              type="checkbox"
-              className="h-4 w-4"
-              name="Recurring"
-            />
-            <label className="font-semibold" htmlFor="Recurring">
-              Recurring session
-            </label>
-          </div>
-          {recurring && (
-            <>
-              <div className="grid">
-                <label className="font-semibold" htmlFor="Recurrence">
-                  Recurrence
-                </label>
-                <select
-                  className="rounded-sm border-2 border-solid border-grey-custom focus:outline-blue-custom "
-                  value={values.recurrence}
-                  onChange={(e) => handleChange({ recurrence: e.target.value })}
-                >
-                  <option value="">pick an option</option>
-                  <option value="daily">Daily</option>
-                  <option value="weekly">Weekly</option>
-                  <option value="monthly">Monthly</option>
-                </select>
-              </div>
-            </>
-          )}
-          <button
-            type="submit"
-            className="m-3 h-fit w-1/2 justify-self-center rounded-md bg-blue-custom p-2 text-sm font-semibold text-white  md:mt-4  md:w-1/3 lg:w-1/4 lg:text-base"
-          >
-            Schedule Session
-          </button>
         </form>
       </motion.div>
     </Backdrop>

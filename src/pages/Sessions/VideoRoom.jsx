@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useQuery } from "react-query";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import { socket } from "../../utilities/socket";
 
@@ -15,6 +15,7 @@ const VideoRoom = () => {
   const senders = useRef([]);
   const [videoImage, setVideoImage] = useState(true);
   const [micImage, setmicImage] = useState(true);
+  const navigate = useNavigate();
 
   const toggleVideo = () => {
     const tracks = mediaStream.current
@@ -196,9 +197,21 @@ const VideoRoom = () => {
     });
   };
 
+  //hang up call
+  const hangUp = () => {
+    //close peer connection
+    //bugged
+    // peerRef.current.destroy();
+    console.log(peerRef.current);
+    //close media stream
+    mediaStream.current.getTracks().forEach((track) => track.stop());
+    //redirect to home page
+    navigate("/main/sessions");
+  };
+
   return (
     <div className="  mx-2 my-2 flex  h-screen w-full flex-col   md:mx-0 md:my-0 md:ml-14">
-      <div className="rb relative  flex h-full ">
+      <div className=" relative  flex h-full ">
         {mediaStream && (
           <div className="  fixed right-2 top-2 h-24 w-32 rounded  border-[1px] border-solid border-blue-custom ">
             <video
@@ -305,7 +318,10 @@ const VideoRoom = () => {
                 />
               </svg>
             </button>
-            <button className=" flex h-14  w-14   items-center justify-center  justify-self-center  rounded-full bg-red-custom">
+            <button
+              className=" flex h-14  w-14   items-center justify-center  justify-self-center  rounded-full bg-red-custom"
+              onClick={hangUp}
+            >
               <svg
                 width="24"
                 height="24"
