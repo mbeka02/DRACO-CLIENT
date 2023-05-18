@@ -9,6 +9,7 @@ import TutorForm from "./TutorForm";
 import UserDetailsForm from "./UserDetailsForm";
 import UploadForm from "./UploadForm";
 import Modal from "./Modal";
+import Loader from "../../components/ui/Loader";
 
 import AvatarSelector from "./AvatarSelector";
 import { useState } from "react";
@@ -20,7 +21,7 @@ const Profile = () => {
     getData("/api/v1/user/profile")
   );
 
-  if (isLoading) return "Loading...";
+  if (isLoading) return <Loader />;
   if (error) return "An error has occurred: " + error.message;
 
   const avatar = "http://localhost:3000" + data.profile?.avatarUrl;

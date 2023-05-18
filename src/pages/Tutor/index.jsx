@@ -7,6 +7,7 @@ import { useState } from "react";
 
 import SearchBar from "../../components/ui/SearchBar";
 import Sort from "./Sort";
+import Loader from "../../components/ui/Loader";
 
 const Tutor = () => {
   const [value, setValue] = useState("");
@@ -24,7 +25,7 @@ const Tutor = () => {
     keepPreviousData: true,
   });
 
-  //if (isLoading) return "Loading...";
+  if (isLoading) return <Loader />;
   if (error) return "An error has occurred: " + error.message;
 
   const origin = "http://localhost:3000";

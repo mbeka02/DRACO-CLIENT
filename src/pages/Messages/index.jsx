@@ -2,7 +2,8 @@ import { useQuery } from "react-query";
 import { getData } from "../../services/requests";
 import { Link } from "react-router-dom";
 import { dateFormatter } from "../../utilities/DateFormatter";
-import SearchBar from "../../components/ui/SearchBar";
+import Search from "./Search";
+import Loader from "../../components/ui/Loader";
 
 //placeholder for now
 //import { Outlet } from "react-router-dom";
@@ -14,14 +15,14 @@ const Messages = () => {
     getData("/api/v1/rooms")
   );
 
-  if (isLoading) return "Loading...";
+  if (isLoading) return <Loader />;
   if (error) return "An error has occurred: ";
 
   return (
     <div className="mx-6 my-16 grid h-fit  w-full  md:mx-20 md:my-4 md:grid-cols-custom_2 ">
       <div className=" grid ">
-        <div className="rb my-4 flex">
-          <SearchBar placeholder={"search for chat"} />
+        <div className=" my-4 flex">
+          <Search placeholder={"search for chat"} />
         </div>
         <div className="grid gap-4">
           {data?.rooms.map((room) => {

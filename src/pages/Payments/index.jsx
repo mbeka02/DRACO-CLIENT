@@ -2,6 +2,7 @@ import { useQuery } from "react-query";
 import { Link, useNavigate } from "react-router-dom";
 import { getData } from "../../services/requests";
 import { Fragment } from "react";
+import Loader from "../../components/ui/Loader";
 
 const Payments = () => {
   const navigate = useNavigate();
@@ -9,7 +10,7 @@ const Payments = () => {
     getData("/api/v1/payments")
   );
 
-  if (isLoading) return "Loading...";
+  if (isLoading) return <Loader />;
   if (error) return "An error has occurred: ";
 
   return (

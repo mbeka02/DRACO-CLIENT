@@ -102,7 +102,7 @@ const ChatRoom = () => {
           </div>
         </div>
       </div>
-      <ul className="grid w-full gap-2 overflow-y-auto px-4">
+      <ul className="grid w-full gap-2 overflow-y-auto px-4 scrollbar-thin  scrollbar-thumb-gray-400 scrollbar-track-rounded-sm">
         {savedMessages.messages?.map((message, index) => {
           return (
             <li

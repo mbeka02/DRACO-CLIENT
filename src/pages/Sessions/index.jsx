@@ -4,6 +4,7 @@ import { getData } from "../../services/requests";
 import Modal from "./Modal";
 import { AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
+import Loader from "../../components/ui/Loader";
 
 import SearchBar from "../../components/ui/SearchBar";
 const Sessions = () => {
@@ -24,7 +25,7 @@ const Sessions = () => {
       queryFn: () => getData("/api/v1/user/showUser"),
     },
   ]);
-  if (sessions.isLoading) return "...loading";
+  if (sessions.isLoading) return <Loader />;
   if (sessions.error) return "...error";
   const origin = "http://localhost:3000";
 
@@ -32,6 +33,7 @@ const Sessions = () => {
     <div className=" mx-6 my-10 grid h-fit  w-full  md:mx-20 md:my-0">
       <div className="my-4 flex items-center justify-between">
         <SearchBar placeholder={"search for session"} />
+
         <div
           className={`${
             user?.data?.user?.role === "Tutor"
