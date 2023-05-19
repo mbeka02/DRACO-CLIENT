@@ -1,36 +1,41 @@
-import { useState } from "react";
+//form component for paystack payment
+//email and amount are required
+
+import React, { useState } from "react";
+
 import axios from "axios";
 axios.defaults.withCredentials = true;
 
-const MobileMoneyForm = () => {
-  // state object for phone number and ammount
+const PaystackForm = () => {
   const [values, setValues] = useState({
-    phoneNumber: "",
+    email: "",
     amount: "",
   });
   const [error, setError] = useState("");
-
   const handleChange = (value) => {
     return setValues((prev) => {
       return { ...prev, ...value };
     });
   };
-
-  //submit function
   const handleSubmit = async (e) => {
-    // Prevent the default action, which reloads the page.
     e.preventDefault();
     try {
-      await axios.post("http://localhost:3000/api/v1/payments/stk", {
-        ...values,
-      });
+      const response = await axios.post(
+        "http://localhost:3000/api/v1/payments/paystack",
+        {
+          ...values,
+        }
+      );
+      console.log(response.data.data.data.authorization_url);
+      //redirect to paystack payment page
+      window.location.href = response.data.data.data.authorization_url;
+
       setError("");
     } catch (error) {
       console.log(error);
       setError(error.response.data.msg);
     }
   };
-
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       {error && (
@@ -39,15 +44,15 @@ const MobileMoneyForm = () => {
         </div>
       )}
       <div className="flex flex-col gap-2">
-        <label htmlFor="phoneNumber" className="font-semibold">
-          Phone Number
+        <label htmlFor="email" className="font-semibold">
+          Email
         </label>
         <input
           type="text"
-          name="phoneNumber"
-          placeholder="phone number"
-          value={values.phoneNumber}
-          onChange={(e) => handleChange({ phoneNumber: e.target.value })}
+          name="email"
+          placeholder="enter your email"
+          value={values.email}
+          onChange={(e) => handleChange({ email: e.target.value })}
           className="w-1/2 rounded-sm border-2 border-solid border-grey-custom focus:outline-blue-custom"
         />
       </div>
@@ -75,5 +80,4 @@ const MobileMoneyForm = () => {
     </form>
   );
 };
-
-export default MobileMoneyForm;
+export default PaystackForm;

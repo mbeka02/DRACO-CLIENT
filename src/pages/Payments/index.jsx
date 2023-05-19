@@ -31,6 +31,9 @@ const Payments = () => {
             <th scope="col" className="px-6 py-4">
               Amount
             </th>
+            <th scope="col" className="px-6 py-4">
+              {""}
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -61,6 +64,14 @@ const Payments = () => {
                     })}
                     <td className="whitespace-nowrap px-6 py-4 ">
                       {payment.amount * payment.duration}
+                    </td>
+                    <td className="whitespace-nowrap px-6 py-4 ">
+                      <Link
+                        to={`/main/payments/${payment._id}`}
+                        className="font-semibold text-blue-custom underline"
+                      >
+                        View
+                      </Link>
                     </td>
                   </tr>
                 </Fragment>
