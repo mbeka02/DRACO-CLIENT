@@ -7,14 +7,13 @@ import { Link } from "react-router-dom";
 import Loader from "../../components/ui/Loader";
 
 import SearchBar from "../../components/ui/SearchBar";
+import { dateFormatter } from "../../utilities/DateFormatter";
 const Sessions = () => {
   const [openModal, setOpenModal] = useState(false);
   const handleClose = () => {
     setOpenModal(false);
   };
-  /*const { data, isLoading, error } = useQuery("sessions", () =>
-    getData("/api/v1/sessions")
-  );*/
+
   const [sessions, user] = useQueries([
     {
       queryKey: "sessions",

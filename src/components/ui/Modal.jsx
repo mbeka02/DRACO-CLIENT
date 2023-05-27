@@ -36,7 +36,7 @@ const Modal = ({ handleClose }) => {
         initial="hidden"
         animate="visible"
         exit="exit"
-        className="  m-auto grid h-3/4 w-4/5  rounded bg-white  p-4 lg:h-5/6  lg:w-3/4"
+        className="  m-auto grid h-3/4 w-4/5  rounded bg-white  p-4 lg:h-xxl   lg:w-3/4"
       >
         <button
           onClick={handleClose}
@@ -51,7 +51,7 @@ const Modal = ({ handleClose }) => {
           </svg>
         </button>
         <div className="my-2 w-11/12 lg:my-6 lg:w-6/12 lg:justify-self-end">
-          <div className="flex items-center gap-5 ">
+          <div className="flex items-center gap-5  my-2">
             <button
               onClick={() => setFormType(false)}
               className={`${

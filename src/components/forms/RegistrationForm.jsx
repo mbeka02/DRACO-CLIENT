@@ -13,7 +13,7 @@ const RegistrationForm = () => {
     role: "",
   });
   const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState({});
 
   const [hidePassword, setHidePassword] = useState(false);
 
@@ -21,6 +21,23 @@ const RegistrationForm = () => {
     return setValues((prev) => {
       return { ...prev, ...value };
     });
+  };
+  const validate = (values) => {
+    let formErrors = {};
+    if (!values.name) {
+      formErrors.name = "Name is required";
+    }
+    if (!values.email) {
+      formErrors.email = "Email is required";
+    }
+    if (!values.password) {
+      formErrors.password = " password is required";
+    }
+
+    if (!values.role) {
+      formErrors.role = " role is required";
+    }
+    return formErrors;
   };
   //yes I know a pretty hacky solution but it'll do for now
   useEffect(() => {
@@ -32,25 +49,26 @@ const RegistrationForm = () => {
 
   const onSub = async (e) => {
     e.preventDefault();
-    await axios
-      .post("http://localhost:3000/api/v1/auth/register", {
-        ...values,
-      })
-      .then(function (response) {
-        console.log(response);
-        setMessage(response.data.msg);
-        setError("");
-      })
-      .catch(function (error) {
-        console.log(error);
-        setError(error.response.data.msg);
-        setMessage("");
-      });
-    setValues({ name: "", email: "", password: "", role: "" });
-    setPhone("");
+    setErrors(validate(values));
+
+    try {
+      const data = await axios.post(
+        "http://localhost:3000/api/v1/auth/register",
+        {
+          ...values,
+        }
+      );
+
+      setMessage(data.data.msg);
+      setValues({ name: "", email: "", password: "", role: "" });
+      setPhone("");
+    } catch (error) {
+      console.log(error);
+      setMessage("");
+    }
   };
   return (
-    <form onSubmit={onSub} className="grid gap-4 lg:gap-8">
+    <form onSubmit={onSub} className="rb grid gap-4 lg:gap-8">
       <div className="grid">
         <div className=" text-sm italic  text-hr-custom">
           Fill in all the required fields
@@ -65,8 +83,15 @@ const RegistrationForm = () => {
           placeholder="e.g John Mwamba"
           value={values.name}
           onChange={(e) => handleChange({ name: e.target.value })}
-          className="rounded border-2 border-solid border-grey-custom focus:outline-blue-custom"
+          className={`${
+            errors.name ? "border-red-500" : "border-grey-custom"
+          } rounded border-2 border-solid  focus:outline-blue-custom`}
         />
+        {errors.name && (
+          <div className="text-xs font-semibold text-red-500">
+            {errors.name}
+          </div>
+        )}
       </div>
       <div className="grid">
         <label className="font-semibold" htmlFor="Email">
@@ -79,8 +104,15 @@ const RegistrationForm = () => {
           placeholder="eg. Johnmwamba@gmail.com"
           value={values.email}
           onChange={(e) => handleChange({ email: e.target.value })}
-          className="rounded border-2 border-solid border-grey-custom focus:outline-blue-custom"
+          className={`${
+            errors.email ? "border-red-500" : "border-grey-custom"
+          } rounded border-2 border-solid  focus:outline-blue-custom`}
         />
+        {errors.email && (
+          <div className="text-xs font-semibold text-red-500">
+            {errors.email}
+          </div>
+        )}
       </div>
       <div className="grid">
         <label className="font-semibold" htmlFor="Password">
@@ -94,7 +126,9 @@ const RegistrationForm = () => {
             placeholder="password"
             value={values.password}
             onChange={(e) => handleChange({ password: e.target.value })}
-            className="w-full rounded border-2 border-solid border-grey-custom focus:outline-blue-custom"
+            className={`${
+              errors.password ? "border-red-500" : "border-grey-custom"
+            } w-full rounded border-2  border-solid focus:outline-blue-custom`}
           />
           <button
             type="button"
@@ -116,6 +150,11 @@ const RegistrationForm = () => {
             )}
           </button>
         </div>
+        {errors.password && (
+          <p className="text-xs font-semibold text-red-500">
+            {errors.password}
+          </p>
+        )}
       </div>
       <div className="grid">
         <label className="font-semibold" htmlFor="phoneNumber">
@@ -141,19 +180,27 @@ const RegistrationForm = () => {
           placeholder="role"
           value={values.role}
           onChange={(e) => handleChange({ role: e.target.value })}
-          className="rounded border-2 border-solid border-grey-custom focus:outline-blue-custom"
+          className={`${
+            errors.role ? "border-red-500" : "border-grey-custom"
+          } rounded border-2  border-solid focus:outline-blue-custom`}
         >
           <option>Select an option</option>
           <option value={"Student"}>Student</option>
           <option value={"Tutor"}>Tutor</option>
         </select>
+        {errors.role && (
+          <p className="text-xs font-semibold text-red-500">{errors.role}</p>
+        )}
       </div>
 
-      <button className=" absolute bottom-8 right-8 w-1/4 rounded-md  bg-blue-custom p-3 text-sm font-semibold  text-white    lg:bottom-2 lg:w-1/6 lg:p-2 lg:text-base">
+      <button className=" lg:w-1/6 absolute bottom-8  right-8  w-1/4  rounded-md bg-blue-custom p-3 text-sm  font-semibold    text-white lg:bottom-2 lg:p-2 lg:text-base">
         Sign-up
       </button>
-      {message && <p className="text-green-600">account created!</p>}
-      {error && <p className="text-red-600">error</p>}
+      {message && (
+        <p className="text-sm font-semibold text-green-600">
+          account created ,verify your email!
+        </p>
+      )}
     </form>
   );
 };

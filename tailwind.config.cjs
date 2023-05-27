@@ -38,6 +38,7 @@ module.exports = {
       },
       height: {
         msgbox: "13%",
+        xxl: "90%",
       },
     },
   },

@@ -89,7 +89,7 @@ const Modal = ({ handleClose }) => {
         initial="hidden"
         animate="visible"
         exit="exit"
-        className="   relative m-auto grid h-3/4  w-10/12 items-start  rounded bg-white p-4 md:w-2/3"
+        className="   relative m-auto grid  h-2/3  w-10/12  items-start rounded  bg-white p-4 md:w-2/3 lg:h-3/4"
       >
         <div className=" flex h-fit items-center justify-between border-b-2 border-solid border-grey-custom p-2 pb-2">
           <h3 className=" text-xl  font-semibold leading-4 opacity-80">
@@ -107,11 +107,11 @@ const Modal = ({ handleClose }) => {
         </div>
         <form
           onSubmit={handleSubmit}
-          className="   grid w-full gap-3 p-4 md:grid-cols-custom_4"
+          className="   grid h-4/5  w-full gap-3 px-2 py-2 md:grid-cols-custom_4 lg:p-2"
         >
           <div className="grid gap-8 md:border-r-2 md:border-solid md:border-grey-custom md:px-2">
             <div className="grid">
-              <label className="font-semibold" htmlFor="Subject">
+              <label className="font-semibold" htmlFor="subject-field">
                 Subject
                 <span className="text-red-custom">*</span>
               </label>
@@ -119,6 +119,7 @@ const Modal = ({ handleClose }) => {
                 type="text"
                 name="Subject"
                 placeholder="subject"
+                id="subject-field"
                 value={values.subject}
                 onChange={(e) => handleChange({ subject: e.target.value })}
                 className="rounded-sm border-2 border-solid border-grey-custom focus:outline-blue-custom "
@@ -130,21 +131,23 @@ const Modal = ({ handleClose }) => {
               </select>
             </div>
             <div className="grid">
-              <label className="font-semibold" htmlFor="Email">
+              <label className="font-semibold" htmlFor="email-field">
                 Email
                 <span className="text-red-custom">*</span>
               </label>
               <input
                 type="text"
                 name="Email"
+                id="email-field"
                 placeholder="email of the student"
                 value={values.email}
                 onChange={(e) => handleChange({ email: e.target.value })}
                 className="rounded-sm border-2 border-solid border-grey-custom focus:outline-blue-custom "
+                autoComplete="off"
               />
             </div>
             <div className="grid">
-              <label className="font-semibold" htmlFor="When">
+              <label className="font-semibold" htmlFor="when-field">
                 When
                 <span className="text-red-custom">*</span>
               </label>
@@ -152,18 +155,20 @@ const Modal = ({ handleClose }) => {
                 type="datetime-local"
                 className="rounded-sm border-2 border-solid border-grey-custom focus:outline-blue-custom "
                 name="When"
+                id="when-field"
                 placeholder="start date and time of the session"
                 value={values.startedAt}
                 onChange={(e) => handleChange({ startedAt: e.target.value })}
               />
             </div>
             <div className="grid">
-              <label className="font-semibold" htmlFor="Duration">
+              <label className="font-semibold" htmlFor="duration-field">
                 Duration
                 <span className="text-red-custom">*</span>
               </label>
               <input
                 type="text"
+                id="duration-field"
                 name="Duration"
                 placeholder="duration of the session in hours"
                 value={values.duration}
@@ -172,22 +177,23 @@ const Modal = ({ handleClose }) => {
               />
             </div>
           </div>
-          <div className="grid gap-8 md:px-2">
+          <div className="grid h-fit gap-9 md:px-2">
             <div className=" mt-6 flex h-fit items-center gap-2">
               <input
                 onClick={() => setRecurring((prev) => !prev)}
                 type="checkbox"
                 className="h-4 w-4"
                 name="Recurring"
+                id="recurring-field"
               />
-              <label className="font-semibold" htmlFor="Recurring">
+              <label className="font-semibold" htmlFor="recurring-field">
                 Recurring session
               </label>
             </div>
             {recurring && (
               <>
-                <div className=" grid">
-                  <label className="font-semibold" htmlFor="Recurrence">
+                <div className="  grid">
+                  <label className="font-semibold" htmlFor="recurrence-field">
                     Recurrence
                   </label>
                   <select
@@ -196,6 +202,8 @@ const Modal = ({ handleClose }) => {
                     onChange={(e) =>
                       handleChange({ recurrence: e.target.value })
                     }
+                    id="recurrence-field"
+                    name="Recurrence"
                   >
                     <option value="">pick an option</option>
                     <option value="daily">Daily</option>

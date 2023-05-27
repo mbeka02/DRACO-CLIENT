@@ -6,6 +6,7 @@ const SearchBar = ({ handleChange, handleSubmit, placeholder }) => {
         onChange={handleChange}
         className=" h-full w-full  rounded-md border-2 border-solid border-grey-custom px-2 focus:outline-blue-custom "
         placeholder={placeholder}
+        name="search"
       />
 
       <button

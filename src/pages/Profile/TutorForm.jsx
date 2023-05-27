@@ -1,6 +1,7 @@
 import axios from "axios";
 axios.defaults.withCredentials = true;
 import { useState } from "react";
+import ProgressBar from "../../components/ui/ProgressBar";
 
 const TutorForm = ({ Headline, Description, Rate, Experience }) => {
   const [values, setValues] = useState({
@@ -10,6 +11,8 @@ const TutorForm = ({ Headline, Description, Rate, Experience }) => {
     Rate: Rate ? Rate : "",
     Experience: Experience ? Experience : "",
   });
+  const [isLoading, setIsLoading] = useState(false); //add loading bar that displays when form is being submitted
+  const [message, setMessage]=useState(false)
 
   const handleChange = (value) => {
     return setValues((prev) => {
@@ -18,6 +21,7 @@ const TutorForm = ({ Headline, Description, Rate, Experience }) => {
   };
 
   const handleSubmit = async (e) => {
+    setIsLoading(true);
     e.preventDefault();
     try {
       await axios.patch("http://localhost:3000/api/v1/tutors/updateProfile", {
@@ -26,13 +30,25 @@ const TutorForm = ({ Headline, Description, Rate, Experience }) => {
     } catch (error) {
       console.log(error);
     }
+    setMessage(true)
+    setIsLoading(false);
+    //display message for 1 seconds
+    setTimeout(() => {
+      setMessage(false)
+    }, 1500);
   };
 
   return (
     <form
-      className="grid  w-full gap-8 rounded-sm bg-white p-4  shadow"
+      className="grid  w-full gap-8 rounded-sm bg-white p-4  shadow relative"
       onSubmit={handleSubmit}
     >
+      
+         {
+          //add loading bar that displays when form is being submitted
+          isLoading && <ProgressBar />
+        
+      }
       <div className="grid">
         <label className="font-semibold" htmlFor="Headline">
           Headline
@@ -91,6 +107,7 @@ const TutorForm = ({ Headline, Description, Rate, Experience }) => {
           className="rounded-sm border-2 border-solid border-grey-custom focus:outline-blue-custom "
         />
       </div>
+      {message && <p className="text-blue-custom font-semibold text-sm absolute bottom-20 left-4">Profile updated successfully</p>}
       <button
         type="submit"
         className="m-3 h-fit w-1/3 justify-self-center rounded-md bg-blue-custom p-2 text-sm font-semibold text-white  md:mt-4  md:w-1/4 lg:w-1/6 lg:text-base"

@@ -8,6 +8,19 @@ function LoginForm() {
     email: "",
     password: "",
   });
+  const [errors, setErrors] = useState({});
+  //handle validation of email and password , ensure neither are empty
+  const validate = (values) => {
+    let formErrors = {};
+
+    if (!values.email) {
+      formErrors.email = "Email is required";
+    }
+    if (!values.password) {
+      formErrors.password = " password is required";
+    }
+    return formErrors;
+  };
 
   const handleChange = (value) => {
     return setValues((prev) => {
@@ -18,13 +31,17 @@ function LoginForm() {
 
   const onSub = async (e) => {
     e.preventDefault();
+    setErrors(validate(values));
 
     try {
-      await axios.post("http://localhost:3000/api/v1/auth/login", {
-        ...values,
-      });
-      setValues({ email: "", password: "" });
-      navigate("/main");
+      //ensure there are no errors before sending request
+      if (Object.keys(errors).length === 0) {
+        await axios.post("http://localhost:3000/api/v1/auth/login", {
+          ...values,
+        });
+        setValues({ email: "", password: "" });
+        navigate("/main");
+      }
     } catch (error) {
       console.log(error);
     }
@@ -33,22 +50,34 @@ function LoginForm() {
   return (
     <form onSubmit={onSub} className="  grid gap-8">
       <div className="grid">
-        <label className="font-semibold" htmlFor="Email">
+      <div className=" text-sm italic  text-hr-custom">
+          Enter your username and password
+        </div>
+        <label className="font-semibold" htmlFor="email-field">
           email
         </label>
         <input
           type="text"
           name="Email"
+          id="email-field"
           placeholder="email"
           value={values.email}
           onChange={(e) => handleChange({ email: e.target.value })}
-          className="rounded border-2 border-solid border-grey-custom focus:outline-blue-custom"
+          className={`${
+            errors.email ? "border-red-500" : "border-grey-custom"
+          } w-full rounded border-2  border-solid focus:outline-blue-custom`}
         />
+        {errors.email && (
+          <div className="text-sm font-semibold text-red-500">
+            {errors.email}
+          </div>
+        )}
       </div>
       <div className="grid">
-        <label className="font-semibold" htmlFor="Password">
+        <label className="font-semibold" htmlFor="password-field">
           password
         </label>
+
         <div className=" relative  flex">
           <input
             type={`${hidePassword ? "password" : "text"}`}
@@ -56,7 +85,10 @@ function LoginForm() {
             placeholder="password"
             value={values.password}
             onChange={(e) => handleChange({ password: e.target.value })}
-            className="w-full rounded border-2 border-solid border-grey-custom focus:outline-blue-custom"
+            className={`${
+              errors.password ? "border-red-500" : "border-grey-custom"
+            } w-full rounded border-2  border-solid focus:outline-blue-custom`}
+            id="password-field"
           />
           <button
             type="button"
@@ -78,9 +110,14 @@ function LoginForm() {
             )}
           </button>
         </div>
+        {errors.password && (
+          <span className=" text-sm font-semibold text-red-500">
+            {errors.password}
+          </span>
+        )}
       </div>
 
-      <button className=" absolute bottom-8 right-8 w-1/4 rounded-md  bg-blue-custom p-3 text-sm font-semibold  text-white     lg:bottom-2 lg:w-1/6 lg:p-2 lg:text-base">
+      <button className=" lg:w-1/6 absolute bottom-8 right-8 w-1/4  rounded-md bg-blue-custom p-3 text-sm  font-semibold     text-white lg:bottom-2 lg:p-2 lg:text-base">
         Login
       </button>
     </form>
