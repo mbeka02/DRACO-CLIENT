@@ -30,7 +30,7 @@ const Sessions = () => {
 
   return (
     <div className=" mx-6 my-10 grid h-fit  w-full  md:mx-20 md:my-0">
-      <div className="my-4 flex items-center justify-between">
+      <div className="my-4 grid md:flex items-center justify-between">
         <SearchBar placeholder={"search for session"} />
 
         <div

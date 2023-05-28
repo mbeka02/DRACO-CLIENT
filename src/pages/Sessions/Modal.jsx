@@ -49,30 +49,29 @@ const Modal = ({ handleClose }) => {
     getData("/api/v1/tutors/getCourses")
   );
 
-  const sessionsMutation = useMutation(
-    async (values) => {
-      try {
-        await axios.post("http://localhost:3000/api/v1/sessions", {
-          ...values,
-        });
-        setValues({
-          duration: "",
-          subject: "",
-          email: "",
-          startedAt: "",
-          recurrence: "",
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    { onSuccess: () => queryClient.invalidateQueries("sessions") }
-  );
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     // Prevent the default action, which reloads the page.
     e.preventDefault();
-    sessionsMutation.mutate(values);
+
+    try {
+      await axios.post("http://localhost:3000/api/v1/sessions", {
+        ...values,
+      });
+      setValues({
+        duration: "",
+        subject: "",
+        email: "",
+        startedAt: "",
+        recurrence: "",
+      });
+      setMessage(true);
+      //display message for 1 seconds
+      setTimeout(() => {
+        setMessage(false);
+      }, 3500);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const courseOptions = data?.courses?.Courses.map((course, index) => (
@@ -89,7 +88,7 @@ const Modal = ({ handleClose }) => {
         initial="hidden"
         animate="visible"
         exit="exit"
-        className="   relative m-auto grid  h-2/3  w-10/12  items-start rounded  bg-white p-4 md:w-2/3 lg:h-3/4"
+        className="   relative m-auto grid  h-3/4  w-10/12 items-start  rounded bg-white p-4 md:w-2/3"
       >
         <div className=" flex h-fit items-center justify-between border-b-2 border-solid border-grey-custom p-2 pb-2">
           <h3 className=" text-xl  font-semibold leading-4 opacity-80">
@@ -212,6 +211,11 @@ const Modal = ({ handleClose }) => {
                   </select>
                 </div>
               </>
+            )}
+            {message && (
+              <div className=" font-semibold text-green-500">
+                session created!
+              </div>
             )}
             <button
               type="submit"

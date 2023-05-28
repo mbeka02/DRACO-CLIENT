@@ -41,7 +41,6 @@ const RegistrationForm = () => {
   };
   //yes I know a pretty hacky solution but it'll do for now
   useEffect(() => {
-    //console.log("Effect ran");
     return setValues((prev) => {
       return { ...prev, phoneNumber: phone };
     });
@@ -68,7 +67,7 @@ const RegistrationForm = () => {
     }
   };
   return (
-    <form onSubmit={onSub} className="rb grid gap-4 lg:gap-8">
+    <form onSubmit={onSub} className=" grid gap-4 lg:gap-8">
       <div className="grid">
         <div className=" text-sm italic  text-hr-custom">
           Fill in all the required fields
@@ -193,7 +192,7 @@ const RegistrationForm = () => {
         )}
       </div>
 
-      <button className=" lg:w-1/6 absolute bottom-8  right-8  w-1/4  rounded-md bg-blue-custom p-3 text-sm  font-semibold    text-white lg:bottom-2 lg:p-2 lg:text-base">
+      <button className=" absolute bottom-8 right-8  w-1/4  rounded-md  bg-blue-custom p-3 text-sm font-semibold  text-white    lg:bottom-2 lg:w-1/6 lg:p-2 lg:text-base">
         Sign-up
       </button>
       {message && (
