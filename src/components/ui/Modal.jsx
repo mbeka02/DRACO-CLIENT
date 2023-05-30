@@ -26,8 +26,8 @@ const dropIn = {
 };
 
 const Modal = ({ handleClose }) => {
-  // DICTATES INTIIAL FORM TYPE (LOGIN)
-  const [formType, setFormType] = useState(false);
+  // DICTATES INTIIAL FORM TYPE (REGISTRATION)
+  const [formType, setFormType] = useState(true);
   return (
     <Backdrop>
       <motion.div
@@ -40,7 +40,7 @@ const Modal = ({ handleClose }) => {
       >
         <button
           onClick={handleClose}
-          className="absolute top-1 right-4 h-4 w-4 items-center"
+          className="absolute right-4 top-1 h-4 w-4 items-center"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -51,7 +51,7 @@ const Modal = ({ handleClose }) => {
           </svg>
         </button>
         <div className="my-2 w-11/12 lg:my-6 lg:w-6/12 lg:justify-self-end">
-          <div className="flex items-center gap-5  my-2">
+          <div className="my-2 flex items-center  gap-5">
             <button
               onClick={() => setFormType(false)}
               className={`${

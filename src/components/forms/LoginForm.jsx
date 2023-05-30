@@ -40,7 +40,7 @@ function LoginForm() {
           ...values,
         });
         setValues({ email: "", password: "" });
-        navigate("/main");
+        navigate("/main/profile");
       }
     } catch (error) {
       console.log(error);
@@ -50,7 +50,7 @@ function LoginForm() {
   return (
     <form onSubmit={onSub} className="  grid gap-8">
       <div className="grid">
-      <div className=" text-sm italic  text-hr-custom">
+        <div className=" text-sm italic  text-hr-custom">
           Enter your username and password
         </div>
         <label className="font-semibold" htmlFor="email-field">
@@ -117,7 +117,7 @@ function LoginForm() {
         )}
       </div>
 
-      <button className=" lg:w-1/6 absolute bottom-8 right-8 w-1/4  rounded-md bg-blue-custom p-3 text-sm  font-semibold     text-white lg:bottom-2 lg:p-2 lg:text-base">
+      <button className=" absolute bottom-8 right-8 w-1/4 rounded-md  bg-blue-custom p-3 text-sm font-semibold  text-white     lg:bottom-2 lg:w-1/6 lg:p-2 lg:text-base">
         Login
       </button>
     </form>

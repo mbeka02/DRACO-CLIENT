@@ -31,33 +31,7 @@ const Sidebar = ({ sidebarToggle }) => {
       } fixed  z-20 flex h-screen  w-1/2 flex-col justify-start gap-9 bg-white p-3  shadow-xl md:left-0 md:w-fit`}
     >
       <div className="mt-14 grid justify-items-start gap-10 font-semibold">
-        <NavLink
-          className="flex cursor-pointer items-center gap-3 hover:text-blue-custom"
-          to="/main/dashboard"
-          style={({ isActive }) => {
-            return {
-              color: isActive ? "#0077FF" : "",
-            };
-          }}
-        >
-          <svg
-            width="25"
-            height="24"
-            viewBox="0 0 25 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M3 3H11V11H3V3ZM13 3H21V11H13V3ZM3 13H11V21H3V13ZM16 13H18V16H21V18H18V21H16V18H13V16H16V13Z"
-              fill="currentColor"
-            />
-          </svg>
-
-          <span style={{ display: sidebarToggle ? "" : "none" }}>
-            Dashboard
-          </span>
-        </NavLink>
-
+       
         <NavLink
           className={`${
             data?.avatar?.role === "Tutor"

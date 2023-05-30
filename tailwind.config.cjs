@@ -21,6 +21,7 @@ module.exports = {
         "pink-custom": "#E91E63",
         "grey-custom": "#DBE5E6",
       },
+
       borderWidth: {
         "border-custom": "1px",
       },

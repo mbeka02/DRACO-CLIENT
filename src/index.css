@@ -21,3 +21,48 @@ body {
   background-size: 50%;
   background-repeat: no-repeat;
 }
+
+.dynamic-text {
+  overflow: hidden;
+  height: 50px;
+  line-height: 50px;
+  /*border: solid 1px red;*/
+}
+.dynamic-text li span {
+  position: relative;
+  background: linear-gradient(30deg, #0077ff, #0e00cc);
+  background-clip: text;
+  color: transparent;
+  animation: slide 8s steps(2) infinite;
+  top: 0;
+}
+.dynamic-text li span::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  border-left: 2px solid #0077ff;
+  animation: type 4s steps(8) infinite;
+  background-color: rgb(255, 255, 255);
+}
+.static {
+  line-height: 2.59rem;
+}
+.gradient-text {
+  /*background: linear-gradient(60deg, #5318c0, #7b00da, #f3f3f3)*/
+  background: linear-gradient(30deg, #0077ff, #0e00cc);
+  background-clip: text;
+  color: transparent;
+}
+@keyframes type {
+  100% {
+    left: 100%;
+    margin: 0 -35px 0 35px;
+  }
+}
+@keyframes slide {
+  100% {
+    top: -110px;
+  }
+}
