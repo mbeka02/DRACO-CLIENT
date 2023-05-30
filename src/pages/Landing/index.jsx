@@ -1,10 +1,10 @@
-import Modal from "../components/ui/Modal";
+import Modal from "../../components/ui/Modal";
 import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
-import Icon from "../assets/sea.png";
-import Image from "../assets/img1.jpg";
+import Icon from "../../assets/sea.png";
+import Image from "../../assets/img1.jpg";
 
-const Placeholder = () => {
+const LandingPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const handleClose = () => {
@@ -26,14 +26,14 @@ const Placeholder = () => {
           Sign Up
         </button>
       </div>
-      <div className=" grid  grid-cols-2">
-        <div className=" px-1">
-          <div className="grid h-fit gap-2">
-            <h1 className="text-4xl font-black">
-              Welcome to TutorWave, your gateway
+      <div className="   grid grid-cols-2 p-4">
+        <div className=" rb grid h-1/2   px-1 ">
+          <div className="  ">
+            <h1 className="text-5xl font-black">
+              Welcome to TutorWave, your gateway to personalized
             </h1>
-            <div className="static flex text-4xl font-black">
-              to personalized online
+            <div className="static flex text-5xl font-black">
+              online
               <ul className="dynamic-text  ml-2">
                 <li>
                   <span>tutoring </span>
@@ -44,7 +44,7 @@ const Placeholder = () => {
               </ul>
             </div>
           </div>
-          <article>
+          <article className="text-justify text-lg font-medium">
             Empower your education journey with TutorWave, the tutoring platform
             designed to deliver personalized and engaging learning experiences.
             Whether you're a student seeking academic support or a tutor looking
@@ -52,7 +52,9 @@ const Placeholder = () => {
             perfect match.
           </article>
         </div>
-        <img src={Image} alt="" className="  w-3/4  justify-self-end" />
+        <div className="rb grid">
+          <img src={Image} alt="" className="  w-4/5  justify-self-end" />
+        </div>
       </div>
       <AnimatePresence initial={false} mode={"wait"}>
         {modalOpen && <Modal handleClose={handleClose} />}
@@ -61,4 +63,4 @@ const Placeholder = () => {
   );
 };
 
-export default Placeholder;
+export default LandingPage;

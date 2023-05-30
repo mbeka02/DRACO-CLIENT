@@ -2,7 +2,7 @@ import { lazy, Suspense } from "react";
 import Loader from "./components/ui/Loader";
 import { Route, Routes } from "react-router-dom";
 const Home = lazy(() => import("./pages/Home"));
-import Placeholder from "./pages/Placeholder";
+import LandingPage from "./pages/Landing";
 const Tutor = lazy(() => import("./pages/Tutor"));
 const ViewProfile = lazy(() => import("./pages/Tutor/ViewProfile"));
 import PageLayout from "./pages/PageLayout";
@@ -21,7 +21,7 @@ function App() {
   return (
     <div className=" h-full bg-zinc-50 font-nunito">
       <Routes>
-        <Route path="/" element={<Placeholder />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="/confirmation" element={<Confiramtion />} />
 
         <Route path="/main" element={<PageLayout />}>

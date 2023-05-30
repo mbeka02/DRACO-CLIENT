@@ -7,31 +7,55 @@ import { Link } from "react-router-dom";
 import Loader from "../../components/ui/Loader";
 
 import SearchBar from "../../components/ui/SearchBar";
-import { dateFormatter } from "../../utilities/DateFormatter";
+
 const Sessions = () => {
   const [openModal, setOpenModal] = useState(false);
-  const handleClose = () => {
-    setOpenModal(false);
-  };
 
+  const [text, setText] = useState("");
+  const [value, setValue] = useState("");
   const [sessions, user] = useQueries([
     {
-      queryKey: "sessions",
-      queryFn: () => getData("/api/v1/sessions"),
+      queryKey: ["sessions", value],
+      queryFn: () => getData(`/api/v1/sessions?search=${value}`),
+      keepPreviousData: true,
     },
     {
       queryKey: "userInfo",
       queryFn: () => getData("/api/v1/user/showUser"),
     },
   ]);
+
+  const handleClose = () => {
+    setOpenModal(false);
+  };
+
+  const handleChange = (e) => {
+    setText(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setValue(encodeURIComponent(text));
+  };
   if (sessions.isLoading) return <Loader />;
   if (sessions.error) return "...error";
   const origin = "http://localhost:3000";
 
   return (
     <div className=" mx-6 my-10 grid h-fit  w-full  md:mx-20 md:my-0">
-      <div className="my-4 grid md:flex items-center justify-between">
-        <SearchBar placeholder={"search for session"} />
+      <div className="my-4 grid items-center justify-between md:flex">
+        <div className="grid">
+          <SearchBar
+            placeholder={"search for session"}
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+          />
+          {value && (
+            <span className=" text-xs text-indigo-custom ">
+              showing results for {decodeURIComponent(value)}
+            </span>
+          )}
+        </div>
 
         <div
           className={`${

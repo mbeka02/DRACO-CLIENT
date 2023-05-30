@@ -2,7 +2,7 @@ import { useQuery } from "react-query";
 import { getData } from "../../services/requests";
 import { Link } from "react-router-dom";
 import { dateFormatter } from "../../utilities/DateFormatter";
-import Search from "./Search";
+
 import Loader from "../../components/ui/Loader";
 
 //placeholder for now
@@ -21,9 +21,7 @@ const Messages = () => {
   return (
     <div className="mx-6 my-16 grid h-fit  w-full  md:mx-20 md:my-4 md:grid-cols-custom_2 ">
       <div className=" grid ">
-        <div className=" my-4 flex">
-          <Search placeholder={"search for chat"} />
-        </div>
+        <div className=" my-4 flex"></div>
         <div className="grid gap-4">
           {data?.rooms.map((room) => {
             return (

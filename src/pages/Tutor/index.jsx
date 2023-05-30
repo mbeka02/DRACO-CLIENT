@@ -55,7 +55,7 @@ const Tutor = () => {
           />
           {value && (
             <span className=" text-xs text-indigo-custom ">
-              showing results for {text}
+              showing results for {decodeURIComponent(value)}
             </span>
           )}
         </div>
