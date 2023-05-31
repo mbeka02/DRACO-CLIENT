@@ -46,9 +46,9 @@ body {
   animation: type 4s steps(8) infinite;
   background-color: rgb(255, 255, 255);
 }
-.static {
-  line-height: 2.59rem;
-}
+/*.static {
+  line-height: 3rem;
+}*/
 .gradient-text {
   /*background: linear-gradient(60deg, #5318c0, #7b00da, #f3f3f3)*/
   background: linear-gradient(30deg, #0077ff, #0e00cc);
@@ -63,6 +63,6 @@ body {
 }
 @keyframes slide {
   100% {
-    top: -110px;
+    top: -100px;
   }
 }

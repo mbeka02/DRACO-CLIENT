@@ -72,13 +72,14 @@ const RegistrationForm = () => {
         <div className=" text-sm italic  text-hr-custom">
           Fill in all the required fields
         </div>
-        <label className="font-semibold" htmlFor="Name">
+        <label className="font-semibold" htmlFor="name-field">
           Name
           <span className="text-red-custom">*</span>
         </label>
         <input
           type="text"
           name="Name"
+          id="name-field"
           placeholder="e.g John Mwamba"
           value={values.name}
           onChange={(e) => handleChange({ name: e.target.value })}
@@ -93,13 +94,14 @@ const RegistrationForm = () => {
         )}
       </div>
       <div className="grid">
-        <label className="font-semibold" htmlFor="Email">
+        <label className="font-semibold" htmlFor="email-field">
           Email
           <span className="text-red-custom">*</span>
         </label>
         <input
           type="text"
           name="Email"
+          id="email-field"
           placeholder="eg. Johnmwamba@gmail.com"
           value={values.email}
           onChange={(e) => handleChange({ email: e.target.value })}
@@ -114,7 +116,7 @@ const RegistrationForm = () => {
         )}
       </div>
       <div className="grid">
-        <label className="font-semibold" htmlFor="Password">
+        <label className="font-semibold" htmlFor="password-field">
           password
           <span className="text-red-custom">*</span>
         </label>
@@ -122,6 +124,7 @@ const RegistrationForm = () => {
           <input
             type={`${hidePassword ? "password" : "text"}`}
             name="Password"
+            id="password-field"
             placeholder="password"
             value={values.password}
             onChange={(e) => handleChange({ password: e.target.value })}
@@ -156,11 +159,12 @@ const RegistrationForm = () => {
         )}
       </div>
       <div className="grid">
-        <label className="font-semibold" htmlFor="phoneNumber">
+        <label className="font-semibold" htmlFor="phoneNumber-field">
           phone number
         </label>
         <PhoneInput
           placeholder="Enter phone number"
+          id="phoneNumber-field"
           value={phone}
           onChange={setPhone}
           defaultCountry="KE"
@@ -169,13 +173,14 @@ const RegistrationForm = () => {
       </div>
 
       <div className="grid">
-        <label className="font-semibold" htmlFor="Role">
+        <label className="font-semibold" htmlFor="Role-field">
           role
           <span className="text-red-custom">*</span>
         </label>
         <select
           type="text"
           name="Role"
+          id="Role-field"
           placeholder="role"
           value={values.role}
           onChange={(e) => handleChange({ role: e.target.value })}

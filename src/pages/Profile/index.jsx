@@ -4,7 +4,7 @@ import { getData, deleteData } from "../../services/requests";
 import { AnimatePresence } from "framer-motion";
 
 //components and forms
-import UpdatePasswordForm from "./UpdatePasswordForm";
+import UpdatePasswordForm from "../Settings/UpdatePasswordForm";
 import TutorForm from "./TutorForm";
 import UserDetailsForm from "./UserDetailsForm";
 import UploadForm from "./UploadForm";
@@ -39,7 +39,6 @@ const Profile = () => {
               alt="avatar"
               src={avatar}
               className=" h-40 w-40 rounded-full border-8 border-solid border-white "
-              //onError
             />
             <AvatarSelector />
           </div>
@@ -134,8 +133,6 @@ const Profile = () => {
             <UploadForm />
           </div>
         )}
-        <h3 className=" text-xl font-semibold">Change password</h3>
-        <UpdatePasswordForm />
       </div>
       <AnimatePresence initial={false} mode={"wait"}>
         {

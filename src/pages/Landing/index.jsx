@@ -26,9 +26,9 @@ const LandingPage = () => {
           Sign Up
         </button>
       </div>
-      <div className="   grid grid-cols-2 p-4">
-        <div className=" rb grid h-1/2   px-1 ">
-          <div className="  ">
+      <div className="   grid p-4 lg:grid-cols-2">
+        <div className="  grid h-2/3  px-1 py-8 ">
+          <div className=" block  ">
             <h1 className="text-5xl font-black">
               Welcome to TutorWave, your gateway to personalized
             </h1>
@@ -49,10 +49,10 @@ const LandingPage = () => {
             designed to deliver personalized and engaging learning experiences.
             Whether you're a student seeking academic support or a tutor looking
             to share your knowledge, TutorWave is here to connect you with the
-            perfect match.
+            perfect match !
           </article>
         </div>
-        <div className="rb grid">
+        <div className=" grid">
           <img src={Image} alt="" className="  w-4/5  justify-self-end" />
         </div>
       </div>

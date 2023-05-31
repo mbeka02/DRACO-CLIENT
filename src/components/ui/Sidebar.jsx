@@ -31,7 +31,6 @@ const Sidebar = ({ sidebarToggle }) => {
       } fixed  z-20 flex h-screen  w-1/2 flex-col justify-start gap-9 bg-white p-3  shadow-xl md:left-0 md:w-fit`}
     >
       <div className="mt-14 grid justify-items-start gap-10 font-semibold">
-       
         <NavLink
           className={`${
             data?.avatar?.role === "Tutor"

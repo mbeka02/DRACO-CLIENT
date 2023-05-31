@@ -14,6 +14,7 @@ const Sessions = lazy(() => import("./pages/Sessions"));
 const VideoRoom = lazy(() => import("./pages/Sessions/VideoRoom"));
 const Payments = lazy(() => import("./pages/Payments"));
 const SessionPayment = lazy(() => import("./pages/Payments/SessionPayment"));
+const Settings = lazy(() => import("./pages/Settings"));
 
 import "./App.css";
 
@@ -64,6 +65,15 @@ function App() {
             element={
               <Suspense>
                 <Payments />
+              </Suspense>
+            }
+          />
+
+          <Route
+            path="/main/settings"
+            element={
+              <Suspense>
+                <Settings />
               </Suspense>
             }
           />
